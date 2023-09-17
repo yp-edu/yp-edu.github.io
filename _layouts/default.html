@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% seo %}
+    <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.version | relative_url }}">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+    {% include head-custom.html %}
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="content">
+        <header>
+          <div class="vertical-container">
+            <span id="menu">
+              <nav> 
+                <a href="{{ "/" | absolute_url }}">Home</a>
+                <a href="{{ "/stories" | absolute_url }}">Stories</a>
+                <a href="{{ "/projects" | absolute_url }}">Projects</a>
+                <a href="{{ "/articles" | absolute_url }}">Articles</a>
+                <a href="{{ "/about" | absolute_url }}">About</a>
+              </nav>
+            </span>
+          </div>
+          <div class="horizontal-container">
+            <div class="logo">
+              <i id="menu-icon" class="icon-menu fa fa-bars" href="#"></i>
+            </div>
+            <div class="logo">
+              <a href="{{ site.linkedin.url }}"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+            <div class="logo">
+              <a href="{{ site.github.owner_url }}"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+        </header>
+        {{ content }}
+        <footer>
+          <small>Copyright <i class="fa-regular fa-copyright"></i> 2023</small>
+          <nav>
+            <small>
+              <a href="{{ "/" | absolute_url }}">Home </a>
+              <a href="{{ "/stories" | absolute_url }}">Stories</a>
+              <a href="{{ "/projects" | absolute_url }}">Projects</a>
+              <a href="{{ "/articles" | absolute_url }}">Articles</a>
+              <a href="{{ "/about" | absolute_url }}">About</a>   
+            </small>
+          </nav>
+        </footer>
+      </div>
+    </div>
+    {% include scripts.html %}
+  </body>
+</html>

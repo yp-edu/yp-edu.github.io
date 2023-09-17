@@ -1,0 +1,63 @@
+---
+layout: default
+---
+
+{% assign title = page.title %}
+
+<h1>Tagged #{{ title }}</h1>
+<section>
+<h2># <a href={{ "/stories/" | absolute_url }}>Stories</a></h3>
+{% assign collection = site.stories %}
+{% for item in collection %}
+  {% if item.name != "index.md"%}
+    {% if item.tags contains page.title %}
+      <small>{{ item.publishedOn | date: "%-d %B %Y" }} | 
+        tags:
+        {% for tag in item.tags %}
+          <em><a href="/tags/{{ tag | downcase }}" class="tag"> {{ tag }} <i class="fa-solid fa-tag"></i></a></em> 
+        {% endfor %}
+        </small>
+      <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
+      {% if item.tldr %}
+        <p class="tldr">{{ item.tldr}}</p>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<h2># <a href={{ "/projects/" | absolute_url }}>Projects</a></h3>
+{% assign collection = site.projects%}
+{% for item in collection %}
+  {% if item.name != "index.md"%}
+    {% if item.tags contains page.title %}
+      <small>{{ item.publishedOn | date: "%-d %B %Y" }} | 
+        tags:
+        {% for tag in item.tags %}
+          <em><a href="/tags/{{ tag | downcase }}" class="tag"> {{ tag }} <i class="fa-solid fa-tag"></i></a></em> 
+        {% endfor %}
+        </small>
+      <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
+      {% if item.tldr %}
+        <p class="tldr">{{ item.tldr}}</p>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<h2># <a href={{ "/articles/" | absolute_url }}>Articles</a></h3>
+{% assign collection = site.projects %}
+{% for item in collection %}
+  {% if item.name != "index.md"%}
+    {% if item.tags contains page.title %}
+      <small>{{ item.publishedOn | date: "%-d %B %Y" }} | 
+      tags:
+      {% for tag in item.tags %}
+        <em><a href="/tags/{{ tag | downcase }}" class="tag"> {{ tag }} <i class="fa-solid fa-tag"></i></a></em> 
+      {% endfor %}
+      </small>
+      <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
+      {% if item.tldr %}
+        <p class="tldr">{{ item.tldr}}</p>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+</section>

@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+{% assign title = page.title %}
+{% assign collection = site[page.collection]%}
+
+<h1>{{ title }} <a href="/{{ title | downcase}}/feed.xml"><i class="fa-solid fa-rss"></i></a></h1>
+<section>
+{% if collection.size <= 1%}
+<span>No item yet...</span>
+<p>Be patient!</p>
+{% else %}
+  {% for item in collection %}
+    {% if item.name != "index.md"%}
+        {% if item.tags.size > 0 %}
+        <small>{{ item.publishedOn | date: "%-d %B %Y" }} | 
+        tags:
+        {% for tag in item.tags %}
+          <em><a href="/tags/{{ tag | downcase }}" class="tag"> {{ tag }} <i class="fa-solid fa-tag"></i></a></em> 
+        {% endfor %}
+        </small>
+        {% else %}
+        <small>{{ item.publishedOn | date: "%-d %B %Y" }}</small>
+        {% endif %}
+        <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
+        {% if item.tldr %}
+          <p class="tldr">{{ item.tldr}}</p>
+        {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+</section>
