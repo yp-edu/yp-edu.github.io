@@ -19,8 +19,11 @@ You'll find here a collection of stories, projects and articles.
 {% assign pinned_stories = "/stories/why-this-blog" | split: ", " %}
 {% for story in site.stories %}
 {% if pinned_stories contains story.url %}
-### [{{ story.title }}](story.url)
-{{ story.publishedOn }} | {{ story.tldr }}
+
+### [{{ story.title }}]({{ story.url }})
+<small>{{ story.publishedOn }} | {{ story.tldr }}</small>
+{: .tldr}
+
 {% endif %}
 {% endfor %}
 

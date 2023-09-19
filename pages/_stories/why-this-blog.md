@@ -1,20 +1,20 @@
 ---
 title: Why this blog?
-tldr: The TLDR.
+tldr: The main reason for me to write this blog is just to maintain some motivation and high expectations while satisfying my curiosity.
 tags:
   - Blog
   - Experience
 references: []
 crossposts: []
 aliases: 
-publishedOn: 2023-09-13
-editedOn: 2023-09-16
+publishedOn: 2023-09-17
+editedOn: 2023-09-17
 authors:
   - "[[Yoann Poupart]]"
 ---
-> [!tldr] TL;DR oo
+> [!tldr] TL;DR
 > 
-> The TLDR.
+> The main reason for me to write this blog is just to maintain some motivation and high expectations while satisfying my curiosity.
 
 ## The target
 Before answering the “why?” let's discuss the “whom for?”.
@@ -39,7 +39,7 @@ Should any of my future post help at least one person, I would consider the goal
 
 ### Projects
 
-### Popularisation
+### Articles
 
 A place to share my understanding of recent articles, technology or even philosophical ideas.
 
@@ -50,7 +50,3 @@ I think even if I am writing public content, I have a right to be wrong. I have 
 > [!bug] Bug
 > 
 >Obviously, that's not what this blog is for. So In the event where you spotted an error or a typo, feel free to drop an email at [error@yp-edu.org](mailto:error@yp-edu.org).
-
-> [!info] Info
-> 
-> $references

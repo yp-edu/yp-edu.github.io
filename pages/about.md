@@ -10,17 +10,11 @@ I am a French trainee researcher in AI, with a focus on AI Safety.
 I aspire to becomming a PhD candidate in September 2024.
 
 
-|---
-| Hobbies 
-|-|:-
-| Sport || Bouldering || Running || Parkour
-|---
-| Languages || English || Spanish || Russian || Japanese || German || Arabic || ...
-|---
-| Cinema || Sci-fi || Fantastic
-|===
-| 
-{: rules="groups"}
+**Hobbies**
+: Sport: Bouldering, Running, Parkour
+: Languages: English, Spanish, Russian, Japanese, Arabic, ...
+: Cinema: Sci-fi, Fantastic
+{: .about-card }
 
 ## Teaching 
 

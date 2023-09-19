@@ -25,7 +25,7 @@ layout: default
         {% endif %}
         <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
         {% if item.tldr %}
-          <p class="tldr">{{ item.tldr}}</p>
+          <p class="tldr"><small>{{ item.tldr}}</small></p>
         {% endif %}
     {% endif %}
   {% endfor %}

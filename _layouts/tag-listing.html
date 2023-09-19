@@ -4,13 +4,16 @@ layout: default
 
 {% assign title = page.title %}
 
-<h1>Tagged #{{ title }}</h1>
+<h1>Tagged <em class="tag-title">#{{ title }}</em></h1>
 <section>
-<h2># <a href={{ "/stories/" | absolute_url }}>Stories</a></h3>
 {% assign collection = site.stories %}
+{% assign story_count = 0 %}
 {% for item in collection %}
   {% if item.name != "index.md"%}
     {% if item.tags contains page.title %}
+      {% if story_count == 0 %}
+      <h2># <a href={{ "/stories/" | absolute_url }}>Stories</a></h2>
+      {% endif %}
       <small>{{ item.publishedOn | date: "%-d %B %Y" }} | 
         tags:
         {% for tag in item.tags %}
@@ -19,16 +22,21 @@ layout: default
         </small>
       <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
       {% if item.tldr %}
-        <p class="tldr">{{ item.tldr}}</p>
+        <p class="tldr"><small>{{ item.tldr}}</small></p>
       {% endif %}
+      {% assign story_count = story_count | plus: 1 %}
     {% endif %}
   {% endif %}
 {% endfor %}
-<h2># <a href={{ "/projects/" | absolute_url }}>Projects</a></h3>
+
 {% assign collection = site.projects%}
+{% assign project_count = 0 %}
 {% for item in collection %}
   {% if item.name != "index.md"%}
     {% if item.tags contains page.title %}
+      {% if project_count == 0 %}
+      <h2># <a href={{ "/projects/" | absolute_url }}>Projects</a></h2>
+      {% endif %}
       <small>{{ item.publishedOn | date: "%-d %B %Y" }} | 
         tags:
         {% for tag in item.tags %}
@@ -37,16 +45,21 @@ layout: default
         </small>
       <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
       {% if item.tldr %}
-        <p class="tldr">{{ item.tldr}}</p>
+        <p class="tldr"><small>{{ item.tldr}}</small></p>
       {% endif %}
+      {% assign project_count = project_count | plus: 1 %}
     {% endif %}
   {% endif %}
 {% endfor %}
-<h2># <a href={{ "/articles/" | absolute_url }}>Articles</a></h3>
+
 {% assign collection = site.projects %}
+{% assign article_count = 0 %}
 {% for item in collection %}
   {% if item.name != "index.md"%}
     {% if item.tags contains page.title %}
+      {% if article_count == 0 %}
+      <h2># <a href={{ "/articles/" | absolute_url }}>Articles</a></h2>
+      {% endif %}
       <small>{{ item.publishedOn | date: "%-d %B %Y" }} | 
       tags:
       {% for tag in item.tags %}
@@ -55,8 +68,9 @@ layout: default
       </small>
       <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
       {% if item.tldr %}
-        <p class="tldr">{{ item.tldr}}</p>
+        <p class="tldr"><small>{{ item.tldr}}</small></p>
       {% endif %}
+      {% assign article_count = article_count | plus: 1 %}
     {% endif %}
   {% endif %}
 {% endfor %}
