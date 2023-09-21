@@ -5,14 +5,15 @@ permalink: /
 
 ## Welcome!
 
-I am a French trainee researcher in AI, with a focus on AI Safety. I've had diverse experience in research,
-education and industry. I'll outline this in a forthcoming story "A convoluted study path" giving insight in my career aspiration.
-More on me in the [about](/about) section. 
+I am a French trainee researcher in AI with a focus on AI Safety. I’ve had diverse experience in research, education and industry. 
+I’ll outline this in a forthcoming story, "A Convoluted Study Path", giving insight into my career aspiration. 
+More on me in the [About](/about) section.
 
 You'll find here a collection of stories, projects and articles.
-- Story: personnal thought, claim, discussion or experience 
+
+- Story: personal thought, claim, discussion or experience 
 - Project: concrete application (mostly around AI)
-- Article: paper explaination or discussion (definitely about AI)
+- Article: paper explanation or discussion (definitely about AI)
 
 ## Pinned [stories](/stories/)  [::rss::](/stories/feed.xml)
 

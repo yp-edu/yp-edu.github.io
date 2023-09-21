@@ -45,3 +45,10 @@ blockquote p {
     color: #384bf8;
   }
 }
+
+.callout.warning {
+  background-color: #ec750030;
+  .callout-title {
+    color: #ec7500;
+  }
+}

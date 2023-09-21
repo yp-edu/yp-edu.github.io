@@ -39,18 +39,31 @@
             </div>
           </div>
         </header>
+        <blockquote class="callout warning"> <div class="callout-title"> <i class="fa-solid fa-triangle-exclamation" href="#"></i> 
+          <em>Warning</em></div> 
+          <p>This site is currently under development. 
+            Please bear with any typos or bugs, and feel free to report them at  
+            <a href="mailto:yoann.poupart@ens-lyon.org">yoann.poupart@ens-lyon.org</a>.
+          </p> 
+        </blockquote>
+
         {{ content }}
         <footer>
-          <small>Copyright <i class="fa-regular fa-copyright"></i> 2023</small>
-          <nav>
-            <small>
-              <a href="{{ "/" | absolute_url }}">Home </a>
-              <a href="{{ "/stories" | absolute_url }}">Stories</a>
-              <a href="{{ "/projects" | absolute_url }}">Projects</a>
-              <a href="{{ "/articles" | absolute_url }}">Articles</a>
-              <a href="{{ "/about" | absolute_url }}">About</a>   
-            </small>
-          </nav>
+          <div>
+            <nav>
+              <small>
+                <a href="{{ "/" | absolute_url }}">Home </a>
+                <a href="{{ "/stories" | absolute_url }}">Stories</a>
+                <a href="{{ "/projects" | absolute_url }}">Projects</a>
+                <a href="{{ "/articles" | absolute_url }}">Articles</a>
+                <a href="{{ "/about" | absolute_url }}">About</a>   
+              </small>
+            </nav>
+            <small>Copyright <i class="fa-regular fa-copyright"></i> 2023</small>
+          </div>
+          <div>
+            <small>Powered by Jekyll & GitHub Pages <a class="icon-block" href="{{ site.github.repo_url }}"><i class="fa-brands fa-github"></i></a></small>
+          </div>
         </footer>
       </div>
     </div>

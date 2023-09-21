@@ -14,6 +14,7 @@ FA_CALLOUTS = {
   "note" => "fa-solid fa-pen",
   "rss" => "fa-solid fa-rss",
   "linkedin" => "fa-brands fa-linkedin",
+  "warning" => "fa-solid fa-triangle-exclamation",
 }
 DEBUG = false
 
