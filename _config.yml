@@ -62,6 +62,11 @@ defaults:
       type: 'stories'
     values:
       layout: 'story'
+  - scope:
+      path: ''
+      type: 'drafts'
+    values:
+      layout: 'story'
 
 # Collections
 collections_dir: pages
@@ -76,6 +81,9 @@ collections:
     output: true
     permalink: /:collection/:title
   tags:
+    output: true
+    permalink: /:collection/:title
+  drafts:
     output: true
     permalink: /:collection/:title
 

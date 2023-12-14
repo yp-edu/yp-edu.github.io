@@ -14,7 +14,7 @@ layout: default
       {% if story_count == 0 %}
       <h2># <a href={{ "/stories/" | absolute_url }}>Stories</a></h2>
       {% endif %}
-      <small>{{ item.publishedOn | date: "%-d %B %Y" }} | 
+      <small class="date">{{ item.publishedOn | date: "%-d %B %Y" }} |</small><small>  
         tags:
         {% for tag in item.tags %}
           <em><a href="/tags/{{ tag | downcase }}" class="tag"> {{ tag }} <i class="fa-solid fa-tag"></i></a></em> 
