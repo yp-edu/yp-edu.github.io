@@ -53,6 +53,7 @@ When thinking about what could go wrong with AI, it often comes to competitivene
 Regarding sustainability, the industry has a vile tendency towards technology solutionism, relying too heavily on technological solutions without fully considering other leverage. Each capability increase has an associated environmental or cyber-security cost. Such a rapid increase is not controllable or sustainable in the long run. Regulating might be the most efficient but also the only effective way to gain security as fast as the capabilities improve. AI governance is definitely needed as the transforming potential of AI is, first and foremost, a societal issue.
 
 From a safety point of view, regulation might also have some gotchas. The two main drawbacks to take into account are:
+
 - Control loss:
 Regulation might cause a slowdown in technological advancements. Thus, a country unaffected by regulation might take the upper hand. The critical point here is to devise regulations that support innovation, e.g., highly regulating the use cases but less regulating the technology.
 - Goodharting:
