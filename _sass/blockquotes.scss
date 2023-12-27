@@ -25,14 +25,14 @@ blockquote p {
   padding: 0.5em 1em;
 }
 
-.callout.abstract, .callout.summary, .callout.tldr{
+.callout.abstract, .callout.summary, .callout.tldr, .callout.tip{
   background-color: #00FFFF30;
   .callout-title {
     color: #00FFFF;
   }
 }
 
-.callout.bug {
+.callout.bug, .callout.danger {
   background-color: #f0213c30;
   .callout-title {
     color: #f0213c;
@@ -46,9 +46,23 @@ blockquote p {
   }
 }
 
-.callout.warning {
+.callout.warning, .callout.caution {
   background-color: #ec750030;
   .callout-title {
     color: #ec7500;
+  }
+}
+
+.callout.success, .callout.done {
+  background-color: #08b94e30;
+  .callout-title {
+    color: #08b94e;
+  }
+}
+
+.callout.example {
+  background-color: #7852ee30;
+  .callout-title {
+    color: #7852ee;
   }
 }

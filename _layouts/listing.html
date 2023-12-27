@@ -11,11 +11,14 @@ layout: default
 <span>No item yet...</span>
 <p>Be patient!</p>
 {% else %}
-  {% for item in collection %}
+  {% assign sorted_collection = collection | sort: "publishedOn" %}
+  {% for item in sorted_collection %}
     {% if item.title != title %}
         {% if item.tags.size > 0 %}
-        <small class="date">{{ item.publishedOn | date: "%-d %B %Y" }} |</small><small> 
-        tags:
+        <small class="date">{{ item.publishedOn | date: "%-d %B %Y" }}</small>
+        <small>| {{ item.readingTime }} min read </small>
+        <small> 
+        | tags:
         {% for tag in item.tags %}
           <em><a href="/tags/{{ tag | downcase }}" class="tag"> {{ tag }} <i class="fa-solid fa-tag"></i></a></em> 
         {% endfor %}

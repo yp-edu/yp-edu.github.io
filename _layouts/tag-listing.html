@@ -14,8 +14,10 @@ layout: default
       {% if story_count == 0 %}
       <h2># <a href={{ "/stories/" | absolute_url }}>Stories</a></h2>
       {% endif %}
-      <small class="date">{{ item.publishedOn | date: "%-d %B %Y" }} |</small><small>  
-        tags:
+      <small class="date">{{ item.publishedOn | date: "%-d %B %Y" }}</small> 
+      <small>| {{ item.readingTime }} min read </small>
+      <small> 
+        | tags:
         {% for tag in item.tags %}
           <em><a href="/tags/{{ tag | downcase }}" class="tag"> {{ tag }} <i class="fa-solid fa-tag"></i></a></em> 
         {% endfor %}
@@ -37,8 +39,10 @@ layout: default
       {% if project_count == 0 %}
       <h2># <a href={{ "/projects/" | absolute_url }}>Projects</a></h2>
       {% endif %}
-      <small>{{ item.publishedOn | date: "%-d %B %Y" }} | 
-        tags:
+      <small class="date">{{ item.publishedOn | date: "%-d %B %Y" }}</small> 
+      <small>| {{ item.readingTime }} min read </small>
+      <small> 
+        | tags:
         {% for tag in item.tags %}
           <em><a href="/tags/{{ tag | downcase }}" class="tag"> {{ tag }} <i class="fa-solid fa-tag"></i></a></em> 
         {% endfor %}
@@ -60,8 +64,10 @@ layout: default
       {% if article_count == 0 %}
       <h2># <a href={{ "/articles/" | absolute_url }}>Articles</a></h2>
       {% endif %}
-      <small>{{ item.publishedOn | date: "%-d %B %Y" }} | 
-      tags:
+      <small class="date">{{ item.publishedOn | date: "%-d %B %Y" }}</small> 
+      <small>| {{ item.readingTime }} min read </small>
+      <small> 
+        | tags:
       {% for tag in item.tags %}
         <em><a href="/tags/{{ tag | downcase }}" class="tag"> {{ tag }} <i class="fa-solid fa-tag"></i></a></em> 
       {% endfor %}

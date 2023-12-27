@@ -22,7 +22,7 @@ You'll find here a collection of stories, projects and articles.
 {% if pinned_stories contains story.url %}
 
 ### [{{ story.title }}]({{ story.url }})
-<small class="date">{{ story.publishedOn }} | </small><small>{{ story.tldr }}</small>
+<small class="date">{{ story.publishedOn }} </small><small>| {{ story.readingTime }} min read</small><small> | {{ story.tldr }}</small>
 {: .tldr}
 
 {% endif %}

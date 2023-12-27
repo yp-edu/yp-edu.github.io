@@ -15,8 +15,12 @@ FA_CALLOUTS = {
   "rss" => "fa-solid fa-rss",
   "linkedin" => "fa-brands fa-linkedin",
   "warning" => "fa-solid fa-triangle-exclamation",
+  "caution" => "fa-solid fa-triangle-exclamation",
+  "success" => "fa-solid fa-check",
+  "danger" => "fa-solid fa-bolt",
+  "example" => "fa-solid fa-list",
 }
-DEBUG = false
+DEBUG = true
 
 class Jekyll::Converters::Markdown
   class CustomMarkProcessor < CommonMark
@@ -29,7 +33,10 @@ class Jekyll::Converters::Markdown
       if DEBUG
         Jekyll.logger.info "CustomMarkProcessor:", "html: #{html}"
       end
-      regexp = /<blockquote>\s*.*<p>\[\!([a-z]{1,})\]\s?(.*)<\/p>\s*.*<p>(.*)<\/p>\s*.*<\/blockquote>/
+      #regexp = /<blockquote>\s*.*<p>\[\!([a-z]{1,})\]\s?(.*)<\/p>\s*.*<p>(.*)<\/p>\s*.*<\/blockquote>/
+      #regexp = /<blockquote>\s<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s<p>((?:(?!blockquote).)*)<\/p>\s<\/blockquote>/
+
+      regexp = /<blockquote>\s*<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s*<p>((?:(?!blockquote).)*)<\/p>\s*<\/blockquote>/m
       matches = html.match(regexp)
       parsed_html = html.gsub(
         regexp, 
@@ -37,6 +44,19 @@ class Jekyll::Converters::Markdown
         '<i class="fa-\1" href="#"></i> '\
         '<em>\2</em></div> <p>\3</p> </blockquote>'
         )
+      parsed_html = parsed_html.gsub(
+        /<blockquote>\s*<p>\[\!(example)\]((?:(?!blockquote).)*)<\/p>\s*<ul>((?:(?!blockquote).)*)<\/ul>\s*<\/blockquote>/m,
+        '<blockquote class="callout \1"> <details> <summary><div class="callout-title"> '\
+        '<i class="fa-\1" href="#"></i> '\
+        '<em>\2</em></div></summary> <ul>\3</ul> </details> </blockquote>'
+        )
+      parsed_html = parsed_html.gsub(
+        /<blockquote>\s*<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s*<ul>((?:(?!blockquote).)*)<\/ul>\s*<\/blockquote>/m,
+        '<blockquote class="callout \1"> <div class="callout-title"> '\
+        '<i class="fa-\1" href="#"></i> '\
+        '<em>\2</em></div> <ul>\3</ul> </blockquote>'
+        )
+      
       parsed_html = parsed_html.gsub(/::(.*)::/, '<i class="fa-\1"></i>')
       FA_CALLOUTS.each do |key, value|
         parsed_html.gsub!(/<i class="fa-#{key}"/, "<i class=\"#{value}\"")
@@ -45,8 +65,8 @@ class Jekyll::Converters::Markdown
         Jekyll.logger.info "CustomMarkProcessor:", "matches: #{matches}"
         Jekyll.logger.info "CustomMarkProcessor:", "parsed_html: #{parsed_html}"
       end
-      parsed_html = parsed_html.gsub(/<h([1-6])\sid="([a-z]|\-)*">/, '<h\1>')
-      parsed_html = parsed_html.gsub(/<h2>(\s*.*)<\/h2>/, '<h2># \1</h2>')
+      #parsed_html = parsed_html.gsub(/<h([1-6])\sid="([a-z]|\-)*">/, '<h\1>')
+      parsed_html = parsed_html.gsub(/<h2(\sid="([a-z]|\-)*")?>(\s*.*)<\/h2>/, '<h2\1># \3</h2>')
       parsed_html
     end
   end

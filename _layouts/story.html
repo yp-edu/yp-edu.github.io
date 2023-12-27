@@ -5,7 +5,7 @@ layout: default
 
 {% assign date = page.publishedOn | date: "%-d %B %Y" %}
 
-<small>{{ page.publishedOn | date: "%-d %B %Y" }} | <em>last update: {{ page.editedOn | date: "%-d %B %Y" }}</em></small>
+<small>{{ page.publishedOn | date: "%-d %B %Y" }} | <em>last update: {{ page.editedOn | date: "%-d %B %Y" }}</em> | {{ page.readingTime }} min read</small>
 
 
 {% if page.tags.size > 0 %}
