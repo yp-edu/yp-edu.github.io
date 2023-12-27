@@ -1,6 +1,6 @@
 ---
 title: My Approach to AI Safety
-tldr: Shortcoming issues should not be undermined because, if not tackled immediately, they will make Alignment a lot more complex. I am convinced that interpretability will be the best tool for monitoring and control, and for that, I will pursue this agenda through research and entrepreneurship.
+tldr: Shortcoming issues should not be undermined because, if not tackled immediately, they will make [Alignment](https://en.wikipedia.org/wiki/The_Alignment_Problem) a lot more complex. I am convinced that interpretability will be the best tool for monitoring and control, and for that, I will pursue this agenda through research and entrepreneurship.
 tags:
   - AIS
   - Agenda
@@ -16,7 +16,7 @@ readingTime: 11
 ---
 > [!tldr] TL;DR
 > 
-> Shortcoming issues should not be undermined because, if not tackled immediately, they will make Alignment a lot more complex. I am convinced that interpretability will be the best tool for monitoring and control, and for that, I will pursue this agenda through research and entrepreneurship.
+> Shortcoming issues should not be undermined because, if not tackled immediately, they will make [Alignment](https://en.wikipedia.org/wiki/The_Alignment_Problem) a lot more complex. I am convinced that interpretability will be the best tool for monitoring and control, and for that, I will pursue this agenda through research and entrepreneurship.
 
 > [!example] Table of content
 > 
@@ -56,7 +56,8 @@ From a safety point of view, regulation might also have some gotchas. The two ma
 
 - Control loss:
 Regulation might cause a slowdown in technological advancements. Thus, a country unaffected by regulation might take the upper hand. The critical point here is to devise regulations that support innovation, e.g., highly regulating the use cases but less regulating the technology.
-- Goodharting:
+
+- [Goodhart's law](https://en.wikipedia.org/wiki/Goodhart%27s_law):
 Benchmark optimisation has been seen with model evaluation and could also be the case with model interpretability. Companies will try to beat the benchmark or improve some interpretability metrics that don't necessarily correlate with safety. It is, therefore, primordial to advance these safeguards as much as possible technically.
 
 ### The Curse of AI Doomerism
@@ -139,4 +140,4 @@ I am also committed to developing my startup with my co-founders. While our focu
 
 In the long term, I am creating a PhD project with a focus on safety. I cannot say much for now, but it should involve multi-agent systems' safety through interpretability. Meanwhile, I refused an industry PhD as I was worried I would be too constrained to explore the topics I wanted. This watershed opportunity might also be the occasion for me to start a podcast as a logical extension of this blog.
 
-Regarding my involvement in the AIS sphere, I am planning to be a mentor in future iterations of AIS programs. I keep an eye on Cherry, AIS Camps, and SPAR should they support the technical interpretability agenda.
+Regarding my involvement in the AIS sphere, I am planning to be a mentor in future iterations of AIS programs. I keep an eye on [CERI](https://www.camxrisk.org/), [AIS Camp](https://aisafety.camp/), and [SPAR](https://berkeleyaisafety.com/spar) should they support the technical interpretability agenda.
