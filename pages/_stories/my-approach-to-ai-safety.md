@@ -9,15 +9,11 @@ references:
 aliases: 
 crossposts: 
 publishedOn: 2023-11-02
-editedOn: 2023-12-14
+editedOn: 2023-12-27
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 3
+readingTime: 11
 ---
-> [!caution] WIP
-> 
-> This article is a work in progress.
-
 > [!tldr] TL;DR
 > 
 > Shortcoming issues should not be undermined because, if not tackled immediately, they will make Alignment a lot more complex. I am convinced that interpretability will be the best tool for monitoring and control, and for that, I will pursue this agenda through research and entrepreneurship.
@@ -78,11 +74,11 @@ I finally have critics on some speech I had the occasion to listen which is by f
 
 ### Viable Paths
 
-First I feel that reduction approaches like symbolism conversion are a great way to make models interpretable by default but it won't scale. Emergent properties are really hard to be made interpretable by default and this path might require too much time compared to the capabilities development.
+Exploring effective strategies for AI safety, I believe, involves a blend of approaches. While I see the potential in symbolism and model conversion for inherent interpretability, they may not keep pace with rapid AI advancements. My focus is more on practical, immediate solutions.
 
- One approach is to focus on closed evaluations, which involve testing models on a limited set of data to gain insights into their behaviour. Another option is to conduct both closed and open research into model interpretability, which can help to identify patterns and trends that might not be immediately apparent in closed evaluations. 
- 
- Finally, some researchers are working to mathematically ground interpretability in order to develop a theory of control that can help to guide the development of more interpretable models in the future.
+I'm keen on closed evaluations where we can test AI models in controlled environments to understand their behaviors better. But that's just the start; combining these closed evaluations with broader research into model interpretability can uncover patterns and insights that aren't immediately obvious.
+
+Another exciting direction I'm exploring is anchoring interpretability in theoretical foundations. This could lead us to a control theory for AI models, providing a solid framework for developing interpretable systems. It’s all about keeping up with AI's fast-paced evolution while ensuring our safety measures are robust and scalable.
 
 ## Entrepreneurship
 
@@ -106,9 +102,11 @@ Although I am still at the beginning of this journey I have learned a lot. It mo
 
 ### Founding an Org
 
-Founding an organization could be one of the most effective ways to contribute to the field of AI safety. By establishing an organization, individuals or groups can achieve independence for their research. it obviously is dependent on the board chosen oversee its operations. 
+Establishing an organization dedicated to AI safety is the most efficient way to contribute to this field. Such initiative would allow for the cultivation of independent research, tailored to address specific concerns in AI safety heads on. The governance and direction of such an organization would be crucial, hinging on the selection of a forward-thinking, safety-oriented board. I think there are such so many safety issues that this mindset could scale for the few next decades.
 
-Moreover, there is a growing need for bridges between the industry and AI research, and an organization can play a vital role in filling this gap. It operates somewhat similarly than classical startup regarding funding and product drive
+With impact and regulation there's a burgeoning necessity for entities that can bridge the gap between AI industry practices and academic research. An organization focused on AI safety could serve as this vital link, facilitating the translation of theoretical safety concepts into practical industry applications. While it shares some operational similarities with traditional startups, particularly in terms of funding and product orientation, its core mission remains distinctively focused on enhancing safety in the AI domain.
+
+Through this venture, the aim is to create a collaborative ecosystem that not only advances safety research but also influences industry standards and practices. By fostering an environment where innovative safety solutions are developed and shared, the organization would play a critical role in shaping a future where AI is both powerful and safe.
 
 ## My General Approach
 
@@ -122,9 +120,11 @@ I left my entrepreneur edge apart since I am only beginning to grow and explore 
 
 ### Brief Agenda
 
-My agenda is focused on interpretability as it accors to me to be the only possible way to scale in the long term keeping up with capabilities increase. I am particularly enthusiast with grounding interpretability in theory whenever it's possible and relevant.
+My main focus? Making AI interpretable. It's the key to scaling up safely alongside rapid advancements in AI capabilities. I'm all in for grounding interpretability in solid theory where it makes sense, making sure it's not just a temporary fix but a long-term solution.
 
-I also value model evaluation, even if it might be harder to scale in the long-term, this approach is for now the effective and promising on the short-term. In particular I want to explore the best way on how evaluation and interpretability could be intertwined.
+I'm also putting a lot of stock in model evaluation. Sure, it might be a challenge to scale in the long run, but right now, it's where the most promising and practical work is happening. I'm especially interested in how we can intertwine evaluation and interpretability to get the best of both worlds.
+
+My agenda is about being proactive and adaptable, always looking for the most effective ways to keep AI safe and beneficial. It's a mix of immediate actions and strategic long-term planning, ensuring that we're prepared for the evolving landscape of AI technology.
 
 ### What's next?
 
@@ -136,6 +136,6 @@ I am also committed to developing my startup with my co-founders. While our focu
 > 
 > These plans are in line with what I depicted and what I believe are the most important tasks I should work on as of today.
 
-On a longer-term view I am creating a PhD opportunity with a focus on safety. I cannot say much for now but it should involve multi-agent systems safety through interpretability. Meanwhile I did refuse an industry PhD as I was worried I would be too constrain to explore the topics I wanted. This watershed opportunity might also be the occasion for me to start a podcast as a logical extension of this blog.
+On a longer-term view I am creating a PhD project with a focus on safety. I cannot say much for now but it should involve multi-agent systems safety through interpretability. Meanwhile I did refuse an industry PhD as I was worried I would be too constrain to explore the topics I wanted. This watershed opportunity might also be the occasion for me to start a podcast as a logical extension of this blog.
 
 Regarding my involvement in the AIS sphere I am planning to be a mentor on future iteration of AIS programs. I keep an eye on Cherry, AIS Camps, SPAR should they support the technical interpretability agenda.
