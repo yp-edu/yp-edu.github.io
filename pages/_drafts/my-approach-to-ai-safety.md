@@ -24,8 +24,19 @@ readingTime: 3
 
 > [!example] Table of content
 > 
-> - [My AIS Edges](#my-ais-edges)
+> - [My Claims](#my-claims)
+> - [Short-term vs Long-term](#short-term-vs-long-term)
+> 	- [The Industry Pressure](#the-industry-pressure)
+> 	- [The Curse of AI Doomerism](#the-curse-of-ai-doomerism)
+> 	- [Viable Paths](#viable-paths)
+> - [Entrepreneurship](#entrepreneurship)
+> 	- [Precious Mindset](#precious-mindset)
+> 	- [Founding an AI Startup](#founding-an-ai-startup)
+> 	- [Founding an Org](#founding-an-org)
+> - [My General Approach](#my-general-approach)
 > 	- [My AIS Edges](#my-ais-edges)
+> 	- [Brief Agenda](#brief-agenda)
+> 	- [What's next?](#whats-next)
 
 ## My Claims
 
@@ -67,11 +78,11 @@ I finally have critics on some speech I had the occasion to listen which is by f
 
 ### Viable Paths
 
-- Closed evals
-- Closed and open MI research
-- Mathematically grounding interpretability to develop a theory of control
+First I feel that reduction approaches like symbolism conversion are a great way to make models interpretable by default but it won't scale. Emergent properties are really hard to be made interpretable by default and this path might require too much time compared to the capabilities development.
 
-There are several viable paths to explore within the realm of interpretability research. One approach is to focus on closed evaluations, which involve testing models on a limited set of data to gain insights into their behaviour. Another option is to conduct both closed and open research into model interpretability, which can help to identify patterns and trends that might not be immediately apparent in closed evaluations. Finally, some researchers are working to mathematically ground interpretability in order to develop a theory of control that can help to guide the development of more interpretable models in the future.
+ One approach is to focus on closed evaluations, which involve testing models on a limited set of data to gain insights into their behaviour. Another option is to conduct both closed and open research into model interpretability, which can help to identify patterns and trends that might not be immediately apparent in closed evaluations. 
+ 
+ Finally, some researchers are working to mathematically ground interpretability in order to develop a theory of control that can help to guide the development of more interpretable models in the future.
 
 ## Entrepreneurship
 
@@ -83,24 +94,21 @@ In order to ensure a significant impact and bring about change in the industry a
 
 ### Founding an AI Startup
 
-- Valuable experience
-	- Diverse skill set development 
-- Understanding the market drive and the industry responses
-- Getting acknowledgement and influence
+Founding an startup can be an extremely valuable experience, as it allows for the development of a diverse skill set. It also provides an opportunity to gain a deeper understanding of the market and industry responses. By starting a company, you can work towards getting acknowledgement and influence in the industry, which can be invaluable for future success.
 
-Founding an AI startup can be an extremely valuable experience, as it allows for the development of a diverse skill set. It also provides an opportunity to gain a deeper understanding of the market and industry responses. By starting a company, you can work towards getting acknowledgement and influence in the industry, which can be invaluable for future success.
+Obviously AI will be the most transformative technology of our era and there is plenty of possibilities to make AI application into startups. I also think that this could be a first step towards creating a safety oriented startup which can be slightly different as described in the next section [Founding an Org](#founding-an-org).
 
 > [!tip] Ulterior Motive
 > 
 > The people need to be empowered by AI for their own good.
 
-### Founding an org
+Although I am still at the beginning of this journey I have learned a lot. It motivates me deeply and let my creative and perfectionist selves to be wholly expressed. I'll be outlining this in a future post "Creating a Startup".
 
-- Maybe one of the most effective ways to contribute to AIS
-- Independence for research (given a board)
-- The need for industry-AIS bridges
+### Founding an Org
 
-Founding an organization could be one of the most effective ways to contribute to the field of Artificial Intelligence and its related sciences. By establishing an organization, individuals or groups can achieve independence for their research, given that they have a board to oversee its operations. Moreover, there is a growing need for bridges between the industry and AI research, and an organization can play a vital role in filling this gap.
+Founding an organization could be one of the most effective ways to contribute to the field of AI safety. By establishing an organization, individuals or groups can achieve independence for their research. it obviously is dependent on the board chosen oversee its operations. 
+
+Moreover, there is a growing need for bridges between the industry and AI research, and an organization can play a vital role in filling this gap. It operates somewhat similarly than classical startup regarding funding and product drive
 
 ## My General Approach
 
@@ -114,13 +122,9 @@ I left my entrepreneur edge apart since I am only beginning to grow and explore 
 
 ### Brief Agenda
 
-- Interpretability driven
-- Evaluation and Interpretability intertwined 
-- Theoretically grounded interpretability 
+My agenda is focused on interpretability as it accors to me to be the only possible way to scale in the long term keeping up with capabilities increase. I am particularly enthusiast with grounding interpretability in theory whenever it's possible and relevant.
 
-The agenda for the discussion is focused on interpretability, with a particular emphasis on how evaluation and interpretability are intertwined. The discussions will be based on a theoretically grounded approach to interpretability.
-
-I am particularly enthusiast with grounding interpretability in theory whenever it's possible and relevant.
+I also value model evaluation, even if it might be harder to scale in the long-term, this approach is for now the effective and promising on the short-term. In particular I want to explore the best way on how evaluation and interpretability could be intertwined.
 
 ### What's next?
 

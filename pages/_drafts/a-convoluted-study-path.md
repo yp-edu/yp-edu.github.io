@@ -1,11 +1,11 @@
 ---
 tldr: 
 tags:
-  - Story
   - Studies
-references: []
-aliases: []
-crossposts: []
+  - Experience
+references: 
+aliases: 
+crossposts: 
 publishedOn: 
 editedOn: 
 authors:
