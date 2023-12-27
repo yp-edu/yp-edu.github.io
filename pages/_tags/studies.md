@@ -1,3 +1,3 @@
 ---
-title: Experience
+title: Studies
 ---
