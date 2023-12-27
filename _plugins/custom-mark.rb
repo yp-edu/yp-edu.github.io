@@ -20,7 +20,7 @@ FA_CALLOUTS = {
   "danger" => "fa-solid fa-bolt",
   "example" => "fa-solid fa-list",
 }
-DEBUG = true
+DEBUG = false
 
 class Jekyll::Converters::Markdown
   class CustomMarkProcessor < CommonMark
