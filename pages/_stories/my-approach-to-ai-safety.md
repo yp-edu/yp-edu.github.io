@@ -1,6 +1,6 @@
 ---
 title: My Approach to AI Safety
-tldr: Shortcoming issues should not be undermined because, if not tackled immediately, they will make [Alignment](https://en.wikipedia.org/wiki/The_Alignment_Problem) a lot more complex. I am convinced that interpretability will be the best tool for monitoring and control, and for that, I will pursue this agenda through research and entrepreneurship.
+tldr: Shortcoming issues should not be undermined because, if not tackled immediately, they will make Alignment a lot more complex. I am convinced that interpretability will be the best tool for monitoring and control, and for that, I will pursue this agenda through research and entrepreneurship.
 tags:
   - AIS
   - Agenda
@@ -20,7 +20,7 @@ readingTime: 11
 
 > [!example] Table of content
 > 
-> - [My Claims](#my-claims)
+> - [Hot Takes](#hot-takes)
 > - [Short-term vs Long-term](#short-term-vs-long-term)
 > 	- [The Industry Pressure](#the-industry-pressure)
 > 	- [The Curse of AI Doomerism](#the-curse-of-ai-doomerism)
@@ -34,7 +34,7 @@ readingTime: 11
 > 	- [Brief Agenda](#brief-agenda)
 > 	- [What's next?](#whats-next)
 
-## My Claims
+## Hot Takes
 
 - It is necessary to pursue research for short-term and long-term AIS in the meantime 
 - Entrepreneurship can be highly valuable to contribute to AIS
