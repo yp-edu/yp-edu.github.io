@@ -35,10 +35,11 @@ With $R_j^{[l]}$ being the $j$-th neuron's relevance of the layer $l$, and the p
 
 $$
 \begin{equation}
-%\label{eq:aggregate}
+\label{eq:aggregate}
 R_{j}^{[l]}=\sum_{k}\dfrac{w_{jk}}{\sum_j w_{kj}}R_k^{[l+1]}
 \end{equation}
 $$
+
 ### Different Rules
 
 ### Technical Details
