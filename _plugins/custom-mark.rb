@@ -57,7 +57,13 @@ class Jekyll::Converters::Markdown
         '<i class="fa-\1" href="#"></i> '\
         '<em>\2</em></div> <ul>\3</ul> </blockquote>'
         )
-      
+      parsed_html = parsed_html.gsub(
+        /<blockquote>\s*<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s*<ol>((?:(?!blockquote).)*)<\/ol>\s*<\/blockquote>/m,
+        '<blockquote class="callout \1"> <div class="callout-title"> '\
+        '<i class="fa-\1" href="#"></i> '\
+        '<em>\2</em></div> <ol>\3</ol> </blockquote>'
+        )
+
       parsed_html = parsed_html.gsub(/::(.*)::/, '<i class="fa-\1"></i>')
       FA_CALLOUTS.each do |key, value|
         parsed_html.gsub!(/<i class="fa-#{key}"/, "<i class=\"#{value}\"")

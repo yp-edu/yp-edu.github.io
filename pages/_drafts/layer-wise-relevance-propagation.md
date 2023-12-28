@@ -55,5 +55,5 @@ $$
 
 > [!quote] References
 > 
-> [1] [[On Pixel-Wise Explanations for Non-Linear Classifier Decisions by Layer-Wise Relevance Propagation]]
-> [2] [[A Rigorous Study Of The Deep Taylor Decomposition]]
+> 1. [[On Pixel-Wise Explanations for Non-Linear Classifier Decisions by Layer-Wise Relevance Propagation]]
+> 2. [[A Rigorous Study Of The Deep Taylor Decomposition]]
