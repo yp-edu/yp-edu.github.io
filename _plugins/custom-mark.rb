@@ -19,6 +19,7 @@ FA_CALLOUTS = {
   "success" => "fa-solid fa-check",
   "danger" => "fa-solid fa-bolt",
   "example" => "fa-solid fa-list",
+  "quote" => "fa-solid fa-quote-right",
 }
 DEBUG = false
 
