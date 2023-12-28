@@ -22,10 +22,13 @@ readingTime:
 
 > [!example] Table of content
 > 
-> - [Hot Takes](#hot-takes)
-> - [Short-term vs Long-term](#short-term-vs-long-term)
-> 	- [The Industry Pressure](#the-industry-pressure)
-> 	- [The Curse of AI Doomerism](#the-curse-of-ai-doomerism)
+> - [LRP Framework](#lrp-framework)
+> 	- [Formulation](#formulation)
+> 	-  [Different Rules](#different-rules)
+> 	-  [Technical Details](#technical-details)
+> - [Classification Example](#classification-example)
+> 	- [Network Decomposition](#network-decomposition)
+> 	- [Interpretation](#interpretation)
 
 ## LRP Framework
 
