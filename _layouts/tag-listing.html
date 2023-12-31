@@ -6,7 +6,7 @@ layout: default
 
 <h1>Tagged <em class="tag-title">#{{ title }}</em></h1>
 <section>
-{% assign collection = site.stories %}
+{% assign collection = site.stories | sort: "publishedOn" | reverse %}
 {% assign story_count = 0 %}
 {% for item in collection %}
   {% if item.name != "index.md"%}
@@ -31,7 +31,7 @@ layout: default
   {% endif %}
 {% endfor %}
 
-{% assign collection = site.projects%}
+{% assign collection = site.projects | sort: "publishedOn" | reverse %}
 {% assign project_count = 0 %}
 {% for item in collection %}
   {% if item.name != "index.md"%}
@@ -56,7 +56,7 @@ layout: default
   {% endif %}
 {% endfor %}
 
-{% assign collection = site.projects %}
+{% assign collection = site.projects | sort: "publishedOn" | reverse %}
 {% assign article_count = 0 %}
 {% for item in collection %}
   {% if item.name != "index.md"%}
