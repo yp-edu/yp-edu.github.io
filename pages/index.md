@@ -5,8 +5,8 @@ permalink: /
 
 ## Welcome!
 
-I am a French trainee researcher in AI with a focus on AI Safety. I’ve had diverse experience in research, education and industry. 
-I’ll outline this in a forthcoming story, "A Convoluted Study Path", giving insight into my career aspiration. 
+I am a French trainee researcher in AI with a focus on AI Safety. I've had diverse experience in research, education and industry. 
+I'll outline this in a forthcoming story, "A Convoluted Study Path", giving insight into my career aspiration. 
 More on me in the [About](/about) section.
 
 You'll find here a collection of stories, projects and articles.

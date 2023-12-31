@@ -117,8 +117,13 @@ a {
   text-decoration:none;
   border-bottom: 1px solid #c07c7310;
 }
-a:hover, summary:hover  {
+
+a:hover{
   border-bottom: 1px solid #c07c7360;
+  cursor: pointer;
+}
+
+summary:hover  {
   cursor: pointer;
 }
 
