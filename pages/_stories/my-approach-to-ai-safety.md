@@ -9,7 +9,7 @@ references:
 aliases: 
 crossposts: 
 publishedOn: 2023-11-02
-editedOn: 2023-12-27
+editedOn: 2024-01-02
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 11
@@ -64,13 +64,13 @@ Benchmark optimisation has been seen with model evaluation and could also be the
 
 I want to address mitigated criticism against AI Doomerism, which is reasonably represented in the AIS sphere. As an optimistic by nature, I might be failing to see the same future possibilities, and my arguments could be inaudible. In my Doomerism definition, I englobe focusing on long-term safety issues firstly because of existential risks.
 
-The first criticism is the tendency to only consider worst-case scenarios. While I value some aspects of this approach, it often leads to working on highly theoretical and abstract subjects based on an extremely low possibility with a lesser impact on immediate issues. Solving the worst-case scenario will not solve less dangerous ones.
+The first criticism is the tendency to only consider worst-case scenarios. While I value some aspects of this approach, it often leads to working on highly theoretical and abstract subjects based on an extremely low probability with a lesser impact on immediate issues. Solving the worst-case scenario will not solve less dangerous ones.
 
 > [!danger] Gotcha
 > 
 > Alignment is obviously a double-edged sword. If you can align an AGI to be benevolent, you'll also be able to align it to be rogue. Misuse cannot be solved by Alignment alone.
 
-It is crucial to address short-term issues that could potentially destroy Alignment research if they are not dealt with rapidly. It is essential to keep in mind that there are also other pressing matters that require attention, such as climate change, cybersecurity, and war. I value prioritisation based on danger weighted by occurrence probability and timeline. 
+It is crucial to address short-term issues that could potentially destroy Alignment research if they are not dealt with rapidly. It is essential to keep in mind that there are also other pressing matters that require attention, such as climate change, cybersecurity, and wars. I value prioritisation based on danger weighted by occurrence probability and timeline. 
  
 I finally have critics on some speeches I had the occasion to listen to, which is by far a loud minority. The righteous and moralistic speeches don't foster debate and isolate the AIS community. This is dramatic when collaboration outside of the AIS sphere might just accelerate safety. Then, I sometimes feel too many people harbouring sentiments of culpability and pessimism. While scepticism is an essential research skill, I think that pessimism is terrible and ultimately prevents an extended range of expected rewards. It can also repulse people and cause isolation.
 

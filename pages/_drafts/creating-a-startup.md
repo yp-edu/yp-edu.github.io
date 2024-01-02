@@ -7,11 +7,11 @@ tags:
 references: 
 aliases: 
 crossposts: 
-publishedOn: 2023-12-14
-editedOn: 2023-12-27
+publishedOn: 2023-12-20
+editedOn: 2024-01-02
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 2
+readingTime: 5
 ---
 > [!caution] WIP
 > 
@@ -27,6 +27,11 @@ readingTime: 2
 > 	- [Ideation](#ideation)
 > 	- [The Team](#the-team)
 > 	- [The Official Creation](#the-official-creation)
+> - [The Pitch](#the-pitch)
+> 	- [Why BlockLoads?](#why-blockloads)
+> 	- [The RoadMap](#the-roadmap)
+> 	- [Meet Us](#meet-us)
+> - [References](#references)
 
 ## The Creation Process
 
@@ -41,15 +46,15 @@ Ideation is not fixed in time it’s a long-lasting process that demands to iter
 
 The team presentation has two primary motives. First it is important for potential investor or client to get to know the team they'll be working with, but it is also crucial to present our edge and answer the question "Why us?".
 
-> [!note] Edge
+> [!note] Edge [ [1] ](#references)
 > 
-> Each individual has a specific edge which is the combination of all his experiences and knowledge. There are three edges to consider in startup. The market edge, the technology edge and the catalyzed edge. 
+> Each individual has a specific edge which is the combination of all his experiences and knowledge. There are three edges to consider in startup. The market edge, the technology edge and the catalyzer edge. The later being the diverse experiences and soft skills relevant the given startup.
 
-**Alexandre the CEO:** Market edge. With his experience in web3…
+**Alexandre the CEO:** Market edge. He graduated with a Master in marketing, management and business. He has expertise in web agency building websites with Shopify but also with other software like Webflow. What's more he has plenty of precious entrepreneurial skills as he also runs another startup in parallel and he's always listening to market waves.
 
-**Florian the COO/CFO:** Catalyser edge. With his diverse set of lead experiences…
+**Florian the COO/CFO:** Catalyser edge. With his engineering diploma in logistics he has a broad background ranging from processes optimisation, organisation to software and coding skills. He has diverse set of lead experiences from projects as well as consulting that logically put him in charge of our processes. His engineering backgroung enable him to understand and link the technological solutions to the market needs.
 
-**Yoann the CTO:** Technology edge. With his participation in scientific research…
+**I, Yoann the CTO:** Technology edge. With my research degree and background I have a broad knowledge of cutting-edge AI technology. Yet I also practiced ML engineering during my apprenticeship where I had projects linked to model training, MLOps, DevOps and cloud deployment. I am running and architecturing the backend logic of our solutions as well as the AI integration.
 
 ### The Official Creation
 
@@ -81,3 +86,16 @@ This is likely to change along the road with the first dead-ends and customer fe
 
 ### Meet Us
 
+In order to get close to our customers and partners we decided to create a Discord server [BlockLoading](https://discord.gg/gf2j9P4JEa). We chose Discord as it is the perfect match for community building but also because we are already using it to run our startup.
+
+> [!caution] Disclaimer
+> 
+> This server is under development regarding its architectures, bots, automation and purpose. While we are committed to grow a community this server might just be for customer service in the end.
+
+We envision this media and cyber-space as a way to deliver fast and tailored customer service. We planned on hosting conferences, discussion groups and obviously QnA about our solutions but also about the Shopify ecosystem.
+
+## References
+
+> [!quote] Reference list
+> 
+> 1.  A. Bentinck and M. Clifford, "How to Be a Founder: How Entrepreneurs can Identify, Fund and Launch their Best Ideas," ‎ in *Bloomsbury Business; 1st edition*, 2022. 
