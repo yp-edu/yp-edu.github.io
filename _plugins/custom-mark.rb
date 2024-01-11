@@ -76,6 +76,9 @@ class Jekyll::Converters::Markdown
       end
       #parsed_html = parsed_html.gsub(/<h([1-6])\sid="([a-z]|\-)*">/, '<h\1>')
       parsed_html = parsed_html.gsub(/<h2(\sid="([a-z]|\-)*")?>(\s*.*)<\/h2>/, '<h2\1># \3</h2>')
+
+      parsed_html = parsed_html.gsub(/<img(.*)\ssrc="\.(.*)\/((?:(?!\/).)*)"(.*)/, '<img\1 src="/assets/images/\3"\4')
+      parsed_html = parsed_html.gsub(/<img(.*)\ssrc="((?:(?!\/).)*)"(.*)/, '<img\1 src="/assets/images/\2"\3')
       parsed_html
     end
   end

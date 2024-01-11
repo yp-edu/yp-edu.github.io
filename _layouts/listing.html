@@ -27,9 +27,16 @@ layout: default
         <small>{{ item.publishedOn | date: "%-d %B %Y" }}</small>
         {% endif %}
         <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
-        {% if item.tldr %}
-          <p class="tldr"><small>{{ item.tldr}}</small></p>
-        {% endif %}
+        <div class="thumbnail">
+          {% if item.image %}
+            <a href="{{ item.url }}"><img src="/assets/images/{{ item.image }}" alt="{{ item.title }}" class="thumbnail" /></a>
+          {% endif %}
+          {% if item.tldr %}
+            <p class="tldr">
+              <small>{{ item.tldr}}</small>
+            </p>
+          {% endif %}
+        </div>
     {% endif %}
   {% endfor %}
 {% endif %}

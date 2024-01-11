@@ -18,6 +18,25 @@ body {
   padding-right: 2rem;
   text-rendering: geometricPrecision;
 }
+img{
+  max-width: 100%;
+}
+img.thumbnail{
+  max-width: 120px;
+  margin:-10px 0 0px 0;
+}
+.im-center img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+div.thumbnail{
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  gap: 10px;
+}
 
 header {
   display: flex;
@@ -119,6 +138,14 @@ a {
   border-bottom: 1px solid #c07c7310;
 }
 
+a:has(> img) {
+  border-bottom: none;
+  margin:0px 0 20px 0;
+}
+a:has(> img):hover {
+  border-bottom: none;
+}
+
 strong {
   color: #2bbc8a;
 }
@@ -149,13 +176,6 @@ small a:hover {
 .wrapper {
   width:860px;
   margin:0 auto;
-}
-
-blockquote {
-  border-left:1px solid #e5e5e5;
-  margin:0;
-  padding:0 0 0 20px;
-  font-style:italic;
 }
 
 details > summary {
