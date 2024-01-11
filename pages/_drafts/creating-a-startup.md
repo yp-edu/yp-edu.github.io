@@ -34,7 +34,7 @@ image: /assets/images/creating-a-startup.png
 > 	- [Why BlockLoads?](#why-blockloads)
 > 	- [The RoadMap](#the-roadmap)
 > 	- [Meet Us](#meet-us)
-> - [References](#references)
+> - [Resources](#resources)
 
 ## The Creation Process
 
@@ -44,7 +44,7 @@ Ideation is not fixed in time it’s a long-lasting process that demands to iter
 
 - "What and why?": Represents what you are trying to solve, and why it matters. There is a difference between nice-to-haves, must-haves and hair-on-fire issues which often leads to forgotten failures.
 - "Why now?": Is important with regard to market dynamics and technology advancement. Maybe new opportunities are opening or a new technology could solve previously too complex problems.
-- "Why you?": The “right” to solve the outlined problems of this precise market at this precise time. It's important to be able to justify your legitimacy which involves to understand your edges, more in the [next section](#the-team).
+- "Why you?": The “right” to solve the outlined problems of this precise market at this precise time. It's important to be able to justify your legitimacy which involves to understand your edges, more in the [team section](#the-team).
 
 In the next sections I present the team forming process followed by the official creation and lastly by the pitch. I think that for us, and in general, the idea should come afterwards and can be shallow, drafty and blurred at the beginning. What feels the most important is the will to make things happen and the fulmination to innovate always feeling that you are the perfect team.
 
@@ -52,11 +52,15 @@ In the next sections I present the team forming process followed by the official
 
 The team presentation has two primary motives. First it is important for potential investor or client to get to know the team they'll be working with, but it is also crucial to present our edge and answer the question "Why us?".
 
-> [!note] Edge [ [1] ](#references)
+> [!note] Edge [@1](#resources)
 > 
 > Each individual has a specific edge which is the combination of all his experiences and knowledge. There are three edges to consider in startup. The market edge, the technology edge and the catalyzer edge. The later being the diverse experiences and soft skills relevant the given startup.
 
-The key points for a startup is the diversification, adaptability and agility of their founders and their processes. At the beginning it's important to have quick feedback loops first in the team and then with what you're building.
+The key points for a startup is the diversification, adaptability and agility of their founders and their processes. At the beginning it's important to have quick feedback loops first in the team and then with what you're building. Each founder has to take the lead on various subjects and they shall not fear to learn beyond their edge.
+
+In term of the founding team size three seems the most convenient. For two people it's faster to discuss and to brainstorm ideas, yet the workloads might be to heavy at the beginnings. Four people is a lot of discussion channels/energy and with regards cohesion it might be hard to keep everyone at the same level of commitment. At three its still possible to communicate smoothly, the tasks can be divided and when one person is unavailable two are still on duty. And last but not least it's easy to break ties!
+
+So here are the three champions:
 
 **Alexandre the CEO:** Market edge. He graduated with a Master in marketing, management and business. He has expertise in web agency building websites with Shopify but also with other software like Webflow. What's more he has plenty of precious entrepreneurial skills as he also runs another startup in parallel and he's always listening to market waves.
 
@@ -68,7 +72,7 @@ I always feel that my cofounders are just amazing for the job they do and the ef
 
 ### The Official Creation
 
-The legal process is not the funniest part but it is surely the most important.
+The legal process is not the funniest part but it is surely the most important as it defines practically how the startup will run. This phase should come after a trial period where the team has beginning to build a POC.
 
 > [!danger] Gotcha
 > 
@@ -76,7 +80,7 @@ The legal process is not the funniest part but it is surely the most important.
 
 Once everyone has agreed on the repartition.
 
-Our startup has now officially 6 months.
+Our startup has now officially 6 months.. It is fairly important to be quick and efficient regarding legal, finance and administration. In the beginning there is no time to lose time on such matter and if the startup works its foundations cannot be shaky. Therefore don't hesitate to invest some money in these processes to delegate the dull and boring tasks to focus on what matters and where you can add value.
 
 ## The Pitch
 
@@ -86,11 +90,11 @@ Blockloads is there to transmit the idea of code modularity and components integ
 
 ### The RoadMap
 
-The roadmap has changed a lot but this is expected since we work in an agile way.
+The roadmap has changed a lot but this is expected since we work in agile mode.
 
 > [!success] Goal
 > 
-> Our ultimate goal always has been and always will be remain to facilitate and accelerate small shop keepers in their market adventure. 
+> Our ultimate goal always has been and always will be to facilitate and accelerate the shop development and administration. We want to be accessible for the modest shop keepers empowering them in their market adventure. 
 
 This is likely to change along the road with the first dead-ends and customer feedback. 
 
@@ -104,8 +108,8 @@ In order to get close to our customers and partners we decided to create a Disco
 
 We envision this media and cyber-space as a way to deliver fast and tailored customer service. We planned on hosting conferences, discussion groups and obviously QnA about our solutions but also about the Shopify ecosystem.
 
-## References
+## Resources
 
-> [!quote] Reference list
+> [!quote] References
 > 
 > 1.  A. Bentinck and M. Clifford, "How to Be a Founder: How Entrepreneurs can Identify, Fund and Launch their Best Ideas," ‎ in *Bloomsbury Business; 1st edition*, 2022. 
