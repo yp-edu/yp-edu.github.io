@@ -12,10 +12,13 @@ editedOn: 2024-01-02
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 5
+image: /assets/images/creating-a-startup.png
 ---
 > [!caution] WIP
 > 
 > This article is a work in progress.
+
+![Creating a Startup](creating-a-startup.png)
 
 > [!tldr] TL;DR
 > 
@@ -37,10 +40,13 @@ readingTime: 5
 
 ### Ideation
 
-Ideation is not fixed in time it’s a long-lasting process that demands to iterate. It’s about refining some initial ideas with the first test and developments as well as with the first customer feedback.
+Ideation is not fixed in time it’s a long-lasting process that demands to iterate. It’s about refining some initial ideas with the first test and developments as well as with the first customer feedback. Yet it is always good to keep in mind some guiding drivers.
 
-- "Why now?":  
-- "Why us?": Our “right” to solve the future problem of this precise market.
+- "What and why?": Represents what you are trying to solve, and why it matters. There is a difference between nice-to-haves, must-haves and hair-on-fire issues which often leads to forgotten failures.
+- "Why now?": Is important with regard to market dynamics and technology advancement. Maybe new opportunities are opening or a new technology could solve previously too complex problems.
+- "Why you?": The “right” to solve the outlined problems of this precise market at this precise time. It's important to be able to justify your legitimacy which involves to understand your edges, more in the [next section](#the-team).
+
+In the next sections I present the team forming process followed by the official creation and lastly by the pitch. I think that for us, and in general, the idea should come afterwards and can be shallow, drafty and blurred at the beginning. What feels the most important is the will to make things happen and the fulmination to innovate always feeling that you are the perfect team.
 
 ### The Team
 
@@ -50,11 +56,15 @@ The team presentation has two primary motives. First it is important for potenti
 > 
 > Each individual has a specific edge which is the combination of all his experiences and knowledge. There are three edges to consider in startup. The market edge, the technology edge and the catalyzer edge. The later being the diverse experiences and soft skills relevant the given startup.
 
+The key points for a startup is the diversification, adaptability and agility of their founders and their processes. At the beginning it's important to have quick feedback loops first in the team and then with what you're building.
+
 **Alexandre the CEO:** Market edge. He graduated with a Master in marketing, management and business. He has expertise in web agency building websites with Shopify but also with other software like Webflow. What's more he has plenty of precious entrepreneurial skills as he also runs another startup in parallel and he's always listening to market waves.
 
 **Florian the COO/CFO:** Catalyser edge. With his engineering diploma in logistics he has a broad background ranging from processes optimisation, organisation to software and coding skills. He has diverse set of lead experiences from projects as well as consulting that logically put him in charge of our processes. His engineering backgroung enable him to understand and link the technological solutions to the market needs.
 
 **I, Yoann the CTO:** Technology edge. With my research degree and background I have a broad knowledge of cutting-edge AI technology. Yet I also practiced ML engineering during my apprenticeship where I had projects linked to model training, MLOps, DevOps and cloud deployment. I am running and architecturing the backend logic of our solutions as well as the AI integration.
+
+I always feel that my cofounders are just amazing for the job they do and the efforts they put. If you don't feel the same maybe you should take a step back to assess your team edge deeper or speak up. Team cohesion is cornerstone of the startup especially in its early stages. Don't forget to fail fast!
 
 ### The Official Creation
 

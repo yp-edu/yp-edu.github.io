@@ -11,14 +11,13 @@ editedOn:
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 
-image: /assets/images/lrp_main_image.png
-description: The description
+image: /assets/images/layer-wise-relevance-propagation.png
 ---
 > [!caution] WIP
 > 
 > This article is a work in progress.
 
-![post image](lrp_main_image.png)
+![Layer-Wise Relevance Propagation](layer-wise-relevance-propagation.png)
 
 > [!tldr] TL;DR
 > 
