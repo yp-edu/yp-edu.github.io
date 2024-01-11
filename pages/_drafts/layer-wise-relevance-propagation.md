@@ -19,7 +19,6 @@ readingTime:
 > 
 > LRP is a method that produces pixel relevances for a given output which doesn't to be terminal. Technically the computation happens using a single back-progation pass. 
 
-
 > [!example] Table of content
 > 
 > - [LRP Framework](#lrp-framework)
@@ -47,13 +46,21 @@ $$
 
 ### Technical Details
 
-## Classification Example
+
+## Interpreting Othello Zero
+
+### Game
+
+{% gist fd8ff108d39b0fdd09cb49e6809d2c54 %}
 
 ### Network Decomposition
+
+<script src="https://gist.github.com/Xmaster6y/fd8ff108d39b0fdd09cb49e6809d2c54.js"></script>
 
 ### Interpretation
 
 > [!quote] References
 > 
-> 1. [[On Pixel-Wise Explanations for Non-Linear Classifier Decisions by Layer-Wise Relevance Propagation]]
-> 2. [[A Rigorous Study Of The Deep Taylor Decomposition]]
+> 1. Bach, Sebastian, et al. "On Pixel-Wise Explanations for Non-Linear Classifier Decisions by Layer-Wise Relevance Propagation." _PLOS ONE_, vol. 10, no. 7, 2015, p. e0130140, https://doi.org/10.1371/journal.pone.0130140.
+> 2. Sixt, Leon, and Tim Landgraf. "A Rigorous Study Of The Deep Taylor Decomposition." _ArXiv_, 2022, /abs/2211.08425.
+> 3. Binder, Alexander, et al. "Layer-wise Relevance Propagation for Neural Networks with Local Renormalization Layers." _ArXiv_, 2016, /abs/1604.00825.

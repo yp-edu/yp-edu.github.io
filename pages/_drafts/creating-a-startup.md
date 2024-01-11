@@ -70,7 +70,7 @@ Our startup has now officially 6 months.
 
 ## The Pitch
 
-### Why BlockLoads?
+### Why [BlockLoads](https://blockloads.com)?
 
 Blockloads is there to transmit the idea of code modularity and components integration.
 
