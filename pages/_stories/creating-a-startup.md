@@ -11,7 +11,7 @@ publishedOn: 2023-12-20
 editedOn: 2024-01-02
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 7
+readingTime: 9
 image: /assets/images/creating-a-startup.png
 ---
 ![Creating a Startup](creating-a-startup.png)
