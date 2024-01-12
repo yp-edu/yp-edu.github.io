@@ -17,15 +17,22 @@ You'll find here a collection of stories, projects and articles.
 
 ## Pinned [stories](/stories/)  [::rss::](/stories/feed.xml)
 
-{% assign pinned_stories = "/stories/why-this-blog, /stories/my-approach-to-ai-safety" | split: ", " %}
+{% assign pinned_stories = "/stories/why-this-blog, /stories/my-approach-to-ai-safety, /stories/creating-a-startup" | split: ", " %}
 {% assign collection = site.stories | sort: "publishedOn" | reverse %}
-{% for story in collection %}
-{% if pinned_stories contains story.url %}
+{% for item in collection %}
+{% if pinned_stories contains item.url %}
 
-### [{{ story.title }}]({{ story.url }})
-<small class="date">{{ story.publishedOn }} </small><small>| {{ story.readingTime }} min read</small><small> | {{ story.tldr }}</small>
-{: .tldr}
-
+### [{{ item.title }}]({{ item.url }})
+<div class="thumbnail">
+  {% if item.image %}
+    <a href="{{ item.url }}"><img src="{{ item.image }}" alt="{{ item.title }}" class="thumbnail" /></a>
+  {% endif %}
+  {% if item.tldr %}
+  <p class="tldr">
+    <small class="date">{{ item.publishedOn }} </small><small>| {{ item.readingTime }} min read</small><small> | {{ item.tldr }}</small>
+  </p>
+  {% endif %}
+</div>
 {% endif %}
 {% endfor %}
 
