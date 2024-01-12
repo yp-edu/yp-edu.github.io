@@ -13,6 +13,8 @@ editedOn: 2024-01-02
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 11
+image: 
+description: Shortcoming issues should not be undermined because, if not tackled immediately, they will make Alignment a lot more complex. I am convinced that interpretability will be the best tool for monitoring and control, and for that, I will pursue this agenda through research and entrepreneurship.
 ---
 > [!tldr] TL;DR
 > 

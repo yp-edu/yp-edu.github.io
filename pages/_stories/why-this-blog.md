@@ -12,6 +12,8 @@ editedOn: 2023-09-21
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 4
+image: 
+description: The main reason for me to write this blog is just to maintain some motivation and high expectations while satisfying my curiosity.
 ---
 > [!tldr] TL;DR
 > 
