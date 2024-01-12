@@ -23,9 +23,16 @@ layout: default
         {% endfor %}
         </small>
       <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
-      {% if item.tldr %}
-        <p class="tldr"><small>{{ item.tldr}}</small></p>
-      {% endif %}
+      <div class="thumbnail">
+        {% if item.image %}
+          <a href="{{ item.url }}"><img src="{{ item.image }}" alt="{{ item.title }}" class="thumbnail" /></a>
+        {% endif %}
+        {% if item.tldr %}
+          <p class="tldr">
+            <small>{{ item.tldr}}</small>
+          </p>
+        {% endif %}
+      </div>
       {% assign story_count = story_count | plus: 1 %}
     {% endif %}
   {% endif %}
@@ -48,9 +55,16 @@ layout: default
         {% endfor %}
         </small>
       <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
-      {% if item.tldr %}
-        <p class="tldr"><small>{{ item.tldr}}</small></p>
-      {% endif %}
+      <div class="thumbnail">
+        {% if item.image %}
+          <a href="{{ item.url }}"><img src="{{ item.image }}" alt="{{ item.title }}" class="thumbnail" /></a>
+        {% endif %}
+        {% if item.tldr %}
+          <p class="tldr">
+            <small>{{ item.tldr}}</small>
+          </p>
+        {% endif %}
+      </div>
       {% assign project_count = project_count | plus: 1 %}
     {% endif %}
   {% endif %}
@@ -73,9 +87,16 @@ layout: default
       {% endfor %}
       </small>
       <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
-      {% if item.tldr %}
-        <p class="tldr"><small>{{ item.tldr}}</small></p>
-      {% endif %}
+      <div class="thumbnail">
+        {% if item.image %}
+          <a href="{{ item.url }}"><img src="{{ item.image }}" alt="{{ item.title }}" class="thumbnail" /></a>
+        {% endif %}
+        {% if item.tldr %}
+          <p class="tldr">
+            <small>{{ item.tldr}}</small>
+          </p>
+        {% endif %}
+      </div>
       {% assign article_count = article_count | plus: 1 %}
     {% endif %}
   {% endif %}

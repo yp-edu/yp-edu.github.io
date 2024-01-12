@@ -54,10 +54,10 @@ Regarding sustainability, the industry has a vile tendency towards technology so
 
 From a safety point of view, regulation might also have some gotchas. The two main drawbacks to take into account are:
 
-- Control loss:
+- **Control loss**:
 Regulation might cause a slowdown in technological advancements. Thus, a country unaffected by regulation might take the upper hand. The critical point here is to devise regulations that support innovation, e.g., highly regulating the use cases but less regulating the technology.
 
-- [Goodhart's law](https://en.wikipedia.org/wiki/Goodhart%27s_law):
+- **[Goodhart's law](https://en.wikipedia.org/wiki/Goodhart%27s_law)**:
 Benchmark optimisation has been seen with model evaluation and could also be the case with model interpretability. Companies will try to beat the benchmark or improve some interpretability metrics that don't necessarily correlate with safety. It is, therefore, primordial to advance these safeguards as much as possible technically.
 
 ### The Curse of AI Doomerism
@@ -122,7 +122,7 @@ I left my entrepreneur edge apart since I am only beginning to grow and explore 
 
 ### Brief Agenda
 
-My main focus? Making AI interpretable. It's the key to scaling up safely alongside rapid advancements in AI capabilities. I'm all in for grounding interpretability in solid theory where it makes sense, making sure it's not just a temporary fix but a long-term solution.
+**My main focus?** Making AI interpretable. It's the key to scaling up safely alongside rapid advancements in AI capabilities. I'm all in for grounding interpretability in solid theory where it makes sense, making sure it's not just a temporary fix but a long-term solution.
 
 I'm also putting a lot of stock in model evaluation. Sure, it might be a challenge to scale in the long run, but right now, it's where the most promising and practical work is happening. I'm especially interested in how we can intertwine evaluation and interpretability to get the best of both worlds.
 
