@@ -6,6 +6,9 @@ layout: default
 {% assign collection = site[page.collection]%}
 
 <h1>{{ title }} <a href="/{{ title | downcase}}/feed.xml"><i class="fa-solid fa-rss"></i></a></h1>
+
+{{ content}}
+
 <section>
 {% if collection.size <= 1%}
 <span>No item yet...</span>
