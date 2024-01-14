@@ -27,6 +27,13 @@ img.thumbnail{
   margin-right: auto;
   max-width: 100%;
 }
+img + em {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: #777;
+ }
+
 div.thumbnail{
   display: flex;
   flex-direction: row;

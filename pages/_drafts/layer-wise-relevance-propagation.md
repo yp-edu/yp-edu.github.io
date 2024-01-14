@@ -1,17 +1,18 @@
 ---
 title: Layer-Wise Relevance Propagation
-tldr: LRP is a method that produces pixel relevances for a given output which doesn't to be terminal. Technically the computation happens using a single back-progation pass.
+tldr: LRP is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
 tags:
   - XAI
 references: 
 aliases: 
 crossposts: 
-publishedOn: 
-editedOn: 
+publishedOn: 2024-01-12
+editedOn: 2024-01-12
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 
 image: /assets/images/layer-wise-relevance-propagation.png
+description: TL;DR> LRP is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
 ---
 > [!caution] WIP
 > 
@@ -21,7 +22,7 @@ image: /assets/images/layer-wise-relevance-propagation.png
 
 > [!tldr] TL;DR
 > 
-> LRP is a method that produces pixel relevances for a given output which doesn't to be terminal. Technically the computation happens using a single back-progation pass. 
+> LRP is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
 
 > [!example] Table of content
 > 
@@ -36,39 +37,81 @@ image: /assets/images/layer-wise-relevance-propagation.png
 
 ## LRP Framework
 
-### Formulations
+### Formulation
 
-With $R_j^{[l]}$ being the $j$-th neuron's relevance of the layer $l$, and the propagation mechanism is given by the equation $\ref{eq:aggregate}$.
+Each neuron of each layer can be interpreted. Here a neuron is understood input specific as for a linear layer the interpreted neuron would be for $a(w^Tx+b)$.
+
+![layer-wise-relevance-propagation_backward](layer-wise-relevance-propagation_backward.png)
+*Relevance Backpropagation of the dog logit, [@7](#resources).*
+{: .im-center}
+
+
+The general propagation mechanism is given by the equation $\ref{eq:aggregate}$, with $R_j^{[l]}$ being the $j$-th neuron's relevance of the layer $l$, and $z_k=\sum_jz_{kj}$ is the normalisation factor.
 
 $$
 \begin{equation}
 %\label{eq:aggregate}
-R_{j}^{[l]}=\sum_{k}\dfrac{z_{jk}}{\sum_j z_{kj}}R_k^{[l+1]}
+R_{j}^{[l]}=\sum_{k}\dfrac{z_{jk}}{z_{k}+\epsilon \sign(z_k)}R_k^{[l+1]}
 \end{equation}
 $$
 
-### Different Rules
+The coefficients $z_{jk}$ define how the information is propagated. The term in $\epsilon$ is a numerical stabilizer but has the drawback to make the propagation mechanism not conservative.
+
+Bias is also absorbing the relevance along the way, being a leaf in the the computational graph.
+
+### Different Rules for Differen Layers
+
+- Epsilon
+- Zplus
+- Pass
 
 ### Technical Details
 
+- Backpass modification
+- Backward hooks
+- Stabilisers
+- Cannonisers
+- Input modifiers
+- Weights modifiers
 
 ## Interpreting Othello Zero
 
 ### Game
 
+- Alpha Zero
+- MCTS PUCT
+- UCB
+- 
+
 <script src="https://gist.github.com/Xmaster6y/fd8ff108d39b0fdd09cb49e6809d2c54.js"></script>
 ### Network Decomposition
 
-In order 
+In order to use Znnit it is important to remember how it is implemented. Many difficulties arise in practice.
 
+First all used modules should be instanciated under the target module (even activations). Then softmax should not be used because of the exponential. Here it can be safely removed as the output are the soflogmax which is a simple translation of the raw logits and doesn't change the softmax used after to select the next action.
 
+It is important to acknowledge the similarity in computation of the value and the policy. This will lead to very close relevances heatmap as only one layer differ. 
 
+One other practical limitation concern the empty cells. Using traditional LRP rules their relevance will be zero. Indeed during the computation the model doesn't use these pixels but it rather uses biases relevances. In order to overcome this difficulty it is possible to use a Flat rule, equation $\ref{eq:flat_rule}$, in the first layer to distribute equally the relevances among pixels.
 
+$$
+\begin{equation}
+%\label{eq:flat_rule}
+R_{j}^{[l]}=\sum_{k}\dfrac{1}{\sum_j 1}R_k^{[l+1]}
+\end{equation}
+$$
 ### Interpretation
 
+First here is the flat relevances induced from the first layer. This is fairly important as the flat rule will be used for the first layer in order to get relevances 
 
-![bias_relevance](lrp_bias_relevance.png)
+![bias_relevance](layer-wise-relevance-propagation_bias_relevance.png)
 {: .im-center}
+
+### Evaluate an Explanation
+
+It is important to keep in mind that producing a heatmap is easy but interpreting it faithfully is hard.
+
+It also was a critic of LRP with the DTD framing [@2](#resources) as interpreting an input-dependant heatmap is about interpreting an input and not really the model.
 
 ## Resources
 

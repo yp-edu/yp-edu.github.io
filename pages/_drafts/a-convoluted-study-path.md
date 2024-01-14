@@ -6,8 +6,8 @@ tags:
 references: 
 aliases: 
 crossposts: 
-publishedOn: 
-editedOn: 
+publishedOn: 2024-02-02
+editedOn: 2024-02-02
 authors:
   - "[[Yoann Poupart]]"
 ---
