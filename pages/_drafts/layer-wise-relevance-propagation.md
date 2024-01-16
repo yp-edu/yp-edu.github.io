@@ -51,7 +51,7 @@ $$
 \begin{equation}
 %\label{eq:linear_mapping}
 a_i^{[l+1]}=a\left(\sum_{j}w_{ij}^{[l+1]}a_{j}^{[l]}+b_i^{[l+1]}\right)
-\Leftrightarrow {\bf a}^{[l+1]}=a\left({\bf a}^{[l]}{{\bf w}^{[l+1]}}^T+{\bf b}^{[l+1]}\right)
+\Leftrightarrow {\bf a}^{[l+1]}=a\left({\bf a}^{[l]}{ {\bf w}^{[l+1]}}^T+{\bf b}^{[l+1]}\right)
 \end{equation}
 $$
 
