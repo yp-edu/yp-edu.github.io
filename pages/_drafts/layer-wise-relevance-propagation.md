@@ -94,7 +94,7 @@ $$
 
 ### Different Rules for Different Layers
 
-Intuitively the relevance propagation rules should be dependent on the layers nature as is the forward flow. Fundamentally this idea comes from the ambition of tracking the model's various kind of actual computation into each relevance. The classical framework for deriving these rules are Deep Taylor's series Decomposition (DTD) [@10](#resources), yet it should be justified with care [@6](#resources). I now present the necessary rules needed for the experiments I conduucted.
+Intuitively the relevance propagation rules should be dependent on the layers nature as is the forward flow. Fundamentally this idea comes from the ambition of tracking the model's various kind of actual computation into each relevance. The classical framework for deriving these rules are Deep Taylor's series Decomposition (DTD) [@10](#resources), yet it should be justified with care [@6](#resources). I'll now present the necessary rules needed for the experiments I conducted, whose derivation can be found in the various linked [resources](#resources).
 
 > [!info] Notation
 > 
@@ -158,7 +158,7 @@ Tree representation of game (Min-Max, Alpha-Beta, MCTS, ...) is an intuitive rep
 $$
 \begin{equation}
 %\label{eq:upper_confidence_boundary}
-    U(s,a)=Q(s,a)+c_{\rm puct}\cdot P(s,a) \cdot \dfrac{\sqrt{\sum_b N(s,b)}}{1+N(s,a)}
+    U_s=Q_s+c_{\rm puct}\cdot \pi(s) \cdot \dfrac{\sqrt{||N_{sb}||_1}}{1+N_{s}}
 \end{equation}
 $$
 
@@ -190,7 +190,9 @@ First here is the flat relevances induced from the first layer. This is fairly i
 
 It is important to keep in mind that producing a heatmap is easy but interpreting it faithfully is hard.
 
-It also was a critic of LRP with the DTD framing [@2](#resources) as interpreting an input-dependant heatmap is about interpreting an input and not really the model.
+It also was a critic of LRP with the DTD framing [@6](#resources) as interpreting an input-dependant heatmap is about interpreting an input and not really the model.
+
+Some faithfullness measure algorithm exisits. I'll describ randomisation using most-relevant pixel flipping. In practice this can be used to compare XAI methods. For example it could be used to verify that the rules derived using DTD are actually the best fited for each layer kind.
 
 ## Resources
 
