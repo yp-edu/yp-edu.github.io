@@ -3,6 +3,7 @@ title: Layer-Wise Relevance Propagation
 tldr: Layer-Wise Relevance Propagation (LRP) is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
 tags:
   - XAI
+  - AlphaZero
 references: 
 aliases: 
 crossposts: 
@@ -10,7 +11,7 @@ publishedOn: 2024-01-16
 editedOn: 2024-01-16
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 8
+readingTime: 12
 image: /assets/images/layer-wise-relevance-propagation.png
 description: TL;DR> Layer-Wise Relevance Propagation (LRP) is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
 ---
@@ -54,7 +55,7 @@ a_k^{[l+1]}=g\left(\sum_{j}w_{kj}^{[l+1]}a_{j}^{[l]}+b_k^{[l+1]}\right)
 \end{equation}
 $$
 
-The figure [1](#relevance-backpropagation) illustrate the process of relevance propagation which can be intuited as a redistribution flow. The relevance $R_k^{[l+1]}$ is decomposed in "messages" sent to the previous layer. The message, $R_{j\leftarrow k}^{[l\leftarrow l+1]}$, from the $j$-th neuron of the layer $l+1$ to the $i$-th layer of the layer $l$ is then given by the equation $\ref{eq:message_decomposition}$, where $\Omega_{jk}^{[l+1]}$ is the decomposition rule (see bellow). The new relevance $R_j^{[l]}$ is then obtained by summing each "message" sent, as described by equation $\ref{eq:message_aggregation}$.
+The figure [1](#relevance-back-propagation) illustrate the process of relevance propagation which can be intuited as a redistribution flow. The relevance $R_k^{[l+1]}$ is decomposed in "messages" sent to the previous layer. The message, $R_{j\leftarrow k}^{[l\leftarrow l+1]}$, from the $j$-th neuron of the layer $l+1$ to the $i$-th layer of the layer $l$ is then given by the equation $\ref{eq:message_decomposition}$, where $\Omega_{jk}^{[l+1]}$ is the decomposition rule (see bellow). The new relevance $R_j^{[l]}$ is then obtained by summing each "message" sent, as described by equation $\ref{eq:message_aggregation}$.
 
 $$
 \begin{equation}
@@ -72,7 +73,7 @@ $$
 
 > [!note] Decomposition Rules
 > 
-> A rule  $\Omega_{jk}^{[l+1]}$ defines how to redistribute the relevance $R_k^{[l+1]}$ of the layer $l+1$ into the previous layer $l$. The ideal rule depends on the nature of the layer $l+1$ and is an active topic of research [@3@4@5](#resources) (e.g. for "new" architecture of networks like Transformers), more on this in the [rule](#different-rules-for-different-layers) and [evaluation](#evaluate-an-explanation) sections.
+> A rule  $\Omega_{jk}^{[l+1]}$ defines how to redistribute the relevance $R_k^{[l+1]}$ of the layer $l+1$ into the previous layer $l$. The ideal rule depends on the nature of the layer $l+1$ and is an active topic of research [@3@4@5](#resources) (e.g. for new or more complex architecture like Transformers), more on this in the [rule](#different-rules-for-different-layers) and [evaluation](#evaluate-an-explanation) sections.
 
 ![layer-wise-relevance-propagation_backward](layer-wise-relevance-propagation_backward.png)
 *Figure 1: Relevance back-propagation of the dog logit, [@5](#resources).*
@@ -93,48 +94,58 @@ $$
 
 ### Different Rules for Different Layers
 
-Intuitively the relevance propagation rules should be dependent on the layers nature as is the forward flow. Fundamentally this idea comes from the ambition of tracking the model's actual amount of computation into each relevance. The classical framework for deriving these rules are Deep Taylor's series Decomposition (DTD) yet it should be justified with care [@6](#resources). I don't go deep in the details here but rather present the necessary rules need for the experiments a posteriori.
+Intuitively the relevance propagation rules should be dependent on the layers nature as is the forward flow. Fundamentally this idea comes from the ambition of tracking the model's various kind of actual computation into each relevance. The classical framework for deriving these rules are Deep Taylor's series Decomposition (DTD) [@10](#resources), yet it should be justified with care [@6](#resources). I now present the necessary rules needed for the experiments I conduucted.
 
+> [!info] Notation
+> 
+> The layer superscript is dropped in this section for readability and since all the rules will be applied on consecutive layers. The index $j$ still refers to layer $l$ and the index $k$ to layer $l+1$.
 
-
-**LRP-$\epsilon$ [@1](#resources):** This rule is made for linear mappings (Linear & BatchNorm)  Then other rules like LRP-$\epsilon$ [@1](#resources) introduce $\epsilon$, a numerical stabilizer, which modify the normalisation factor as $z_k^{[l]}=\sum_jz_{jk}^{[l]}+\epsilon \cdot {\rm sign}\left(\sum_jz_{jk}^{[l]}\right)$. This other trick is great in practice but has the drawback to make the propagation mechanism not conservative.
+**LRP-$\epsilon$ [@1](#resources):**  Defined by the equation $\ref{eq:lrpe_rule}$, it introduces $\epsilon$, a numerical stabilizer. This trick is great in practice but has the drawback to make the propagation mechanism not conservative. This rule is made for linear mappings (Linear & BatchNorm).
 
 $$
 \begin{equation}
 %\label{eq:lrpe_rule}
-R_{j}^{[l]}=\sum_{k}\dfrac{z_{kj}^{[l+1]}}{\sum_jz_{kj}^{[l+1]}+\epsilon \cdot {\rm sign}\left(\sum_jz_{kj}^{[l+1]}\right)}R_k^{[l+1]}
+\Omega_{jk}=\dfrac{z_{kj}}{\sum_jz_{kj}+\epsilon \cdot {\rm sign}\left(\sum_jz_{kj}\right)}
 \end{equation}
 $$
 
-**Flat :** j
+**$z^+$ [@10](#resources):** Defined by the equation $\ref{eq:zplus_rule}$ where $w_{kj}^+$ stands for the positive part of $w_{kj}$. Used for convolution. This rule is conservative and positive (and thus consistent).
+
+$$
+\begin{equation}
+%\label{eq:zplus_rule}
+\Omega_{jk}=\dfrac{w_{kj}^+a_{j}}{\sum_jw_{kj}^+a_{j}}
+\end{equation}
+$$
+
+**$w^2$ [@4](#resources):** Defined by the equation $\ref{eq:wsquare_rule}$, this rule is meant for early layers. In practice it is only used for the first layer, e.g. in order to propagate relevance to dead input neurons. This rule is conservative and positive (and thus consistent).
+
+$$
+\begin{equation}
+%\label{eq:wsquare_rule}
+\Omega_{jk}=\dfrac{w_{kj}^2}{\sum_j w_{kj}^2}
+\end{equation}
+$$
+
+**Flat [@4](#resources):** Defined by the equation $\ref{eq:flat_rule}$, this rule is similar to $z^+$ but assuming a constant weighting. It therefore redistributes equally the relevance across every preceding neuron. In practice it is only used for the first layer, e.g. in order to propagate relevance to dead input neurons. This rule is conservative and positive (and thus consistent).
 
 $$
 \begin{equation}
 %\label{eq:flat_rule}
-R_{j}^{[l]}=\sum_{k}\dfrac{1}{\sum_j 1}R_k^{[l+1]}
+\Omega_{jk}=\dfrac{1}{\sum_j 1}
 \end{equation}
 $$
-
-**$w^2$ :** j
-
-$$
-\begin{equation}
-%\label{eq:w_square}
-R_{j}^{[l]}=\sum_{k}\dfrac{1}{\sum_j 1}R_k^{[l+1]}
-\end{equation}
-$$
-**Pass :** This is a practical rule. e.g. used on activation modules.
 
 ### Technical Details
 
 All the LRP computation can be done using the original authors' library [Zennit](https://zennit.readthedocs.io/en/latest/) [@6](#resources).
+Backpass modification. Needs proper modules
 
-- Backpass modification
-- Backward hooks
-- Stabilisers
-- Cannonisers
-- Input modifiers
-- Weights modifiers
+Backward hooks snipet bellow. Stabilisers like in the LRP-$\epsilon$, weights modifiers LRP-$0$. Cannonisers are needed like when using batchnorm layers[@3](#resources). The input modifiers are how to practically derive the rules with the lightest hook as possible.
+
+<script src="https://gist.github.com/Xmaster6y/6734100a89f4ab9bd17fe24e84831d40.js"></script>
+
+**Pass :** This is a practical rule necessary regarding [Zennit](https://zennit.readthedocs.io/en/latest/) implementation. It is typically used for activation modules.
 
 ## Interpreting Othello Zero
 
@@ -185,7 +196,7 @@ It also was a critic of LRP with the DTD framing [@2](#resources) as interpretin
 
 A drafty notebook that self-contains all the practical experiments presented here and more is available on Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ozMKtcRS9nRtvUfwZwj00ZZNpui5MhLr?usp=sharing). And bellow is a list of references containing the papers and code used in this post as well as additional resources.
 
-- [@7](#resources) extends LRP to discover concepts.
+- [@5](#resources) extends LRP to discover concepts.
 
 > [!quote] References
 > 
@@ -198,3 +209,4 @@ A drafty notebook that self-contains all the practical experiments presented her
 > 7. Anders, Christopher J., et al. "Software for Dataset-wide XAI: From Local Explanations to Global Insights with Zennit, CoRelAy, and ViRelAy." _ArXiv_, 2021.
 > 8. Thakoor, Shantanu, et al. "Learning to play othello without human knowledge." _Stanford University_, 2016.
 > 9. Silver, David, et al. "Mastering the Game of Go Without Human Knowledge." Nature, vol. 550, no. 7676, 2017.
+> 10. Montavon, Grégoire, et al. "Explaining Nonlinear Classification Decisions with Deep Taylor Decomposition." _Pattern Recognition_, vol. 65, 2017.
