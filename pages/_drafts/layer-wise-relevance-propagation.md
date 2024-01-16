@@ -10,7 +10,7 @@ publishedOn: 2024-01-16
 editedOn: 2024-01-16
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 
+readingTime: 8
 image: /assets/images/layer-wise-relevance-propagation.png
 description: TL;DR> LRP is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
 ---
@@ -75,6 +75,7 @@ $$
 The LRP-$0$ has nice properties like the flow conservation $\sum_jR_{j}^{[l]}=\sum_kR_{k}^{[l+1]}$ or the fact that it really tracks what was used by the model forward pass. Yet some gotchas were voluntarily dismissed for simplicity! First, as a classical backward pass, neuron's output relevance is propagated back into neuron's input relevance but also in the neuron's bias relevance. This can be circumvented by setting biases to zero (a trick). Then other rules like LRP-$\epsilon$ [@1](#resources) introduce $\epsilon$, a numerical stabilizer, which modify the normalisation factor as $z_k^{[l]}=\sum_jz_{jk}^{[l]}+\epsilon \cdot {\rm sign}\left(\sum_jz_{jk}^{[l]}\right)$. This trick is great but has the drawback to make the propagation mechanism not conservative.
 
 >[!danger] Generalisation Gotcha
+>
 >The layer superscript is omitted in the literature because it doesn't cover the general formulation. For example to account for residual connection the propagation is spread across multiple layers. The general formulation is simply given by a causally weighted sum $R_{j}=\sum_{k}\omega_kR_k$ where the numbering is across all the neurons. It's definitely less informative about the actual computation, notation and interpretation!
 
 ### Different Rules for Different Layers
