@@ -18,6 +18,7 @@ FA_CALLOUTS = {
   "caution" => "fa-solid fa-triangle-exclamation",
   "success" => "fa-solid fa-check",
   "danger" => "fa-solid fa-bolt",
+  "error" => "fa-solid fa-bolt",
   "example" => "fa-solid fa-list",
   "quote" => "fa-solid fa-quote-right",
 }
