@@ -41,7 +41,7 @@ Ideation is not fixed in time; it's a long-lasting process that demands to itera
 
 - "What and why?": Represents what you are trying to solve and why it matters. There is a difference between nice-to-haves, must-haves and hair-on-fire issues, which often leads to forgotten failures.
 - "Why now?": Is essential with regard to market dynamics and technology advancement. Maybe new opportunities are opening up, or a new technology could solve previously too complex problems.
-- "Why you?": The "right" to solve the outlined problems of this precise market at this precise time. It's important to be able to justify your legitimacy, which involves understanding your edges more in the [team section](#the-team).
+- "Why you?": The "right" to solve the outlined problems of this precise market at this precise time. It's important to be able to justify your legitimacy, which involves understanding your edges. More in the [team section](#the-team).
 
 Next, I will present the team-forming process, followed by the official creation, and lastly, the pitch. I think that for us, and in general, the idea should come afterwards and can be shallow, drafty and blurred at the beginning. What feels the most important is the will to make things happen and the determination to innovate, constantly feeling that you are the perfect team.
 
@@ -69,7 +69,7 @@ I always feel that my cofounders are just fantastic for the job they do and the 
 
 ### The Official Creation
 
-Our startup is now officially 6 months, but its inception is way older. Our CEO matured his ideas during his studies as I remember talking about [Shopify](https://www.shopify.com/) (our first "niche" target) four years ago. He embarked on our CFO first last year to begin brainstorming concrete startup ideas. I can't document their journey, but in January, we discussed their obstacles and the market gaps they found. As we saw that I could extend the team edge to tackle these, they fairly easily convinced me to jump on the boat.
+Our startup has now officially 6 months, but its inception is way older. Our CEO matured his ideas during his studies as I remember talking about [Shopify](https://www.shopify.com/) (our first "niche" target) four years ago. He embarked our CFO first, last year, to begin brainstorming concrete startup ideas. I can't document their journey, but in January, we discussed their obstacles and the market gaps they found. As we saw that I could extend the team edge to tackle these, they fairly easily convinced me to jump on the boat.
 
 My first mistake (and theirs) was to discuss the share distribution too soon. I embarked with cold feet as I had my own agenda and career expectations, and my time schedule was already heavy. I neglected this part in the beginning and grew resentful the more time and effort I put into the work. The legal process is not the funniest part, but it is undoubtedly the most important as it practically defines how the startup will run. It should be considered after a trial period where the team has begun to build a POC, as it is important to test your team and entrepreneur fits.
 
@@ -77,7 +77,7 @@ My first mistake (and theirs) was to discuss the share distribution too soon. I 
 > 
 > Share distribution is the core issue when building a company, and it should be thoughtfully discussed. It is the moment for everyone to shed light on his strength and acknowledge others'. Yet this phase should come after a trial phase so that you can be sure of everyone's commitment. This is especially tricky when you're not beginning full-time, as commitment is hard to measure. Above all, the final decision should be unanimous and primarily based on what's to come rather than what was brought.
 
-Once everyone has agreed on the repartition, the official creation can begin. It is fairly important to be quick and efficient regarding legal, finance and administration. In the beginning, there is no time to lose time on such matters, and later, if the startup works, its foundations cannot be shaky. Therefore, don't hesitate to invest some money in these processes to delegate dull and boring tasks and focus on what matters and where you can add value.
+Once everyone has agreed on the distribution, the official creation can begin. It is fairly important to be quick and efficient regarding legal, finance and administration. In the beginning, there is no time to lose time on such matters, and later, if the startup works, its foundations cannot be shaky. Therefore, don't hesitate to invest some money in these processes to delegate dull and boring tasks and focus on what matters and where you can add value.
 
 ## The Pitch
 

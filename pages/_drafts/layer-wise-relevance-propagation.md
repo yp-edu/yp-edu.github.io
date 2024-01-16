@@ -30,14 +30,18 @@ description: TL;DR> LRP is a propagation method that produces relevances for a g
 > 	- [Formulation](#formulation)
 > 	-  [Different Rules](#different-rules)
 > 	-  [Technical Details](#technical-details)
-> - [Classification Example](#classification-example)
+> - [Interpreting Othello Zero](#interpreting-othello-zero)
+> 	- [Playing Othello](#playing-othello)
 > 	- [Network Decomposition](#network-decomposition)
 > 	- [Interpretation](#interpretation)
+> 	- [Evaluate an Explanation](#evaluate-an-explanation)
 > - [Resources](#resources)
 
 ## LRP Framework
 
 ### Formulation
+
+LRP [@1](#resources) is local interpretability method that uses a modified backpropagation approach to compute the relevances heatmaps. These heatmaps are input specifics and can be computed at each stage of the model computation.
 
 Each neuron of each layer can be interpreted. Here a neuron is understood input specific as for a linear layer the interpreted neuron would be for $a(w^Tx+b)$.
 
@@ -51,7 +55,7 @@ The general propagation mechanism is given by the equation $\ref{eq:aggregate}$,
 $$
 \begin{equation}
 %\label{eq:aggregate}
-R_{j}^{[l]}=\sum_{k}\dfrac{z_{jk}}{z_{k}+\epsilon \sign(z_k)}R_k^{[l+1]}
+R_{j}^{[l]}=\sum_{k}\dfrac{z_{jk}}{z_{k}+\epsilon \cdot {\rm sign}(z_k)}R_k^{[l+1]}
 \end{equation}
 $$
 
@@ -76,17 +80,25 @@ Bias is also absorbing the relevance along the way, being a leaf in the the comp
 
 ## Interpreting Othello Zero
 
-### Game
+### Playing Othello
 
-- Alpha Zero
-- MCTS PUCT
-- UCB
-- 
+Before digging into the actual interpretation of the network I borrowed from [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) [@5](#resources), it is important to understand how it is used in practice and how it was trained. I highly recommend to check their code on [Github](https://github.com/suragnair/alpha-zero-general) or the associated [blog post](https://web.stanford.edu/~surag/posts/alphazero.html).
+
+The Alpha Zero paper [@8](#resources) used MCTS PUCT, with the upper bound confidence is given by the equation $\ref{eq:upper_confidence_boundary}$.
+
+$$
+\begin{equation}
+%\label{eq:upper_confidence_boundary}
+    U(s,a)=Q(s,a)+c_{\rm puct}\cdot P(s,a) \cdot \dfrac{\sqrt{\sum_b N(s,b)}}{1+N(s,a)}
+\end{equation}
+$$
+
+I reimplemented a simple functional version of this algorithm in the notebook, with few minor changes from the [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) code.
 
 <script src="https://gist.github.com/Xmaster6y/fd8ff108d39b0fdd09cb49e6809d2c54.js"></script>
 ### Network Decomposition
 
-In order to use Znnit it is important to remember how it is implemented. Many difficulties arise in practice.
+In order to use [Zennit](https://zennit.readthedocs.io/en/latest/) it is important to remember how it is implemented. Many difficulties arise in practice.
 
 First all used modules should be instanciated under the target module (even activations). Then softmax should not be used because of the exponential. Here it can be safely removed as the output are the soflogmax which is a simple translation of the raw logits and doesn't change the softmax used after to select the next action.
 
@@ -101,6 +113,10 @@ R_{j}^{[l]}=\sum_{k}\dfrac{1}{\sum_j 1}R_k^{[l+1]}
 \end{equation}
 $$
 ### Interpretation
+
+> [!warning] Disclaimer
+> 
+> The following experiments are highly shallow and I don't pretend they are highly relevant nor valuable. This work is only for illustrative purposes and definitely needs more digging. If you are interested for a follow-up of this project (by yourself or by me) and/or have questions, feel free to [contact](/about/#contact) me.
 
 First here is the flat relevances induced from the first layer. This is fairly important as the flat rule will be used for the first layer in order to get relevances 
 
@@ -128,3 +144,4 @@ A drafty notebook that self-contains all the practical experiments presented her
 > 5. Thakoor, Shantanu, et al. "Learning to play othello without human knowledge." _Stanford University_, 2016.
 > 6. Anders, Christopher J., et al. "Software for Dataset-wide XAI: From Local Explanations to Global Insights with Zennit, CoRelAy, and ViRelAy." _ArXiv_, 2021.
 > 7. Achtibat, Reduan, et al. "From Attribution Maps to Human-understandable Explanations through Concept Relevance Propagation." _Nature Machine Intelligence_, vol. 5, no. 9, 2023.
+> 8. Silver, David, et al. "Mastering the Game of Go Without Human Knowledge." Nature, vol. 550, no. 7676, 2017.
