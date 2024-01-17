@@ -141,17 +141,17 @@ $$
 All the LRP computation can be done using the original authors' library [Zennit](https://zennit.readthedocs.io/en/latest/) [@6](#resources).
 In practice the graph and back-propagation mechanism of `torch.autograd` is used using backward hooks, see the snipet bellow. The models need to implement the forward pass only using proper modules (child of the model instance) for them to be detected by [Zennit](https://zennit.readthedocs.io/en/latest/) and hooked. And since it relies one the full back-propagation every module of the graph should be hooked (even activation functions).
 
-**Pass rule:** This is a practical rule necessary regarding [Zennit](https://zennit.readthedocs.io/en/latest/) implementation. In practice even activation functions should be hooked because otherwise the classical gradient will be computed during the backward pass. And since the actual relevance propagation is carried by other module hooks (Linear, Conv, etc.) no modification should be done (it's a pass-through). It is typically used for activation functions.
+**Pass rule:** This is a practical rule necessary regarding [Zennit](https://zennit.readthedocs.io/en/latest/) implementation. In practice even activation functions should be hooked because otherwise the classical gradient will be computed during the backward pass. And since the actual relevance propagation is carried by other module hooks (`Linear`, `Conv`, etc.) no modification should be done (it's a pass-through). It is typically used for activation functions.
 
 <script src="https://gist.github.com/Xmaster6y/6734100a89f4ab9bd17fe24e84831d40.js"></script>
 
-This important snipet explain how backward hooks are coded in [Zennit](https://zennit.readthedocs.io/en/latest/) which is fundamental to design new rules. Besides **Rules** (derived from the `BasicHook`) other fundamental objects are available:
+This important snipet explain how backward hooks are coded in [Zennit](https://zennit.readthedocs.io/en/latest/) which is fundamental to design new rules. Besides **Rules**, derived from the `BasicHook`, other fundamental objects are available:
 
 - **Stabilizers**: $\epsilon$ term in the LRP-$\epsilon$, which make the computation numerically stable. All rules use it in practice.
-- `Canonizer`: Needed when using `BatchNorm` layers [@3](#resources), to reorder the computation.
+- **Canonizer**: Needed when using `BatchNorm` layers [@3](#resources), to reorder the computation.
 - **Composites**: To easily combine rules.
 
-To illustrate rules below is a snipet of the $z^+$ rule implementation.  weights modifiers LRP-$0$.The input modifiers are how to practically derive the rules with the lightest hook as possible.
+To illustrate rules below is a snipet of the $z^+$ rule implementation. The first element is `param_modifiers` which is used to modify the weights of the module, like here to separate positive and negative weights or like in LRP-$0$ to set the biases to zero. Then there are the `input_modifiers` and the `output_modifiers` which enable lightweightly to modify the forward pass (using the modified weights). In the rule below they are used to separate positive from negative inputs. Finally the `gradient_mapper` is used to compute the final form of the rule ($\Omega_{jk}$) here one for positive and one for negative contribution and the `reducer` compute the module relevance ($R_j$).
 
 <script src="https://gist.github.com/Xmaster6y/a87cb4c058c47558e0f3cb9634b419e5.js"></script>
 
