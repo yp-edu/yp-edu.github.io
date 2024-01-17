@@ -70,7 +70,7 @@ layout: default
   {% endif %}
 {% endfor %}
 
-{% assign collection = site.projects | sort: "publishedOn" | reverse %}
+{% assign collection = site.articles | sort: "publishedOn" | reverse %}
 {% assign article_count = 0 %}
 {% for item in collection %}
   {% if item.name != "index.md"%}
