@@ -65,6 +65,16 @@ defaults:
       layout: 'story'
   - scope:
       path: ''
+      type: 'projects'
+    values:
+      layout: 'story'
+  - scope:
+      path: ''
+      type: 'articles'
+    values:
+      layout: 'story'
+  - scope:
+      path: ''
       type: 'drafts'
     values:
       layout: 'story'
