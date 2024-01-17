@@ -94,22 +94,22 @@ $$
 
 ### Different Rules for Different Layers
 
-Intuitively the relevance propagation rules should be dependent on the layers nature as is the forward flow. Fundamentally this idea comes from the ambition of tracking the model's various kind of actual computation into each relevance. The classical framework for deriving these rules are Deep Taylor's series Decomposition (DTD) [@10](#resources), yet it should be justified with care [@6](#resources). I'll now present the necessary rules needed for the experiments I conducted, whose derivation can be found in the various linked [resources](#resources).
+Intuitively the relevance propagation rules should be dependent on the layers nature as is the forward flow. Fundamentally this idea comes from the ambition of tracking the model's various kind of actual computation into each relevance. The classical framework for deriving these rules are Deep Taylor's series Decomposition (DTD) [@10](#resources), yet it should be justified with care [@6](#resources). I'll now present the necessary rules needed for the experiments I conducted, whose derivation can be found in the various linked [resources](#resources) (most of them assumes ReLU which is the case here).
 
 > [!info] Notation
 > 
 > The layer superscript is dropped in this section for readability and since all the rules will be applied on consecutive layers. The index $j$ still refers to layer $l$ and the index $k$ to layer $l+1$.
 
-**LRP-$\epsilon$ [@1](#resources):**  Defined by the equation $\ref{eq:lrpe_rule}$, it introduces $\epsilon$, a numerical stabilizer. This trick is great in practice but has the drawback to make the propagation mechanism not conservative. This rule is made for linear mappings (Linear & BatchNorm).
+**LRP-$\epsilon$ [@1](#resources):**  Defined by the equation $\ref{eq:lrpe_rule}$, it introduces $\epsilon$, a numerical stabilizer and the $z$ coefficients are set accordingly to the equation $\ref{eq:original_lrp_rule}$ ($z_{jk}=w_{kj}a_j$ and $z_k=\sum_{j}w_{kj}a_{j}+b_k$). A variant of this rule can be computed by setting the biases to $0$ but this is not enough for the propagation to be conservative. The stabiliser $\epsilon$, will absord some relevance and should therefore be kept as small as possible. In practice this rule is made for linear mappings (`Linear` & `BatchNorm`).
 
 $$
 \begin{equation}
 %\label{eq:lrpe_rule}
-\Omega_{jk}=\dfrac{z_{kj}}{\sum_jz_{kj}+\epsilon \cdot {\rm sign}\left(\sum_jz_{kj}\right)}
+\Omega_{jk}=\dfrac{z_{jk}}{z_{k}+\epsilon \cdot {\rm sign}\left(z_{k}\right)}
 \end{equation}
 $$
 
-**$z^+$ [@10](#resources):** Defined by the equation $\ref{eq:zplus_rule}$ where $w_{kj}^+$ stands for the positive part of $w_{kj}$. Used for convolution. This rule is conservative and positive (and thus consistent).
+**$z^+$ [@10](#resources):** Defined by the equation $\ref{eq:zplus_rule}$, where $w_{kj}^+$ stands for the positive part of $w_{kj}$, i.e. $w_{kj}^+$ if $w_{kj}<0$. This rule is conservative and positive (and thus consistent [@10](#resources)). In practice this rule is used for convolution.
 
 $$
 \begin{equation}
@@ -118,7 +118,7 @@ $$
 \end{equation}
 $$
 
-**$w^2$ [@4](#resources):** Defined by the equation $\ref{eq:wsquare_rule}$, this rule is meant for early layers. In practice it is only used for the first layer, e.g. in order to propagate relevance to dead input neurons. This rule is conservative and positive (and thus consistent).
+**$w^2$ [@4](#resources):** Defined by the equation $\ref{eq:wsquare_rule}$, this rule is meant for early layers. This rule is conservative and positive (and thus consistent). In practice it is used for the first layer, e.g. in order to propagate relevance to dead input neurons.
 
 $$
 \begin{equation}
@@ -127,7 +127,7 @@ $$
 \end{equation}
 $$
 
-**Flat [@4](#resources):** Defined by the equation $\ref{eq:flat_rule}$, this rule is similar to $z^+$ but assuming a constant weighting. It therefore redistributes equally the relevance across every preceding neuron. In practice it is only used for the first layer, e.g. in order to propagate relevance to dead input neurons. This rule is conservative and positive (and thus consistent).
+**Flat [@4](#resources):** Defined by the equation $\ref{eq:flat_rule}$, this rule is similar to $w^2$ but assuming a constant weighting. It therefore redistributes equally the relevance across every preceding neuron. This rule is conservative and positive (and thus consistent). In practice it is used for the first layer, e.g. in order to propagate relevance to dead input neurons.
 
 $$
 \begin{equation}
@@ -139,19 +139,27 @@ $$
 ### Technical Details
 
 All the LRP computation can be done using the original authors' library [Zennit](https://zennit.readthedocs.io/en/latest/) [@6](#resources).
-Backpass modification. Needs proper modules
+In practice the graph and back-propagation mechanism of `torch.autograd` is used using backward hooks, see the snipet bellow. The models need to implement the forward pass only using proper modules (child of the model instance) for them to be detected by [Zennit](https://zennit.readthedocs.io/en/latest/) and hooked. And since it relies one the full back-propagation every module of the graph should be hooked (even activation functions).
 
-Backward hooks snipet bellow. Stabilisers like in the LRP-$\epsilon$, weights modifiers LRP-$0$. Cannonisers are needed like when using batchnorm layers[@3](#resources). The input modifiers are how to practically derive the rules with the lightest hook as possible.
+**Pass rule:** This is a practical rule necessary regarding [Zennit](https://zennit.readthedocs.io/en/latest/) implementation. In practice even activation functions should be hooked because otherwise the classical gradient will be computed during the backward pass. And since the actual relevance propagation is carried by other module hooks (Linear, Conv, etc.) no modification should be done (it's a pass-through). It is typically used for activation functions.
 
 <script src="https://gist.github.com/Xmaster6y/6734100a89f4ab9bd17fe24e84831d40.js"></script>
 
-**Pass :** This is a practical rule necessary regarding [Zennit](https://zennit.readthedocs.io/en/latest/) implementation. It is typically used for activation modules.
+This important snipet explain how backward hooks are coded in [Zennit](https://zennit.readthedocs.io/en/latest/) which is fundamental to design new rules. Besides **Rules** (derived from the `BasicHook`) other fundamental objects are available:
+
+- **Stabilizers**: $\epsilon$ term in the LRP-$\epsilon$, which make the computation numerically stable. All rules use it in practice.
+- `Canonizer`: Needed when using `BatchNorm` layers [@3](#resources), to reorder the computation.
+- **Composites**: To easily combine rules.
+
+To illustrate rules below is a snipet of the $z^+$ rule implementation.  weights modifiers LRP-$0$.The input modifiers are how to practically derive the rules with the lightest hook as possible.
+
+<script src="https://gist.github.com/Xmaster6y/a87cb4c058c47558e0f3cb9634b419e5.js"></script>
 
 ## Interpreting Othello Zero
 
 ### Playing Othello
 
-Before digging into the actual interpretation of the network I borrowed from [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) [@7](#resources), it is important to understand how it is used in practice and how it was trained. I highly recommend to check their code on [Github](https://github.com/suragnair/alpha-zero-general) or the associated [blog post](https://web.stanford.edu/~surag/posts/alphazero.html).
+Before digging into the actual interpretation of the network I borrowed from [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) [@7](#resources), it is important to understand how it is used in practice and how it was trained. I highly recommend to check their code on [Github](https://github.com/suragnair/alpha-zero-general) or the associated [blog post](https://web.stanford.edu/~surag/posts/alphazero.html) as well as the original Alpha Zero paper [@9](#resources).
 
 Tree representation of game (Min-Max, Alpha-Beta, MCTS, ...) is an intuitive representation of a game starting from the root (the current position), the nodes (board states $s$) and the edges (action chosen for a given state $(s,a)$). The Alpha Zero paper [@8](#resources) used MCTS PUCT, with the upper bound confidence (UCB) is given by the equation $\ref{eq:upper_confidence_boundary}$. This equation involves network predictions as $P(s,a)$ is the policy vector and $Q(s,a)$ is the average expected value over the visited children.
 
