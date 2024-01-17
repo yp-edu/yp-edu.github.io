@@ -11,7 +11,7 @@ publishedOn: 2024-01-16
 editedOn: 2024-01-16
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 12
+readingTime: 14
 image: /assets/images/layer-wise-relevance-propagation.png
 description: TL;DR> Layer-Wise Relevance Propagation (LRP) is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
 ---
@@ -159,29 +159,45 @@ To illustrate rules below is a snipet of the $z^+$ rule implementation. The firs
 
 ### Playing Othello
 
-Before digging into the actual interpretation of the network I borrowed from [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) [@7](#resources), it is important to understand how it is used in practice and how it was trained. I highly recommend to check their code on [Github](https://github.com/suragnair/alpha-zero-general) or the associated [blog post](https://web.stanford.edu/~surag/posts/alphazero.html) as well as the original Alpha Zero paper [@9](#resources).
+Before digging into the actual interpretation of the network I borrowed from [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) [@8](#resources), it is important to understand how it is used in practice and how it was trained. I highly recommend to check their code on [Github](https://github.com/suragnair/alpha-zero-general) or the associated [blog post](https://web.stanford.edu/~surag/posts/alphazero.html) as well as the original Alpha Zero paper [@9](#resources).
 
-Tree representation of game (Min-Max, Alpha-Beta, MCTS, ...) is an intuitive representation of a game starting from the root (the current position), the nodes (board states $s$) and the edges (action chosen for a given state $(s,a)$). The Alpha Zero paper [@8](#resources) used MCTS PUCT, with the upper bound confidence (UCB) is given by the equation $\ref{eq:upper_confidence_boundary}$. This equation involves network predictions as $P(s,a)$ is the policy vector and $Q(s,a)$ is the average expected value over the visited children.
+Tree representation of game (Min-Max, Alpha-Beta, MCTS, ...) is an intuitive representation of a game whose main components are the root (the current position), the nodes (board states $s$) and the edges (action chosen for a given state $(s,a)$). Regarding search, the Alpha Zero paper [@9](#resources) used MCTS PUCT [@11](#resources), with the upper bound confidence (UCB) given by the equation $\ref{eq:upper_confidence_boundary}$. This equation involves network predictions (heuristic) with $P_\theta(s)$ the policy vector and $Q_s$ is the average expected value over the visited children (terminal reward or intermediate network evaluation, i.e. the value $v_\theta(s)$). $c_{\rm puct}$ is a constant to balance exploration and exploitation and after multiple rollouts the action is chosen often after the visit distribution $N_s/||N_{s}||_1$ that can be tempered with $\tau$, i.e.  $N_s^{1/\tau}/{||N_{s}||_{1/\tau}}^{1/\tau}$.
 
 $$
 \begin{equation}
 %\label{eq:upper_confidence_boundary}
-    U_s=Q_s+c_{\rm puct}\cdot \pi(s) \cdot \dfrac{\sqrt{||N_{sb}||_1}}{1+N_{s}}
+    U_s=Q_s+c_{\rm puct}\cdot P_\theta(s) \cdot \dfrac{\sqrt{||N_{s}||_1}}{1+N_{s}}
 \end{equation}
 $$
 
-I reimplemented a simple functional version of this algorithm in the notebook, with few minor changes from the [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) code.
+The network is trained combining the a loss from the value and the policy predictions. It especially makes sense since these predictions share a common graph (architecture) in the model. The value output $v_\theta(s)$ should predict the ending reward of the game $z$ (-1, 0 or 1 depending on the outcome) and the policy output $P_\theta(s)$ should predict the action sampling distribution obtained after search $\pi_s$. The loss is then [@9](#resources):  
+
+$$
+\begin{equation}
+%\label{eq:training_loss}
+    l= (z- v_\theta(s))^2 + \pi \cdot {\rm log (P_\theta(s))}
+\end{equation}
+$$
+
+In my drafty accompanying notebook [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ozMKtcRS9nRtvUfwZwj00ZZNpui5MhLr?usp=sharing), I chose functional version of this algorithm, with few minor changes from the [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) code. Also, I put below a slightly modified version of the MCTS compatible with the LRP framework.  The idea is quite simple, you have to keep track of the gradient in order to latter perform a backward pass under [Zennit](https://zennit.readthedocs.io/en/latest/) context. In this way you could interpret the aggregated quantities $Q_s$ and $U_s$ in term of relevance. These quantities carry information about the subsequent tree from node $s$ and could be used a posteriori or during inference.
 
 <script src="https://gist.github.com/Xmaster6y/fd8ff108d39b0fdd09cb49e6809d2c54.js"></script>
+
+> [!warning] Disclaimer
+> 
+> This last piece of work is only exploratory and I have made no digging in this direction yet. But I am convinced that refining and experimenting in this direction could lead to interesting tracks like tree analysis or relevance guided search.
+
 ### Network Decomposition
 
-In order to use [Zennit](https://zennit.readthedocs.io/en/latest/) it is important to remember how it is implemented. Many difficulties arise in practice.
+In order to use [Zennit](https://zennit.readthedocs.io/en/latest/) it is important to remember how it is implemented and adapt the network accordingly. First all used modules should be instanciated under the target module (even activations). Then softmax should not be used because of the exponential. Here it can be safely removed as the output are the soflogmax which is a simple translation of the raw logits and doesn't change the action sampling.
 
-First all used modules should be instanciated under the target module (even activations). Then softmax should not be used because of the exponential. Here it can be safely removed as the output are the soflogmax which is a simple translation of the raw logits and doesn't change the softmax used after to select the next action.
+The network architecture is quite simple as it is a basic CNN mostly using ReLU activation. For the convolution layer I'll use the $z^+$ rule and for the linear mapping (including batch normalisation) I'll use LRP-$\epsilon$. These settings are recommended but you could try various different ones. To evaluate the different combination of rules refer to the [evaluation](#evaluation) section. 
 
-It is important to acknowledge the similarity in computation of the value and the policy. This will lead to very close relevances heatmap as only one layer differ. 
+> [!danger] Gotcha
+> 
+> It is important to acknowledge the similarity in computation for the value and the policy. This will expectedly lead to very close relevance heatmaps as only one layer differ between the two.
 
-One other practical limitation concern the empty cells. Using traditional LRP rules their relevance will be zero. Indeed during the computation the model doesn't use these pixels but it rather uses biases relevances. In order to overcome this difficulty it is possible to use a Flat rule, equation $\ref{eq:flat_rule}$, in the first layer to distribute equally the relevances among pixels.
+One practical limitation for interpreting board games concern the empty cells. Using traditional LRP rules will attribute zero relevance to those cells. Indeed during the computation the model doesn't use these pixels but it rather uses biases. In order to overcome this difficulty I propose to use the Flat or the $w^2$ rules in the first layer.
 
 ### Interpretation
 
@@ -200,13 +216,13 @@ It is important to keep in mind that producing a heatmap is easy but interpretin
 
 It also was a critic of LRP with the DTD framing [@6](#resources) as interpreting an input-dependant heatmap is about interpreting an input and not really the model.
 
-Some faithfullness measure algorithm exisits. I'll describ randomisation using most-relevant pixel flipping. In practice this can be used to compare XAI methods. For example it could be used to verify that the rules derived using DTD are actually the best fited for each layer kind.
+Some faithfullness measure algorithm exisits. I'll describ randomisation using most-relevant pixel flipping [@12](#resources). In practice this can be used to compare XAI methods. For example it could be used to verify that the rules derived using DTD are actually the best fited for each layer kind.
 
 ## Resources
 
-A drafty notebook that self-contains all the practical experiments presented here and more is available on Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ozMKtcRS9nRtvUfwZwj00ZZNpui5MhLr?usp=sharing). And bellow is a list of references containing the papers and code used in this post as well as additional resources.
+A drafty notebook that self-contains all the practical experiments presented here and more is available on Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ozMKtcRS9nRtvUfwZwj00ZZNpui5MhLr?usp=sharing). I first explored the network capabilities like the policy prediction and the games play. And bellow is a list of references containing the papers and code mentionned in this post.
 
-- [@5](#resources) extends LRP to discover concepts.
+In particular I think that the method describe in [@5](#resources)  could be the perfect match for a follow-up. It extends the LRP framework to discover concepts, i.e. global explanation. Basically LRP serves as a mean to discover local relevant neurons and paths. Then concepts are discovered using an activation maximisation on these neurons.
 
 > [!quote] References
 > 
@@ -220,3 +236,5 @@ A drafty notebook that self-contains all the practical experiments presented her
 > 8. Thakoor, Shantanu, et al. "Learning to play othello without human knowledge." _Stanford University_, 2016.
 > 9. Silver, David, et al. "Mastering the Game of Go Without Human Knowledge." Nature, vol. 550, no. 7676, 2017.
 > 10. Montavon, Grégoire, et al. "Explaining Nonlinear Classification Decisions with Deep Taylor Decomposition." _Pattern Recognition_, vol. 65, 2017.
+> 11. Rosin, Christopher D. “Multi-armed bandits with episode context,” Annals of Mathematics and Artificial Intelligence, vol. 61, pp. 203–230, 09 2010.
+> 12. Hedström, Anna, et al. "Quantus: An Explainable AI Toolkit for Responsible Evaluation of Neural Network Explanations and Beyond." _Journal of Machine Learning Research_, vol. 24, no. 34, 2023.
