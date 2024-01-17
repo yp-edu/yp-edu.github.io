@@ -4,13 +4,13 @@ layout: default
 
 {% assign title = page.title %}
 
-<h1>Tagged <em class="tag-title">#{{ title }}</em></h1>
+<h1>Tagged <em class="tag-title">#{{ page.tag }}</em></h1>
 <section>
 {% assign collection = site.stories | sort: "publishedOn" | reverse %}
 {% assign story_count = 0 %}
 {% for item in collection %}
   {% if item.name != "index.md"%}
-    {% if item.tags contains page.title %}
+    {% if item.tags contains page.tag %}
       {% if story_count == 0 %}
       <h2># <a href={{ "/stories/" | absolute_url }}>Stories</a></h2>
       {% endif %}
@@ -42,7 +42,7 @@ layout: default
 {% assign project_count = 0 %}
 {% for item in collection %}
   {% if item.name != "index.md"%}
-    {% if item.tags contains page.title %}
+    {% if item.tags contains page.tag %}
       {% if project_count == 0 %}
       <h2># <a href={{ "/projects/" | absolute_url }}>Projects</a></h2>
       {% endif %}
@@ -74,7 +74,7 @@ layout: default
 {% assign article_count = 0 %}
 {% for item in collection %}
   {% if item.name != "index.md"%}
-    {% if item.tags contains page.title %}
+    {% if item.tags contains page.tag %}
       {% if article_count == 0 %}
       <h2># <a href={{ "/articles/" | absolute_url }}>Articles</a></h2>
       {% endif %}
@@ -101,4 +101,5 @@ layout: default
     {% endif %}
   {% endif %}
 {% endfor %}
+<h3> <a href="/tags">> All tags</a></h2>
 </section>

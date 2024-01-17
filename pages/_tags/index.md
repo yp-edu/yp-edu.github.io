@@ -1,4 +1,4 @@
 ---
 title: Tags
-layout: listing
+layout: listing-tags
 ---
