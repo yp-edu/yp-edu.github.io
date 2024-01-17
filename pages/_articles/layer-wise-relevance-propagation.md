@@ -158,12 +158,19 @@ To illustrate rules, below is a snippet of the $z^+$ rule implementation. The fi
 
 Before digging into the actual interpretation of the network I borrowed from [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) [@8](#resources), it is important to understand how it is used in practice and how it was trained. I highly recommend checking their code on [Github](https://github.com/suragnair/alpha-zero-general) or the associated [blog post](https://web.stanford.edu/~surag/posts/alphazero.html) as well as the original Alpha Zero paper [@9](#resources).
 
-Tree representation of game (Min-Max, Alpha-Beta, MCTS, ...) is an intuitive representation of a game whose main components are the root (the current position), the nodes (board states $s$) and the edges (action chosen for a given state $(s,a)$). Regarding search, the Alpha Zero paper [@9](#resources) used MCTS PUCT [@11](#resources), with the upper bound confidence (UCB) given by the equation $\ref{eq:upper_confidence_boundary}$. This equation involves network predictions (heuristic) with $P_\theta(s)$ the policy vector and $Q_s$ is the average expected value over the visited children (terminal reward or intermediate network evaluation, i.e. the value $v_\theta(s)$). $c_{\rm puct}$ is a constant to balance exploration and exploitation and after multiple rollouts the action is chosen often after the visit distribution $N_s/||N_{s}||_1$ that can be tempered with $\tau$, i.e.  $N_s^{1/\tau}/{||N_{s}||_{1/\tau}}^{1/\tau}$.
+Tree representation of game (Min-Max, Alpha-Beta, MCTS, ...) is an intuitive representation of a game whose main components are the root (the current position), the nodes (board states $s$) and the edges (action chosen for a given state $(s,a)$). Regarding search, the Alpha Zero paper [@9](#resources) used MCTS PUCT [@11](#resources), with the upper bound confidence (UCB) given by the equation $\ref{eq:upper_confidence_boundary}$. This equation involves network predictions (heuristic) with $P_\theta(s)$ the policy vector and $Q_s$ is the average expected value over the visited children (terminal reward or intermediate network evaluation, i.e. the value $v_\theta(s)$). $c_{\rm puct}$ is a constant to balance  exploitation with exploration and after multiple rollouts the action is often chosen according to the tempered visit distribution, $\pi_s$ , given by the equation $\ref{eq:visit_distribution}$, with $\tau$ the temperature.
 
 $$
 \begin{equation}
 %\label{eq:upper_confidence_boundary}
     U_s=Q_s+c_{\rm puct}\cdot P_\theta(s) \cdot \dfrac{\sqrt{||N_{s}||_1}}{1+N_{s}}
+\end{equation}
+$$
+
+$$
+\begin{equation}
+%\label{eq:visit_distribution}
+    \pi_s = \dfrac{N_s^{1/\tau}}{ {||N_{s}||_{1/\tau}}^{1/\tau}}
 \end{equation}
 $$
 
