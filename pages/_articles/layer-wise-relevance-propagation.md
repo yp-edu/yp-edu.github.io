@@ -8,10 +8,10 @@ references:
 aliases: 
 crossposts: 
 publishedOn: 2024-01-16
-editedOn: 2024-01-17
+editedOn: 2024-01-18
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 16
+readingTime: 18
 image: /assets/images/layer-wise-relevance-propagation.png
 description: TL;DR> Layer-Wise Relevance Propagation (LRP) is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
 ---
@@ -43,7 +43,7 @@ LRP [@1](#resources) is a local interpretability method which attributes relevan
 
 > [!info] Notation
 > 
-> The activation of the $j$-th neuron in the layer $l$ is noted $a_j^{[l]}$ and its associated relevance is noted $R_j^{[l]}$ and by convention $a_j^{[0]}$ represents the input. Weights are indexed similarly such that if the layer $l+1$ is linear its weights are noted $w_{kj}^{[l+1]}$ ([torch convention](https://pytorch.org/docs/stable/generated/torch.nn.Linear.html)) and $b_k^{[l+1]}$ performing the mapping, to the $k$-th neuron of the layer $l+1$, given by equation $\ref{eq:linear_mapping}$ where $g$ is the activation function.
+> The activation of the $j$-th neuron in the layer $l$ is noted $a_j^{[l]}$ and its associated relevance is noted $R_j^{[l]}$ and by convention $a_j^{[0]}$ represents the input and $R_j^{[L]}$ the target output. Weights are indexed similarly such that if the layer $l+1$ is linear its weights are noted $w_{kj}^{[l+1]}$ ([torch convention](https://pytorch.org/docs/stable/generated/torch.nn.Linear.html)) and $b_k^{[l+1]}$ performing the mapping, to the $k$-th neuron of the layer $l+1$, given by equation $\ref{eq:linear_mapping}$ where $g$ is the activation function.
 
 $$
 \begin{equation}
@@ -91,7 +91,7 @@ $$
 
 ### Different Rules for Different Layers
 
-Intuitively, the relevance propagation rules should be dependent on the layer's nature, as is the forward flow. Fundamentally, this idea comes from the ambition of tracking the model's various kinds of actual computation into each relevance. The classical framework for deriving these rules is Deep Taylor's series Decomposition (DTD) [@10](#resources), yet it should be justified with care [@6](#resources). I'll now present the necessary rules needed for the experiments I conducted, whose derivation can be found in the various linked [resources](#resources) (most of them assume ReLU, which is the case here).
+Intuitively, the relevance propagation rules should be dependent on the layer's nature, as is the forward flow. Fundamentally, this idea comes from the ambition of tracking the model's various kinds of actual computation into each relevance. The classical framework for deriving these rules is Deep Taylor's series Decomposition (DTD) [@6](#resources), yet it should be justified with care [@7](#resources). I'll now present the necessary rules needed for the experiments I conducted, whose derivation can be found in the various linked [resources](#resources) (most of them assume ReLU, which is the case here).
 
 > [!info] Notation
 > 
@@ -106,7 +106,7 @@ $$
 \end{equation}
 $$
 
-**$z^+$ [@10](#resources):** Defined by the equation $\ref{eq:zplus_rule}$, where $w_{kj}^+$ stands for the positive part of $w_{kj}$, i.e. $w_{kj}^+$ if $w_{kj}<0$. This rule is conservative and positive (and thus consistent [@10](#resources)). In practice, this rule is used for convolution.
+**$z^+$ [@6](#resources):** Defined by the equation $\ref{eq:zplus_rule}$, where $w_{kj}^+$ stands for the positive part of $w_{kj}$, i.e. $w_{kj}^+$ if $w_{kj}<0$. This rule is conservative and positive (and thus consistent [@6](#resources)). In practice, this rule is used for convolution.
 
 $$
 \begin{equation}
@@ -135,7 +135,7 @@ $$
 
 ### Technical Details
 
-All the LRP computation can be done using the original authors' library [Zennit](https://zennit.readthedocs.io/en/latest/) [@6](#resources).
+All the LRP computation can be done using the original authors' library [Zennit](https://zennit.readthedocs.io/en/latest/) [@8](#resources).
 In practice, the graph and back-propagation mechanism of `torch.autograd` is used using backward hooks; see the snippet below. The models need to implement the forward pass only using proper modules (child of the model instance) for them to be detected by [Zennit](https://zennit.readthedocs.io/en/latest/) and hooked. And since it relies on full back-propagation, every module of the graph should be hooked (even activation functions).
 
 **Pass rule:** This is a practical rule necessary regarding [Zennit](https://zennit.readthedocs.io/en/latest/) implementation. In practice, even activation functions should be hooked because otherwise, the classical gradient will be computed during the backward pass. And since the actual relevance propagation is carried by other module hooks (`Linear`, `Conv`, etc.), no modification should be done (it's a pass-through). It is typically used for activation functions.
@@ -156,9 +156,9 @@ To illustrate rules, below is a snippet of the $z^+$ rule implementation. The fi
 
 ### Playing Othello
 
-Before digging into the actual interpretation of the network I borrowed from [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) [@8](#resources), it is important to understand how it is used in practice and how it was trained. I highly recommend checking their code on [Github](https://github.com/suragnair/alpha-zero-general) or the associated [blog post](https://web.stanford.edu/~surag/posts/alphazero.html) as well as the original Alpha Zero paper [@9](#resources).
+Before digging into the actual interpretation of the network I borrowed from [Alpha Zero General](https://github.com/suragnair/alpha-zero-general) [@9](#resources), it is important to understand how it is used in practice and how it was trained. I highly recommend checking their code on [Github](https://github.com/suragnair/alpha-zero-general) or the associated [blog post](https://web.stanford.edu/~surag/posts/alphazero.html) as well as the original Alpha Zero paper [@10](#resources).
 
-Tree representation of game (Min-Max, Alpha-Beta, MCTS, ...) is an intuitive representation of a game whose main components are the root (the current position), the nodes (board states $s$) and the edges (action chosen for a given state $(s,a)$). Regarding search, the Alpha Zero paper [@9](#resources) used MCTS PUCT [@11](#resources), with the upper bound confidence (UCB) given by the equation $\ref{eq:upper_confidence_boundary}$. This equation involves network predictions (heuristic) with $P_\theta(s)$ the policy vector and $Q_s$ is the average expected value over the visited children (terminal reward or intermediate network evaluation, i.e. the value $v_\theta(s)$). $c_{\rm puct}$ is a constant to balance  exploitation with exploration and after multiple rollouts the action is often chosen according to the tempered visit distribution, $\pi_s$ , given by the equation $\ref{eq:visit_distribution}$, with $\tau$ the temperature.
+Tree representation of game (Min-Max, Alpha-Beta, MCTS, ...) is an intuitive representation of a game whose main components are the root (the current position), the nodes (board states $s$) and the edges (action chosen for a given state $(s,a)$). Regarding search, the Alpha Zero paper [@10](#resources) used MCTS PUCT [@11](#resources), with the upper bound confidence (UCB) given by the equation $\ref{eq:upper_confidence_boundary}$. This equation involves network predictions (heuristic) with $P_\theta(s)$ the policy vector and $Q_s$ is the average expected value over the visited children (terminal reward or intermediate network evaluation, i.e. the value $v_\theta(s)$). $c_{\rm puct}$ is a constant to balance  exploitation with exploration and after multiple rollouts the action is often chosen according to the tempered visit distribution, $\pi_s$ , given by the equation $\ref{eq:visit_distribution}$, with $\tau$ the temperature.
 
 $$
 \begin{equation}
@@ -174,7 +174,7 @@ $$
 \end{equation}
 $$
 
-The network is trained by combining the loss from the value and the policy predictions. It especially makes sense since these predictions share a common graph (architecture) in the model. The value output $v_\theta(s)$ should predict the ending reward of the game $z$ (-1, 0 or 1 depending on the outcome) and the policy output $P_\theta(s)$ should predict the action sampling distribution obtained after search $\pi_s$. The loss is then [@9](#resources):  
+The network is trained by combining the loss from the value and the policy predictions. It especially makes sense since these predictions share a common graph (architecture) in the model. The value output $v_\theta(s)$ should predict the ending reward of the game $z$ (-1, 0 or 1 depending on the outcome) and the policy output $P_\theta(s)$ should predict the action sampling distribution obtained after search $\pi_s$. The loss is then [@10](#resources):  
 
 $$
 \begin{equation}
@@ -209,16 +209,35 @@ One practical limitation for interpreting board games concerns the empty cells. 
 > 
 > The following experiments are highly shallow, and I don't pretend they are highly relevant or valuable. This work is only for illustrative purposes and definitely needs more digging. If you are interested in a follow-up of this project (by yourself or by me) and/or have questions, feel free to [contact](/about/#contact) me.
 
-First, here are the flat relevances induced from the first layer. This is fairly important as the flat rule will be used for the first layer in order to get relevance. 
+I'll now study a particular board picked during a self-played game with different parameters for black and white ($c_{\rm puct}=0.1$. for black and $c_{\rm puct}=2$ for white) using 10 rollouts per move and keeping the data from the previous moves. Playing multiple games with these parameters shows that the middle game is dominated by black while the endgame is dominated by black, i.e. exploration is a long-run payoff. I picked board 31 (black to move) as it is balanced (before black domination). Using the described rules, with Flat in the first layer, the relevance heatmap obtained is plotted in Figure [2](#v-relevance-flat). The value relevance is localised around the best move (B6), found by the MCTS, and negative or close to 0 around illegal moves.
 
-![bias_relevance](layer-wise-relevance-propagation_bias_relevance.png)
-{: .im-center}
+![v_relevance_flat](layer-wise-relevance-propagation_v_relevance_flat.png)
+*Figure 2: Value relevance heatmap using Flat, $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.*
+{: .im-center#v-relevance-flat}
+
+Yet, is it really what I think it is? Remember that the biases and the Flat rule are used here to compute the relevance. With the same rules, using an empty board yields the heatmap of Figure [3](#empty-relevance). 
+
+![empty_relevance](layer-wise-relevance-propagation_empty_relevance.png)
+*Figure 3: Value relevance heatmap of the empty board using Flat, $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.*
+{: .im-center#empty-relevance}
+
+If it is harder to interpret, I'll leave it for a more comprehensive study and change the Flat rule for a $z^+$ rule (the first layer is a convolution). This then yields the value relevance in Figure [4] and the policy relevance in Figure [5]. The value relevance is still localised around the best move, but it might be a correlation. Indeed, the relevance seems to indicate that the networks attribute more value to the pieces flipped by the move A7 that put a piece on the side. The way the network perceives value in sides and corners should be dug more. The policy relevance heatmap is more difficult to interpret, and note that the sign is due to logit initialisation. Yet, it attributes more relevance to the pieces flipped by the move B6.
+
+![v_relevance](layer-wise-relevance-propagation_v_relevance.png)
+*Figure 4: Value relevance heatmap using $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.*
+{: .im-center#v-relevance-flat}
+
+![pi_relevance](layer-wise-relevance-propagation_pi_relevance.png)
+*Figure 5: Policy relevance heatmap using $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.*
+{: .im-center#v-relevance-flat}
+
+The next section describes how to evaluate the explanation's faithfulness and robustness. Yet it was not successful as the board games add an extra layer of complexity since the input space is sparse. More complex considerations are needed.
 
 ### Evaluate an Explanation
 
-It is important to keep in mind that producing a heatmap is easy, but interpreting it in a faithful way is much harder. What's more, you also have to be careful about what **actually** is what you are visualising. There is sometimes a big difference between what you want to measure, what you think you're measuring and what you actually measure. In this meaning the produced heatmaps should be interpreted with care [@6@13](#resources).
+It is important to keep in mind that producing a heatmap is easy, but interpreting it in a faithful way is much harder. What's more, you also have to be careful about what **actually** is what you are visualising. There is sometimes a big difference between what you want to measure, what you think you're measuring and what you actually measure. In this meaning the produced heatmaps should be interpreted with care [@7@12](#resources).
 
-Measuring the faithfulness and robustness of the XAI method is an active topic of research, and I'll only present and use one here. The idea of [@12](#resources) is quite intuitive:
+Measuring the faithfulness and robustness of the XAI method is an active topic of research, and I'll only present and use one here. The idea of [@13](#resources) is quite intuitive:
 
 1. Assuming that you have computed a pixel relevance heatmap, you start by corrupting the most relevant pixel (using mean, black, white or random noise). 
 2. You observe the decrease of the target, e.g. a logit, and you compute your new heatmap.
@@ -240,11 +259,11 @@ In particular, I think that the method described in [@5](#resources)  could be t
 > 3. Binder, Alexander, et al. "Layer-wise Relevance Propagation for Neural Networks with Local Renormalization Layers." _ArXiv_, 2016.
 > 4. Lapuschkin, Sebastian, et al. "Unmasking Clever Hans Predictors and Assessing What Machines Really Learn." _Nature Communications_, vol. 10, no. 1, 2019.
 > 5. Achtibat, Reduan, et al. "From Attribution Maps to Human-understandable Explanations through Concept Relevance Propagation." _Nature Machine Intelligence_, vol. 5, no. 9, 2023.
-> 6. Sixt, Leon, and Tim Landgraf. "A Rigorous Study Of The Deep Taylor Decomposition." _ArXiv_, 2022.
-> 7. Anders, Christopher J., et al. "Software for Dataset-wide XAI: From Local Explanations to Global Insights with Zennit, CoRelAy, and ViRelAy." _ArXiv_, 2021.
-> 8. Thakoor, Shantanu, et al. "Learning to play othello without human knowledge." _Stanford University_, 2016.
-> 9. Silver, David, et al. "Mastering the Game of Go Without Human Knowledge." Nature, vol. 550, no. 7676, 2017.
-> 10. Montavon, Grégoire, et al. "Explaining Nonlinear Classification Decisions with Deep Taylor Decomposition." _Pattern Recognition_, vol. 65, 2017.
+> 6. Montavon, Grégoire, et al. "Explaining Nonlinear Classification Decisions with Deep Taylor Decomposition." _Pattern Recognition_, vol. 65, 2017.
+> 7. Sixt, Leon, and Tim Landgraf. "A Rigorous Study Of The Deep Taylor Decomposition." _ArXiv_, 2022.
+> 8. Anders, Christopher J., et al. "Software for Dataset-wide XAI: From Local Explanations to Global Insights with Zennit, CoRelAy, and ViRelAy." _ArXiv_, 2021.
+> 9. Thakoor, Shantanu, et al. "Learning to play othello without human knowledge." _Stanford University_, 2016.
+> 10. Silver, David, et al. "Mastering the Game of Go Without Human Knowledge." Nature, vol. 550, no. 7676, 2017.
 > 11. Rosin, Christopher D. “Multi-armed bandits with episode context,” Annals of Mathematics and Artificial Intelligence, vol. 61, pp. 203–230, 09 2010.
-> 12. Hedström, Anna, et al. "Quantus: An Explainable AI Toolkit for Responsible Evaluation of Neural Network Explanations and Beyond." _Journal of Machine Learning Research_, vol. 24, no. 34, 2023.
-> 13. Sixt, Leon, et al. "When Explanations Lie: Why Many Modified BP Attributions Fail." _ArXiv_, 2019.
+> 12. Sixt, Leon, et al. "When Explanations Lie: Why Many Modified BP Attributions Fail." _ArXiv_, 2019.
+> 13. Hedström, Anna, et al. "Quantus: An Explainable AI Toolkit for Responsible Evaluation of Neural Network Explanations and Beyond." _Journal of Machine Learning Research_, vol. 24, no. 34, 2023.
