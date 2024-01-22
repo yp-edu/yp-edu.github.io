@@ -6,7 +6,7 @@ permalink: /about/
 
 ## About me
 
-I am a French trainee researcher in AI with a focus on AI Safety.
+I am a French trainee researcher in AI with a focus on AI Safety, [here](/assets/files/CV_Yoann_Poupart.pdf) is a more detailed CV.
 I aspire to become a PhD candidate in September 2024.
 
 
