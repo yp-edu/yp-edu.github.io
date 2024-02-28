@@ -55,6 +55,7 @@ Already trained LLMs. Already worked on chess models like lc0. Already explored 
 ### General Framing
 
 Fine-tuning of a pre-trained model.
+
 ### Technical Details
 
 The training code is available on the associated GitHub repository [training-gpt2-on-stockfish-games](https://github.com/yp-edu/training-gpt2-on-stockfish-games).
@@ -68,6 +69,10 @@ The training code is available on the associated GitHub repository [training-gpt
 
 ### Straight-Forward Improvements
 
+
+> [!tip] Conditioned Model
+> 
+> Recent framing of RL as a (self-)supervised learning problem showed that training an agent on sub-optimal trajectories can lead to optimal stragies should the agent be conditioned on a reward signal. For example this is the setup of Imitation Learning [@2](#resources) and Decision Transformer [@3](#resources).
 
 
 ## Inspecting the Model
@@ -92,16 +97,47 @@ Always look at the distribution and the raw attention figure. The raw attention 
 
 ### Simple Interpretation
 
-**Configuration attention:** In term of configuration attention the crux is to predict the first letter of the move. I'll mostly aim to interpret attention of this token. While I didn't conduct in depth analysis it seems than latter token are mostly doing pooling of the previous representation.
+>[!warning] Disclaimer
+>
+> The following section contain rough preliminary results, experiments and takes, thus everything should be taken with care.
+
+**Configuration attention:** In term of configuration attention the crux is to predict the first letter of the move. I would mostly aim to interpret the attention of this token. While I didn't conduct in depth analysis it seems than latter token are mostly doing pooling of the previous representation.
 
 **Discovering simple heads:** The most simple heads will be located in the early layers. Interpreting latter heads is harder due to policementicity, convoluted circuits, high composition degree, you name it.
 
-**L1 H7:** Focuses on the knights but only when it is paired in a token. This is where this tokenisation gets anoying.
+**L1 H7:** Focuses on the knights but only when it is paired in a token, see the figure [1](#L1-H7). This is where this tokenisation gets annoying since it's hard to say what the model might have learned out of these paired tokens.
 
 
 ![L1 H7](training-gpt2-on-stockfish-games_L1_H7.svg)
-*Figure 1: L1 H7 configuration attention. FEN: `r1b1k1nr/pppp1ppp/2n1pq2/8/1b1PP3/2NQ4/PPP2PPP/R1B1KBNR w KQkq - 5 5`, Distribution: `Config`: 0.78 `Meta`: 0.10 `Dump`: 0.13.*
-{: .im-center#v-relevance-flat}
+*Figure 1: Configuration attention of the head 7 in layer 1. 
+FEN: `r1b1k1nr/pppp1ppp/2n1pq2/8/1b1PP3/2NQ4/PPP2PPP/R1B1KBNR w KQkq - 5 5`, Distribution: `Config`: 0.78 `Meta`: 0.10 `Dump`: 0.13.*
+{: .im-center#L1-H7}
+
+**e2e3 opening:** This opening is by far my favourite (not a strong player here ^^), but out of the `262k` training games only `13k` opens with `e2e3`. The main response to this opening is `e7e5` with 4k games. I then like to push my queen to `f3` but since this combination is not in the training games it seems that the model blunders doing `c7c5`. Pushing the bishop to `c4` leads the model to respond moving the knight to `c6` letting the queen go for the checkmate (so in 4). This feels expected since most likely, as a predictor, the LLM learned in a Bayesian way 
+
+$$p(a_4|s_4)=p(a_4|a_1, a_2, a_3)=p(a_4),$$
+
+since there is no prior on this sequence. 
+
+> [!tip] Counting Experiment
+> 
+> I think that counting all the games present in the dataset and comparing it the learned distribution could be a nice low hanging fruit experiment. The aim would be to examine the learned distribution on boards where the model has a prior against on boards where it has no prior. This toy experiment could be framed in the larger picture of prediction generalisation and coherence.
+
+**c7c5 blunder:** I am not giving reason for the aforemonetionned blunder here but mostly pointing the limitation of doing interpretability with attention. Inspecting the attention of the last layer after `1. e3 e5 2. Qf3` most heads are strongly attenting to the pawn in `e5`, see figure [2](#L12-H2), but in the end the pawn `c7` is moved. By the way **L12 H2** seems to focus on "player to move best placed pawn".
+
+![L1 H7](training-gpt2-on-stockfish-games_L12_H2.svg)
+*Figure 2: Configuration attention of the head 2 in layer 12. 
+FEN: `rnbqkbnr/pppp1ppp/8/4p3/8/4PQ2/PPPP1PPP/RNB1KBNR b KQkq - 1 2`, 
+Distribution: `Config`: 0.95 `Meta`: 0.01 `Dump`: 0.04.*
+{: .im-center#L12-H2}
+
+**b8c6 second blunder:** First it seems to fail seeing any danger or threat and continue to focus on pieces that would develop his position (like the knight move). Then as a white, before the kill, the model doesn't find the checkmate with the queen (obviously out-of-distribution here). Important to note that all training games are long since the self-play means two player of the approximate same level.
+
+> [!tip] Adaptative Strength Experiment
+> 
+> It could be interesting to see if such predictor model adapt its level to the adversary. Did it blunder because I played such weak moves (w.r.t. to the meta)? Does it play better is you use the book openings? This might be not straight forward since this correlates with out-of-distribution evaluation.
+
+This analysis is only preliminary so feel free to continue it and send me feedback, the discussion happens in this Discord [thread](https://discord.com/channels/729741769192767510/1112497516928315442) on Eleuther AI.
 
 ## Resources
 
@@ -115,3 +151,5 @@ With this blog post I release everything needed to reproduce, explore, understan
 > [!quote] References
 > 
 > 1. Ruoss, Anian, et al. "Grandmaster-Level Chess Without Search." _ArXiv_, 2024, /abs/2402.04494.
+> 2. Jonathan Ho et al. Generative adversarial imitation learning. Advances in neural information processing systems, 29, 2016.
+> 3. Chen, Lili, et al. "Decision Transformer: Reinforcement Learning via Sequence Modeling." _ArXiv_, 2021, /abs/2106.01345.
