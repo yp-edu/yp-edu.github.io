@@ -15,7 +15,7 @@ editedOn:
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 
-image: 
+image: /assets/images/training-gpt2-on-stockfish-games_thumbnail.webp
 description:
 ---
 

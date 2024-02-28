@@ -12,7 +12,7 @@ editedOn: 2024-01-02
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 9
-image: /assets/images/creating-a-startup.png
+image: /assets/images/creating-a-startup_thumbnail.png
 description: TL;DR> Creating a startup is not always about having the best or a totally new idea. Entrepreneurship is just another way to deliver value and achieve your goals, and it's within everyone's reach. We chose this path because it is flexible, stimulating, profoundly empowering, but also fun.
 ---
 ![Creating a Startup](creating-a-startup.png)

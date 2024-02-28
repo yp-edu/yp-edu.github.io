@@ -12,7 +12,7 @@ editedOn: 2024-01-18
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 18
-image: /assets/images/layer-wise-relevance-propagation.png
+image: /assets/images/layer-wise-relevance-propagation_thumbnail.png
 description: TL;DR> Layer-Wise Relevance Propagation (LRP) is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
 ---
 
