@@ -98,7 +98,7 @@ A Gradio space is available to interact with the model and its attention; check 
 
 ### Attention as an Interpretation
 
-Attention is the most simple interpretation you can think of when studying Transformers. It is built into the model, and so it does reflect some internal knowledge of the model. In the autoregressive case (our case), you are often interested in "Why did my model predict this token?". Basically, looking at a row of the attention coefficients $A$, defined by equation $\ref{eq:attention}$, for the predicted key token and the past query tokens gives you an importance distribution on the past tokens.
+Attention is the most simple interpretation you can think of when studying Transformers. It is built into the model, and so it does reflect some internal knowledge of the model. In the autoregressive case (our case), you are often interested in "Why did my model predict this token?". Basically, looking at a row of the attention coefficients $A$, defined by equation $\ref{eq:attention}$, for the predicted query token and the past key tokens gives you an importance distribution on the past tokens.
 
 $$
 \begin{equation}
