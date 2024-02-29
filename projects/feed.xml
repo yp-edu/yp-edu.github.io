@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="https://yp-edu.github.io/projects/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yp-edu.github.io/" rel="alternate" type="text/html" /><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/projects/feed.xml</id><title type="html">Yoann Poupart | Projects</title><subtitle>Personal website, blog &amp; portfolio</subtitle><entry><title type="html">Training GPT-2 on Stockfish Games</title><link href="https://yp-edu.github.io/projects/training-gpt2-on-stockfish-games" rel="alternate" type="text/html" title="Training GPT-2 on Stockfish Games" /><published>2024-02-29T09:10:02+00:00</published><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/projects/training-gpt2-on-stockfish-games</id><content type="html" xml:base="https://yp-edu.github.io/projects/training-gpt2-on-stockfish-games">&lt;p&gt;&lt;img src=&quot;/assets/images/training-gpt2-on-stockfish-games.webp&quot; alt=&quot;Training GPT-2 on Stockfish Games&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout tldr&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-clipboard-list&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; TL;DR&lt;/em&gt;&lt;/div&gt; &lt;p&gt;I trained a GPT-2 model on Stockfish self-played games in the most naive way, with no search, and it can play decently. The model is trained to output the next move given the FEN string of the board (single state). While I present some gotchas and caveats, the results are quite acceptable for the amount of work and computing invested. I also present a basic attention visualiser parsing the attention of the text tokens into the board.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;callout example&quot;&gt; &lt;details&gt; &lt;summary&gt;&lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-list&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Table of content&lt;/em&gt;&lt;/div&gt;&lt;/summary&gt; &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;#context&quot;&gt;Context&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#deepmind-paper&quot;&gt;DeepMind Paper&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#personal-background&quot;&gt;Personal Background&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#training-method&quot;&gt;Training Method&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#technical-details&quot;&gt;Technical Details&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#straight-forward-improvements&quot;&gt;Straight-Forward Improvements&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#inspecting-the-model&quot;&gt;Inspecting the Model&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#attention-as-an-interpretation&quot;&gt;Attention as an Interpretation&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#parsing-text-attention-in-the-board&quot;&gt;Parsing Text Attention in the Board&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#simple-interpretation&quot;&gt;Simple Interpretation&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#resources&quot;&gt;Resources&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt; &lt;/details&gt; &lt;/blockquote&gt;
+
+&lt;h2 id=&quot;context&quot;&gt;# Context&lt;/h2&gt;
+
+&lt;h3 id=&quot;deepmind-paper&quot;&gt;DeepMind Paper&lt;/h3&gt;
+
+&lt;p&gt;Deepming recently released a paper where they achieved grand-master level without search &lt;a href=&quot;#resources&quot;&gt;@1&lt;/a&gt;. They used a decoder only trained on the board state (&lt;a href=&quot;https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation&quot;&gt;FEN&lt;/a&gt; string) to predict whether the value of the board, the value of the action ($Q$ values) or the best action. I decided to take a similar approach but make it as simple as possible; I only trained the model to predict the next action (not necessarily the best).&lt;/p&gt;
+
+&lt;p&gt;With this approach, there is no need to compute tons of evals using the Stockfish engine, no need to filter out illegal moves and no need to use the fancy RL scheme (yes, I have been traumatised). There are some catches that come with this oversimplification that I present throughout the post, but I think it was a nice reframing.&lt;/p&gt;
+
+&lt;h3 id=&quot;personal-background&quot;&gt;Personal Background&lt;/h3&gt;
+
+&lt;p&gt;For the record, this project only took me 1 full day of work to set up and around 3 more days to release everything. The overhead is mostly making this blog post, but it’s a good exercise for me, so it’s definitely worth it.
+I have already trained LLMs in the past, although I am far from being an expert. I have also worked on chess models, most recently &lt;a href=&quot;https://lczero.org/&quot;&gt;lc0&lt;/a&gt;, and I am familiar with XAI / MI.&lt;/p&gt;
+
+&lt;p&gt;This project was not really a challenge for me; it was more of a hobby project I wanted to share.&lt;/p&gt;
+
+&lt;h2 id=&quot;training-method&quot;&gt;# Training Method&lt;/h2&gt;
+
+&lt;h3 id=&quot;technical-details&quot;&gt;Technical Details&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;General Framing:&lt;/strong&gt; Fine-tuning of a pre-trained model.&lt;/p&gt;
+
+&lt;p&gt;The training code is available on the associated GitHub repository &lt;a href=&quot;https://github.com/yp-edu/training-gpt2-on-stockfish-games&quot;&gt;training-gpt2-on-stockfish-games&lt;/a&gt; (mostly quick and dirty). It is really straightforward and self-explanatory, as I relied on the Hugging Face Trainer (all the complexity is under the hood). Maybe the contribution you’ll find more worth is the Apptainer code to launch the training (not that difficult), which is cluster-friendly.&lt;/p&gt;
+
+&lt;p&gt;For the &lt;a href=&quot;https://huggingface.co/datasets/yp-edu/stockfish-debug&quot;&gt;dataset&lt;/a&gt; I used the simple format of prompt + completion:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;
+{&quot;prompt&quot;: &quot;FEN: {fen}\nMOVE:&quot;, &quot;completion&quot;: &quot; {move}&quot;}
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The run details:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1 epoch of the dataset&lt;/li&gt;
+  &lt;li&gt;LR of $10^{-5}$&lt;/li&gt;
+  &lt;li&gt;12h on one A100 (40GB)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote class=&quot;callout danger&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-bolt&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Tokenisation Gotcha&lt;/em&gt;&lt;/div&gt; &lt;p&gt;For simplicity, I didn’t change the tokeniser, so the tokenisation, &lt;a href=&quot;https://huggingface.co/learn/nlp-course/en/chapter6/5&quot;&gt;BPE&lt;/a&gt;, is not tailored for chess modelling. For example, &lt;code&gt;_r&lt;/code&gt;  (&lt;code&gt;_&lt;/code&gt; for whitespace) and &lt;code&gt;r&lt;/code&gt; get encoded differently, and &lt;code&gt;nb&lt;/code&gt; is encoded as a single token while representing a knight and a bishop. Also note that I used the raw FEN string, so &lt;code&gt;8&lt;/code&gt; actually represents 8 empty squares; definitely problematic for the model to grasp a spatial representation of the board with positional encodings (it still manages somewhat).&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;As discussed in the next section, changing the tokenisation is a low-hanging fruit to improve the model.&lt;/p&gt;
+
+&lt;h3 id=&quot;straightforward-improvements&quot;&gt;Straightforward Improvements&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Prompt Engineering:&lt;/strong&gt; Similarly to using your favourite chatbot, prompt engineering could be a simple way of making the model better. The model could be prompted (during training) with the strength,  &lt;a href=&quot;https://en.wikipedia.org/wiki/Elo_rating_system&quot;&gt;ELO&lt;/a&gt;, of the player to move and the final result. On inference time, the model can then be prompted with the desired ELO and outcome. It obviously is limited; don’t expect your model to reach ELO 10,000 with this method.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout tip&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-fire-flame-curved&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Conditioned Model&lt;/em&gt;&lt;/div&gt; &lt;p&gt;Recent framing of RL as a (self-)supervised learning problem showed that training an agent on sub-optimal trajectories can lead to optimal strategies should the agent be conditioned on a reward signal. For example, this is the setup of Imitation Learning &lt;a href=&quot;#resources&quot;&gt;@2&lt;/a&gt; and Decision Transformer &lt;a href=&quot;#resources&quot;&gt;@3&lt;/a&gt;.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Tokenisation:&lt;/strong&gt; I think one the best way to encode the board would be to only represent the board tokens, with 7 different tokens (&lt;code&gt;P&lt;/code&gt;, &lt;code&gt;N&lt;/code&gt;, &lt;code&gt;B&lt;/code&gt;, &lt;code&gt;R&lt;/code&gt;, &lt;code&gt;Q&lt;/code&gt;, &lt;code&gt;K&lt;/code&gt; and &lt;code&gt;X&lt;/code&gt; for empty squares), then using vertical and horizontal positional encodings (like in ViT), as well as for meta information. A piece’s colour encodings are different for each piece, and common encodings for castling rights are player colour, en passant, half-clock move, and full move number.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Model:&lt;/strong&gt; A text encoder with a special pooling token, &lt;code&gt;[CLS]&lt;/code&gt;, and an input sequence of length 64 representing the board using the aforementioned tokenisation. The output of the encoder would be fed to a classification head of size &lt;code&gt;1858&lt;/code&gt;, minimal move encodings but still complete (DeepMind didn’t get this right ^^ (neither in Alpha Zero for the record ^^)).&lt;/p&gt;
+
+&lt;h2 id=&quot;inspecting-the-model&quot;&gt;# Inspecting the Model&lt;/h2&gt;
+
+&lt;p&gt;A Gradio space is available to interact with the model and its attention; check it out on Hugging Face &lt;a href=&quot;https://huggingface.co/spaces/yp-edu/viz-gpt2-stockfish-debug&quot;&gt;-&amp;gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;attention-as-an-interpretation&quot;&gt;Attention as an Interpretation&lt;/h3&gt;
+
+&lt;p&gt;Attention is the most simple interpretation you can think of when studying Transformers. It is built into the model, and so it does reflect some internal knowledge of the model. In the autoregressive case (our case), you are often interested in “Why did my model predict this token?”. Basically, looking at a row of the attention coefficients $A$, defined by equation $\ref{eq:attention}$, for the predicted query token and the past key tokens gives you an importance distribution on the past tokens.&lt;/p&gt;
+
+\[\begin{equation}
+\label{eq:attention}
+A={\rm softmax}( QK^T) 
+\end{equation}\]
+
+&lt;blockquote class=&quot;callout danger&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-bolt&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Interpretation Gotcha&lt;/em&gt;&lt;/div&gt; &lt;p&gt;While attention can be used to do simple interpretation, the claim needs to be measured. Indeed, when interpreting the attention coefficients, you say nothing about the output values $O=AV$. This weighted sum needs to be interpreted as a whole for the conclusion to be more rigorous.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;While &lt;a href=&quot;#resources&quot;&gt;@4&lt;/a&gt; claimed that attention is not an explanation on its own, &lt;a href=&quot;#resources&quot;&gt;@5&lt;/a&gt; conducted a more in-depth study pointing out the limitation of attention. You should especially remember the computation graph as its whole. Namely, attention heads will be merged and, in addition, composed via the residual stream, so the computation graph becomes a mess.&lt;/p&gt;
+
+&lt;h3 id=&quot;parsing-text-attention-on-the-board&quot;&gt;Parsing Text Attention on the board&lt;/h3&gt;
+
+&lt;p&gt;In order to project attention on the board, I simply parsed the attention per token and kept only the attention on pieces. The attention on the last part of the FEN string is summed into &lt;code&gt;Meta&lt;/code&gt; while the rest of the tokens are summed in &lt;code&gt;Dump&lt;/code&gt;. This is a simple workaround and proxy to circumvent the unadapted tokenisation.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout danger&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-bolt&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Measure Gotcha&lt;/em&gt;&lt;/div&gt; &lt;p&gt;Always think twice about what you’re actually measuring. Here, the heatmaps only carry information about the piece configuration, so my heuristic would be to leave out heatmaps where less than 50% of attention is put on pieces (&lt;code&gt;Config&lt;/code&gt; metric).&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;Always look at the distribution among the three categories of tokens and the raw attention figure. The raw attention can give you insight into when not to trust grouped attention, i.e. when a token refers to more than one square. This is especially important since it creates illusory patterns, so you should refrain from your deepest instinct to interpret this as a meaningful pattern (everyone loves to see patterns ^^).&lt;/p&gt;
+
+&lt;h3 id=&quot;simple-interpretation&quot;&gt;Simple Interpretation&lt;/h3&gt;
+
+&lt;blockquote class=&quot;callout warning&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-triangle-exclamation&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Disclaimer&lt;/em&gt;&lt;/div&gt; &lt;p&gt;The following section contains rough preliminary results, experiments and takes. Thus, everything should be taken with care.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Configuration attention:&lt;/strong&gt; In terms of configuration attention, the crux is to predict the first letter of the move. I would mostly aim to interpret the attention of this token. While I didn’t conduct an in-depth analysis, it seems that the latter tokens are mostly doing a pooling of the previous representation.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Discovering simple heads:&lt;/strong&gt; The most simple heads will be located in the early layers. Interpreting later heads is harder due to polysemanticity, convoluted circuits, and a high degree of composition, you name it.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;[!success] Advice
+If you’re not familiar with chess notation or attention, maybe the better is to interact with the associated Hugging Face &lt;a href=&quot;https://huggingface.co/spaces/yp-edu/viz-gpt2-stockfish-debug&quot;&gt;space&lt;/a&gt;. By copying the &lt;a href=&quot;https://en.wikipedia.org/wiki/Portable_Game_Notation&quot;&gt;PGN&lt;/a&gt; (sequence of moves) or &lt;a href=&quot;https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation&quot;&gt;FEN&lt;/a&gt; (state of the board) you can visualise the plot of this post and more. It’s especially important if you disagree with my claims or don’t trust me (you shouldn’t ^^).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;L1 H7:&lt;/strong&gt; Focuses on the knights but only when it is paired in a token; see the figure &lt;a href=&quot;#L1-H7&quot;&gt;1&lt;/a&gt;. This is where this tokenisation gets annoying since it’s hard to say what the model might have learned from these paired tokens.&lt;/p&gt;
+
+&lt;p class=&quot;im-center&quot; id=&quot;L1-H7&quot;&gt;&lt;img src=&quot;/assets/images/training-gpt2-on-stockfish-games_L1_H7.svg&quot; alt=&quot;L1 H7&quot; /&gt;
+&lt;em&gt;Figure 1: Configuration attention of the head 7 in layer 1.&lt;br /&gt;
+[FEN] &lt;code&gt;r1b1k1nr/pppp1ppp/2n1pq2/8/1b1PP3/2NQ4/PPP2PPP/R1B1KBNR w KQkq - 5 5&lt;/code&gt;,&lt;br /&gt;
+[Distribution] &lt;code&gt;Config&lt;/code&gt;: 0.78 &lt;code&gt;Meta&lt;/code&gt;: 0.10 &lt;code&gt;Dump&lt;/code&gt;: 0.13.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;e2e3 opening:&lt;/strong&gt; This opening is by far my favourite (not a strong player here ^^), but out of the &lt;code&gt;262k&lt;/code&gt; training games, only &lt;code&gt;13k&lt;/code&gt; opens with &lt;code&gt;e2e3&lt;/code&gt;. The main response to this opening is &lt;code&gt;e7e5&lt;/code&gt; with 4k games. I then like to push my queen to &lt;code&gt;f3&lt;/code&gt;, but since this combination is not in the training games, it seems that the model blunders doing &lt;code&gt;c7c5&lt;/code&gt;. Pushing the bishop to &lt;code&gt;c4&lt;/code&gt; leads the model to respond, moving the knight to &lt;code&gt;c6&lt;/code&gt;, letting the queen go for the checkmate (so in 4). This feels expected since, most likely, as a predictor, the LLM learned in a Bayesian way&lt;/p&gt;
+
+\[p(a_4|s_4)=p(a_4|a_1, a_2, a_3)=p(a_4),\]
+
+&lt;p&gt;since there is no prior on this sequence.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout tip&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-fire-flame-curved&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Counting Experiment&lt;/em&gt;&lt;/div&gt; &lt;p&gt;I think that counting all the games present in the dataset and comparing them to the learned distribution could be a nice low-hanging fruit experiment. The aim would be to examine the learned distribution on boards where the model has a prior against boards where it has no prior. This toy experiment could be framed in the larger picture of prediction generalisation and coherence.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;c7c5 blunder:&lt;/strong&gt; I am not giving the reason for the aforementioned blunder here but mostly pointing out the limitation of doing interpretability with attention. Inspecting the attention of the last layer after &lt;code&gt;1. e3 e5 2. Qf3&lt;/code&gt; most heads are strongly attending to the pawn in &lt;code&gt;e5&lt;/code&gt;, see figure &lt;a href=&quot;#L12-H2&quot;&gt;2&lt;/a&gt;, but in the end, the pawn &lt;code&gt;c7&lt;/code&gt; is moved. By the way, &lt;strong&gt;L12 H2&lt;/strong&gt; seems to focus on “player to move best-placed pawn”.&lt;/p&gt;
+
+&lt;p class=&quot;im-center&quot; id=&quot;L12-H2&quot;&gt;&lt;img src=&quot;/assets/images/training-gpt2-on-stockfish-games_L12_H2.svg&quot; alt=&quot;L1 H7&quot; /&gt;
+&lt;em&gt;Figure 2: Configuration attention of the head 2 in layer 12.&lt;br /&gt;
+[FEN] &lt;code&gt;rnbqkbnr/pppp1ppp/8/4p3/8/4PQ2/PPPP1PPP/RNB1KBNR b KQkq - 1 2&lt;/code&gt;,&lt;br /&gt;
+[Distribution] &lt;code&gt;Config&lt;/code&gt;: 0.95 &lt;code&gt;Meta&lt;/code&gt;: 0.01 &lt;code&gt;Dump&lt;/code&gt;: 0.04.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;b8c6 second blunder:&lt;/strong&gt; First, it seems to fail to see any danger or threat and continue to focus on pieces that would develop his position (like the knight move). Then, as a white, before the kill, the model doesn’t find the checkmate with the queen (obviously out-of-distribution here). It is important to note that all training games are long since the self-play means two players of approximately the same level.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout tip&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-fire-flame-curved&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Adaptative Strength Experiment&lt;/em&gt;&lt;/div&gt; &lt;p&gt;It could be interesting to see if such a predictor model adapts its level to the adversary. Did it blunder because I played such weak moves (w.r.t. to the meta)? Does it play better if you use the book openings? This might not be straightforward since this correlates with out-of-distribution evaluation.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;This analysis is only preliminary, so feel free to continue it and send me feedback; the discussion happens in this Discord &lt;a href=&quot;https://discord.com/channels/729741769192767510/1112497516928315442&quot;&gt;thread&lt;/a&gt; on Eleuther AI.&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;# Resources&lt;/h2&gt;
+
+&lt;p&gt;With this blog post, I release everything needed to reproduce, explore, understand and extend this work. In summary:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The model &lt;a href=&quot;https://huggingface.co/yp-edu/gpt2-stockfish-debug&quot;&gt;-&amp;gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;The dataset &lt;a href=&quot;https://huggingface.co/datasets/yp-edu/stockfish-debug&quot;&gt;-&amp;gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;The interactive space &lt;a href=&quot;https://huggingface.co/spaces/yp-edu/viz-gpt2-stockfish-debug&quot;&gt;-&amp;gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;The code for the training and the space &lt;a href=&quot;https://github.com/yp-edu/training-gpt2-on-stockfish-games&quot;&gt;-&amp;gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote class=&quot;callout quote&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-quote-right&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; References&lt;/em&gt;&lt;/div&gt; &lt;ol&gt;
+    &lt;li&gt;Ruoss, Anian, et al. “Grandmaster-Level Chess Without Search.” &lt;em&gt;ArXiv&lt;/em&gt;, 2024, /abs/2402.04494.&lt;/li&gt;
+    &lt;li&gt;Jonathan Ho et al. Generative adversarial imitation learning. Advances in neural information processing systems, 29, 2016.&lt;/li&gt;
+    &lt;li&gt;Chen, Lili, et al. “Decision Transformer: Reinforcement Learning via Sequence Modeling.” &lt;em&gt;ArXiv&lt;/em&gt;, 2021, /abs/2106.01345.&lt;/li&gt;
+    &lt;li&gt;Jain, Sarthak, and Byron C. Wallace. “Attention Is Not Explanation.” &lt;em&gt;ArXiv&lt;/em&gt;, 2019, /abs/1902.10186.&lt;/li&gt;
+    &lt;li&gt;Wiegreffe, Sarah, and Yuval Pinter. “Attention Is Not Not Explanation.” &lt;em&gt;ArXiv&lt;/em&gt;, 2019, /abs/1908.04626.&lt;/li&gt;
+  &lt;/ol&gt; &lt;/blockquote&gt;</content><author><name>[[Yoann Poupart]]</name></author><category term="Chess" /><category term="LLM" /><category term="XAI" /><category term="Attention" /><category term="Training" /><summary type="html"></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://yp-edu.github.io/assets/images/training-gpt2-on-stockfish-games_thumbnail.webp" /><media:content medium="image" url="https://yp-edu.github.io/assets/images/training-gpt2-on-stockfish-games_thumbnail.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Projects</title><link href="https://yp-edu.github.io/projects/index" rel="alternate" type="text/html" title="Projects" /><published>2024-02-29T09:10:02+00:00</published><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/projects/index</id><content type="html" xml:base="https://yp-edu.github.io/projects/index"></content><author><name></name></author><summary type="html"></summary></entry></feed>

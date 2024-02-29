@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="https://yp-edu.github.io/articles/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yp-edu.github.io/" rel="alternate" type="text/html" /><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/articles/feed.xml</id><title type="html">Yoann Poupart | Articles</title><subtitle>Personal website, blog &amp; portfolio</subtitle><entry><title type="html">Layer-Wise Relevance Propagation</title><link href="https://yp-edu.github.io/articles/layer-wise-relevance-propagation" rel="alternate" type="text/html" title="Layer-Wise Relevance Propagation" /><published>2024-02-29T09:10:02+00:00</published><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/articles/layer-wise-relevance-propagation</id><content type="html" xml:base="https://yp-edu.github.io/articles/layer-wise-relevance-propagation">&lt;p&gt;&lt;img src=&quot;/assets/images/layer-wise-relevance-propagation.png&quot; alt=&quot;Layer-Wise Relevance Propagation&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout tldr&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-clipboard-list&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; TL;DR&lt;/em&gt;&lt;/div&gt; &lt;p&gt;Layer-Wise Relevance Propagation (LRP) is a propagation method that produces relevances for a given input with regard to a target output. Technically, the computation happens using a single back-propagation pass, similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;callout example&quot;&gt; &lt;details&gt; &lt;summary&gt;&lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-list&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Table of content&lt;/em&gt;&lt;/div&gt;&lt;/summary&gt; &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;#lrp-framework&quot;&gt;LRP Framework&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#formulation&quot;&gt;Formulation&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#different-rules-for-different-layers&quot;&gt;Different Rules for Different Layers&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#technical-details&quot;&gt;Technical Details&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#interpreting-othello-zero&quot;&gt;Interpreting Othello Zero&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#playing-othello&quot;&gt;Playing Othello&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#network-decomposition&quot;&gt;Network Decomposition&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#interpretation&quot;&gt;Interpretation&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#evaluate-an-explanation&quot;&gt;Evaluate an Explanation&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#resources&quot;&gt;Resources&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt; &lt;/details&gt; &lt;/blockquote&gt;
+
+&lt;h2 id=&quot;lrp-framework&quot;&gt;# LRP Framework&lt;/h2&gt;
+
+&lt;h3 id=&quot;formulation&quot;&gt;Formulation&lt;/h3&gt;
+
+&lt;p&gt;LRP &lt;a href=&quot;#resources&quot;&gt;@1&lt;/a&gt; is a local interpretability method which attributes relevance to any neuron activation inside a neural network with regard to a target output and a given input. The target output can be non-terminal (e.g. an intermediate layer neuron activation), multi-dimensional (e.g. the final vector of logits) or uni-dimensional (e.g. a single class logit). Its formulation is similar to the classical Gradient$\times$Input &lt;a href=&quot;#resources&quot;&gt;@2&lt;/a&gt; as it is computed using a single modified backward pass. Yet, it doesn’t suffer from the noisiness of the gradient.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout info&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-circle-info&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Notation&lt;/em&gt;&lt;/div&gt; &lt;p&gt;The activation of the $j$-th neuron in the layer $l$ is noted $a_j^{[l]}$ and its associated relevance is noted $R_j^{[l]}$ and by convention $a_j^{[0]}$ represents the input and $R_j^{[L]}$ the target output. Weights are indexed similarly such that if the layer $l+1$ is linear its weights are noted $w_{kj}^{[l+1]}$ (&lt;a href=&quot;https://pytorch.org/docs/stable/generated/torch.nn.Linear.html&quot;&gt;torch convention&lt;/a&gt;) and $b_k^{[l+1]}$ performing the mapping, to the $k$-th neuron of the layer $l+1$, given by equation $\ref{eq:linear_mapping}$ where $g$ is the activation function.&lt;/p&gt; &lt;/blockquote&gt;
+
+\[\begin{equation}
+\label{eq:linear_mapping}
+a_k^{[l+1]}=g\left(\sum_{j}w_{kj}^{[l+1]}a_{j}^{[l]}+b_k^{[l+1]}\right)
+\end{equation}\]
+
+&lt;p&gt;Figure &lt;a href=&quot;#relevance-back-propagation&quot;&gt;1&lt;/a&gt; illustrates the process of relevance propagation, which can be intuited as a redistribution flow. The relevance $R_k^{[l+1]}$ is decomposed in “messages” sent to the previous layer. The message, $R_{j\leftarrow k}^{[l\leftarrow l+1]}$, from the $j$-th neuron of the layer $l+1$ to the $i$-th layer of the layer $l$ is then given by the equation $\ref{eq:message_decomposition}$, where $\Omega_{jk}^{[l+1]}$ is the decomposition rule (see bellow). The new relevance $R_j^{[l]}$ is then obtained by summing each “message” sent, as described by equation $\ref{eq:message_aggregation}$.&lt;/p&gt;
+
+\[\begin{equation}
+\label{eq:message_decomposition}
+R_{j\leftarrow k}^{[l\leftarrow l+1]}=\Omega_{jk}^{[l+1]}R_k^{[l+1]}
+\end{equation}\]
+
+\[\begin{equation}
+\label{eq:message_aggregation}
+R_j^{[l]} = \sum_kR_{j\leftarrow k}^{[l\leftarrow l+1]}=\sum_k\Omega_{jk}^{[l+1]}R_k^{[l+1]}
+\end{equation}\]
+
+&lt;blockquote class=&quot;callout note&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-pen&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Decomposition Rules&lt;/em&gt;&lt;/div&gt; &lt;p&gt;A rule  $\Omega_{jk}^{[l+1]}$ defines how to redistribute the relevance $R_k^{[l+1]}$ of the layer $l+1$ into the previous layer $l$. The ideal rule depends on the nature of the layer $l+1$ and is an active topic of research &lt;a href=&quot;#resources&quot;&gt;@3@4@5&lt;/a&gt; (e.g. for new or more complex architecture like Transformers), more on this in the &lt;a href=&quot;#different-rules-for-different-layers&quot;&gt;rule&lt;/a&gt; and &lt;a href=&quot;#evaluate-an-explanation&quot;&gt;evaluation&lt;/a&gt; sections.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p class=&quot;im-center&quot; id=&quot;relevance-back-propagation&quot;&gt;&lt;img src=&quot;/assets/images/layer-wise-relevance-propagation_backward.png&quot; alt=&quot;layer-wise-relevance-propagation_backward&quot; /&gt;
+&lt;em&gt;Figure 1: Relevance back-propagation of the dog logit, &lt;a href=&quot;#resources&quot;&gt;@5&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The most basic LRP rule &lt;a href=&quot;#resources&quot;&gt;@1&lt;/a&gt; is given by the equation $\ref{eq:original_lrp_rule}$, which is a simple pre-activation weighting. One drawback of this rule is that it is not conservative, i.e. $\sum_jR_{j}^{[l]}\neq\sum_kR_{k}^{[l+1]}$ $\Leftrightarrow$ $\sum_j\Omega_{jk}^{[l+1]}\neq1$, and thus relevance get lost or created by the bias along the propagation. Therefore, this rule was revisited by &lt;a href=&quot;#resources&quot;&gt;@5&lt;/a&gt; as LRP-$0$ by setting the biases to $0$ (a trick).&lt;/p&gt;
+
+\[\begin{equation}
+\label{eq:original_lrp_rule}
+\Omega_{jk}^{[l+1]}=\dfrac{w_{kj}^{[l+1]}a_{j}^{[l]}}{\sum_{j}w_{kj}^{[l+1]}a_{j}^{[l]}+b_k^{[l+1]}}
+\end{equation}\]
+
+&lt;blockquote class=&quot;callout danger&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-bolt&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Generalisation Gotcha&lt;/em&gt;&lt;/div&gt; &lt;p&gt;The layer superscript is sometimes omitted in the literature because it doesn’t cover the general formulation. For example, to account for residual connections, the propagation should be spread across multiple layers. The general formulation is thus simply given by a causally weighted sum $R_{j}=\sum_{k}\Omega_{jk}R_k$ where the numbering is across all the neurons (causally means $\Omega_{jk}=0$ if $k&amp;lt;=j$, messages are only sent backwards). It is less informative about the practical implementation but still carries the idea of tracking the actual computation.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;h3 id=&quot;different-rules-for-different-layers&quot;&gt;Different Rules for Different Layers&lt;/h3&gt;
+
+&lt;p&gt;Intuitively, the relevance propagation rules should be dependent on the layer’s nature, as is the forward flow. Fundamentally, this idea comes from the ambition of tracking the model’s various kinds of actual computation into each relevance. The classical framework for deriving these rules is Deep Taylor’s series Decomposition (DTD) &lt;a href=&quot;#resources&quot;&gt;@6&lt;/a&gt;, yet it should be justified with care &lt;a href=&quot;#resources&quot;&gt;@7&lt;/a&gt;. I’ll now present the necessary rules needed for the experiments I conducted, whose derivation can be found in the various linked &lt;a href=&quot;#resources&quot;&gt;resources&lt;/a&gt; (most of them assume ReLU, which is the case here).&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout info&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-circle-info&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Notation&lt;/em&gt;&lt;/div&gt; &lt;p&gt;The layer superscript is dropped in this section for readability and since all the rules will be applied on consecutive layers. The index $j$ still refers to layer $l$ and the index $k$ to layer $l+1$.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;LRP-$\epsilon$ &lt;a href=&quot;#resources&quot;&gt;@1&lt;/a&gt;:&lt;/strong&gt;  Defined by the equation $\ref{eq:lrpe_rule}$, it introduces $\epsilon$, a numerical stabilizer and the $z$ coefficients are set accordingly to the equation $\ref{eq:original_lrp_rule}$ ($z_{jk}=w_{kj}a_j$ and $z_k=\sum_{j}w_{kj}a_{j}+b_k$). A variant of this rule can be computed by setting the biases to $0$, but this is not enough for the propagation to be conservative. The stabiliser $\epsilon$ will absorb some relevance and should, therefore, be kept as small as possible. In practice, this rule is made for linear mappings (&lt;code&gt;Linear&lt;/code&gt; &amp;amp; &lt;code&gt;BatchNorm&lt;/code&gt;).&lt;/p&gt;
+
+\[\begin{equation}
+\label{eq:lrpe_rule}
+\Omega_{jk}=\dfrac{z_{jk}}{z_{k}+\epsilon \cdot {\rm sign}\left(z_{k}\right)}
+\end{equation}\]
+
+&lt;p&gt;&lt;strong&gt;$z^+$ &lt;a href=&quot;#resources&quot;&gt;@6&lt;/a&gt;:&lt;/strong&gt; Defined by the equation $\ref{eq:zplus_rule}$, where $w_{kj}^+$ stands for the positive part of $w_{kj}$, i.e. $w_{kj}^+$ if $w_{kj}&amp;lt;0$. This rule is conservative and positive (and thus consistent &lt;a href=&quot;#resources&quot;&gt;@6&lt;/a&gt;). In practice, this rule is used for convolution.&lt;/p&gt;
+
+\[\begin{equation}
+\label{eq:zplus_rule}
+\Omega_{jk}=\dfrac{w_{kj}^+a_{j}}{\sum_jw_{kj}^+a_{j}}
+\end{equation}\]
+
+&lt;p&gt;&lt;strong&gt;$w^2$ &lt;a href=&quot;#resources&quot;&gt;@4&lt;/a&gt;:&lt;/strong&gt; Defined by the equation $\ref{eq:wsquare_rule}$, this rule is meant for early layers. This rule is conservative and positive (and thus consistent). In practice, it is used for the first layer, e.g. in order to propagate relevance to dead input neurons.&lt;/p&gt;
+
+\[\begin{equation}
+\label{eq:wsquare_rule}
+\Omega_{jk}=\dfrac{w_{kj}^2}{\sum_j w_{kj}^2}
+\end{equation}\]
+
+&lt;p&gt;&lt;strong&gt;Flat &lt;a href=&quot;#resources&quot;&gt;@4&lt;/a&gt;:&lt;/strong&gt; Defined by the equation $\ref{eq:flat_rule}$, this rule is similar to $w^2$ but assuming a constant weighting. It, therefore, redistributes equally the relevance across every preceding neuron. This rule is conservative and positive (and thus consistent). In practice, it is used for the first layer, e.g. in order to propagate relevance to dead input neurons.&lt;/p&gt;
+
+\[\begin{equation}
+\label{eq:flat_rule}
+\Omega_{jk}=\dfrac{1}{\sum_j 1}
+\end{equation}\]
+
+&lt;h3 id=&quot;technical-details&quot;&gt;Technical Details&lt;/h3&gt;
+
+&lt;p&gt;All the LRP computation can be done using the original authors’ library &lt;a href=&quot;https://zennit.readthedocs.io/en/latest/&quot;&gt;Zennit&lt;/a&gt; &lt;a href=&quot;#resources&quot;&gt;@8&lt;/a&gt;.
+In practice, the graph and back-propagation mechanism of &lt;code&gt;torch.autograd&lt;/code&gt; is used using backward hooks; see the snippet below. The models need to implement the forward pass only using proper modules (child of the model instance) for them to be detected by &lt;a href=&quot;https://zennit.readthedocs.io/en/latest/&quot;&gt;Zennit&lt;/a&gt; and hooked. And since it relies on full back-propagation, every module of the graph should be hooked (even activation functions).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Pass rule:&lt;/strong&gt; This is a practical rule necessary regarding &lt;a href=&quot;https://zennit.readthedocs.io/en/latest/&quot;&gt;Zennit&lt;/a&gt; implementation. In practice, even activation functions should be hooked because otherwise, the classical gradient will be computed during the backward pass. And since the actual relevance propagation is carried by other module hooks (&lt;code&gt;Linear&lt;/code&gt;, &lt;code&gt;Conv&lt;/code&gt;, etc.), no modification should be done (it’s a pass-through). It is typically used for activation functions.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/Xmaster6y/6734100a89f4ab9bd17fe24e84831d40.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;This important snippet explains how backward hooks are coded in &lt;a href=&quot;https://zennit.readthedocs.io/en/latest/&quot;&gt;Zennit&lt;/a&gt;, which is fundamental to designing new rules. Besides &lt;strong&gt;Rules&lt;/strong&gt;, derived from the &lt;code&gt;BasicHook&lt;/code&gt;, other fundamental objects are available:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Stabilizers&lt;/strong&gt;: $\epsilon$ term in the LRP-$\epsilon$, which make the computation numerically stable. All rules are used in practice.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Canonizer&lt;/strong&gt;: Needed when using &lt;code&gt;BatchNorm&lt;/code&gt; layers &lt;a href=&quot;#resources&quot;&gt;@3&lt;/a&gt;, to reorder the computation.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Composites&lt;/strong&gt;: To easily combine rules.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To illustrate rules, below is a snippet of the $z^+$ rule implementation. The first element is &lt;code&gt;param_modifiers&lt;/code&gt;, which is used to modify the weights of the module, like here to separate positive and negative weights or like in LRP-$0$ to set the biases to zero. Then there are the &lt;code&gt;input_modifiers&lt;/code&gt; and the &lt;code&gt;output_modifiers&lt;/code&gt;, which enable lightweight modification of the forward pass (using the modified weights). In the rule below, they are used to separate positive from negative inputs. Finally, the &lt;code&gt;gradient_mapper&lt;/code&gt; is used to compute the final form of the rule ($\Omega_{jk}$) here, one for positive and one for negative contribution, and the &lt;code&gt;reducer&lt;/code&gt; computes the module relevance ($R_j$).&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/Xmaster6y/a87cb4c058c47558e0f3cb9634b419e5.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;interpreting-othello-zero&quot;&gt;# Interpreting Othello Zero&lt;/h2&gt;
+
+&lt;h3 id=&quot;playing-othello&quot;&gt;Playing Othello&lt;/h3&gt;
+
+&lt;p&gt;Before digging into the actual interpretation of the network I borrowed from &lt;a href=&quot;https://github.com/suragnair/alpha-zero-general&quot;&gt;Alpha Zero General&lt;/a&gt; &lt;a href=&quot;#resources&quot;&gt;@9&lt;/a&gt;, it is important to understand how it is used in practice and how it was trained. I highly recommend checking their code on &lt;a href=&quot;https://github.com/suragnair/alpha-zero-general&quot;&gt;Github&lt;/a&gt; or the associated &lt;a href=&quot;https://web.stanford.edu/~surag/posts/alphazero.html&quot;&gt;blog post&lt;/a&gt; as well as the original Alpha Zero paper &lt;a href=&quot;#resources&quot;&gt;@10&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Tree representation of game (Min-Max, Alpha-Beta, MCTS, …) is an intuitive representation of a game whose main components are the root (the current position), the nodes (board states $s$) and the edges (action chosen for a given state $(s,a)$). Regarding search, the Alpha Zero paper &lt;a href=&quot;#resources&quot;&gt;@10&lt;/a&gt; used MCTS PUCT &lt;a href=&quot;#resources&quot;&gt;@11&lt;/a&gt;, with the upper bound confidence (UCB) given by the equation $\ref{eq:upper_confidence_boundary}$. This equation involves network predictions (heuristic) with $P_\theta(s)$ the policy vector and $Q_s$ is the average expected value over the visited children (terminal reward or intermediate network evaluation, i.e. the value $v_\theta(s)$). $c_{\rm puct}$ is a constant to balance  exploitation with exploration and after multiple rollouts the action is often chosen according to the tempered visit distribution, $\pi_s$ , given by the equation $\ref{eq:visit_distribution}$, with $\tau$ the temperature.&lt;/p&gt;
+
+\[\begin{equation}
+\label{eq:upper_confidence_boundary}
+    U_s=Q_s+c_{\rm puct}\cdot P_\theta(s) \cdot \dfrac{\sqrt{||N_{s}||_1}}{1+N_{s}}
+\end{equation}\]
+
+\[\begin{equation}
+\label{eq:visit_distribution}
+    \pi_s = \dfrac{N_s^{1/\tau}}{ {||N_{s}||_{1/\tau}}^{1/\tau}}
+\end{equation}\]
+
+&lt;p&gt;The network is trained by combining the loss from the value and the policy predictions. It especially makes sense since these predictions share a common graph (architecture) in the model. The value output $v_\theta(s)$ should predict the ending reward of the game $z$ (-1, 0 or 1 depending on the outcome) and the policy output $P_\theta(s)$ should predict the action sampling distribution obtained after search $\pi_s$. The loss is then &lt;a href=&quot;#resources&quot;&gt;@10&lt;/a&gt;:&lt;/p&gt;
+
+\[\begin{equation}
+\label{eq:training_loss}
+    l= (z- v_\theta(s))^2 + \pi \cdot {\rm log (P_\theta(s))}
+\end{equation}\]
+
+&lt;p&gt;In my drafty accompanying notebook &lt;a href=&quot;https://colab.research.google.com/drive/1ozMKtcRS9nRtvUfwZwj00ZZNpui5MhLr?usp=sharing&quot;&gt;&lt;img src=&quot;https://colab.research.google.com/assets/colab-badge.svg&quot; alt=&quot;Open In Colab&quot; /&gt;&lt;/a&gt;, I chose functional version of this algorithm, with few minor changes from the &lt;a href=&quot;https://github.com/suragnair/alpha-zero-general&quot;&gt;Alpha Zero General&lt;/a&gt; code. Also, I put below a slightly modified version of the MCTS that is compatible with the LRP framework. The idea is quite simple: you have to keep track of the gradient in order to perform a backward pass under &lt;a href=&quot;https://zennit.readthedocs.io/en/latest/&quot;&gt;Zennit&lt;/a&gt; context later. In this way, you could interpret the aggregated quantities $Q_s$ and $U_s$ in terms of relevance. These quantities carry information about the subsequent tree from node $s$ and could be used a posteriori or during inference.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/Xmaster6y/fd8ff108d39b0fdd09cb49e6809d2c54.js&quot;&gt;&lt;/script&gt;
+
+&lt;blockquote class=&quot;callout warning&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-triangle-exclamation&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Disclaimer&lt;/em&gt;&lt;/div&gt; &lt;p&gt;This last piece of work is only exploratory, and I have made no digging in this direction yet. However, I am convinced that refining and experimenting in this direction could lead to interesting tracks like tree analysis or relevance-guided search.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;h3 id=&quot;network-decomposition&quot;&gt;Network Decomposition&lt;/h3&gt;
+
+&lt;p&gt;In order to use &lt;a href=&quot;https://zennit.readthedocs.io/en/latest/&quot;&gt;Zennit&lt;/a&gt;, it is important to remember how it is implemented and adapt the network accordingly. First, all used modules should be instantiated under the target module (even activations). Then softmax should not be used because of the exponential. Here, it can be safely removed as the output is the &lt;code&gt;Soflogmax&lt;/code&gt;, which is a simple translation of the raw logits and doesn’t change the action sampling.&lt;/p&gt;
+
+&lt;p&gt;The network architecture is quite simple as it is a basic CNN mostly using ReLU activation. For the convolution layer, I’ll use the $z^+$ rule, and for the linear mapping (including batch normalisation), I’ll use LRP-$\epsilon$. These settings are recommended, but you could try various different ones. To evaluate the different combinations of rules, refer to the &lt;a href=&quot;#evaluation&quot;&gt;evaluation&lt;/a&gt; section.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout danger&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-bolt&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Gotcha&lt;/em&gt;&lt;/div&gt; &lt;p&gt;It is important to acknowledge the similarity in computation for the value and the policy. This will expectedly lead to very close relevance heatmaps as only one layer differs between the two.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;One practical limitation for interpreting board games concerns the empty cells. Using traditional LRP rules will attribute zero relevance to those cells. Indeed, during the computation, the model doesn’t use these pixels but rather uses biases. In order to overcome this difficulty, I propose to use the Flat or the $w^2$ rules in the first layer.&lt;/p&gt;
+
+&lt;h3 id=&quot;interpretation&quot;&gt;Interpretation&lt;/h3&gt;
+
+&lt;blockquote class=&quot;callout warning&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-triangle-exclamation&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Disclaimer&lt;/em&gt;&lt;/div&gt; &lt;p&gt;The following experiments are highly shallow, and I don’t pretend they are highly relevant or valuable. This work is only for illustrative purposes and definitely needs more digging. If you are interested in a follow-up of this project (by yourself or by me) and/or have questions, feel free to &lt;a href=&quot;/about/#contact&quot;&gt;contact&lt;/a&gt; me.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;I’ll now study a particular board picked during a self-played game with different parameters for black and white ($c_{\rm puct}=0.1$. for black and $c_{\rm puct}=2$ for white) using 10 rollouts per move and keeping the data from the previous moves. Playing multiple games with these parameters shows that the middle game is dominated by black while the endgame is dominated by black, i.e. exploration is a long-run payoff. I picked board 31 (black to move) as it is balanced (before black domination). Using the described rules, with Flat in the first layer, the relevance heatmap obtained is plotted in Figure &lt;a href=&quot;#v-relevance-flat&quot;&gt;2&lt;/a&gt;. The value relevance is localised around the best move (B6), found by the MCTS, and negative or close to 0 around illegal moves.&lt;/p&gt;
+
+&lt;p class=&quot;im-center&quot; id=&quot;v-relevance-flat&quot;&gt;&lt;img src=&quot;/assets/images/layer-wise-relevance-propagation_v_relevance_flat.png&quot; alt=&quot;v_relevance_flat&quot; /&gt;
+&lt;em&gt;Figure 2: Value relevance heatmap using Flat, $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Yet, is it really what I think it is? Remember that the biases and the Flat rule are used here to compute the relevance. With the same rules, using an empty board yields the heatmap of Figure &lt;a href=&quot;#empty-relevance&quot;&gt;3&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p class=&quot;im-center&quot; id=&quot;empty-relevance&quot;&gt;&lt;img src=&quot;/assets/images/layer-wise-relevance-propagation_empty_relevance.png&quot; alt=&quot;empty_relevance&quot; /&gt;
+&lt;em&gt;Figure 3: Value relevance heatmap of the empty board using Flat, $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If it is harder to interpret, I’ll leave it for a more comprehensive study and change the Flat rule for a $z^+$ rule (the first layer is a convolution). This then yields the value relevance in Figure [4] and the policy relevance in Figure [5]. The value relevance is still localised around the best move, but it might be a correlation. Indeed, the relevance seems to indicate that the networks attribute more value to the pieces flipped by the move A7 that put a piece on the side. The way the network perceives value in sides and corners should be dug more. The policy relevance heatmap is more difficult to interpret, and note that the sign is due to logit initialisation. Yet, it attributes more relevance to the pieces flipped by the move B6.&lt;/p&gt;
+
+&lt;p class=&quot;im-center&quot; id=&quot;v-relevance-flat&quot;&gt;&lt;img src=&quot;/assets/images/layer-wise-relevance-propagation_v_relevance.png&quot; alt=&quot;v_relevance&quot; /&gt;
+&lt;em&gt;Figure 4: Value relevance heatmap using $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p class=&quot;im-center&quot; id=&quot;v-relevance-flat&quot;&gt;&lt;img src=&quot;/assets/images/layer-wise-relevance-propagation_pi_relevance.png&quot; alt=&quot;pi_relevance&quot; /&gt;
+&lt;em&gt;Figure 5: Policy relevance heatmap using $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The next section describes how to evaluate the explanation’s faithfulness and robustness. Yet it was not successful as the board games add an extra layer of complexity since the input space is sparse. More complex considerations are needed.&lt;/p&gt;
+
+&lt;h3 id=&quot;evaluate-an-explanation&quot;&gt;Evaluate an Explanation&lt;/h3&gt;
+
+&lt;p&gt;It is important to keep in mind that producing a heatmap is easy, but interpreting it in a faithful way is much harder. What’s more, you also have to be careful about what &lt;strong&gt;actually&lt;/strong&gt; is what you are visualising. There is sometimes a big difference between what you want to measure, what you think you’re measuring and what you actually measure. In this meaning the produced heatmaps should be interpreted with care &lt;a href=&quot;#resources&quot;&gt;@7@12&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Measuring the faithfulness and robustness of the XAI method is an active topic of research, and I’ll only present and use one here. The idea of &lt;a href=&quot;#resources&quot;&gt;@13&lt;/a&gt; is quite intuitive:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Assuming that you have computed a pixel relevance heatmap, you start by corrupting the most relevant pixel (using mean, black, white or random noise).&lt;/li&gt;
+  &lt;li&gt;You observe the decrease of the target, e.g. a logit, and you compute your new heatmap.&lt;/li&gt;
+  &lt;li&gt;You iterate on 1.&lt;/li&gt;
+  &lt;li&gt;Finally, you plot/measure the evolution of the target.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The best XAI method would lead to the highest drop in the target. In practice, this can be used to compare XAI methods, and in particular, it can be compared to random pixel corruption. For example, it could be used to verify that the rules derived using DTD are actually the best fit for each layer type.&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;# Resources&lt;/h2&gt;
+
+&lt;p&gt;A drafty notebook that self-contains all the practical experiments presented here and more is available on Colab: &lt;a href=&quot;https://colab.research.google.com/drive/1ozMKtcRS9nRtvUfwZwj00ZZNpui5MhLr?usp=sharing&quot;&gt;&lt;img src=&quot;https://colab.research.google.com/assets/colab-badge.svg&quot; alt=&quot;Open In Colab&quot; /&gt;&lt;/a&gt;. I first explored the network capabilities like the policy prediction and the games play. Below is a list of references containing the papers and code mentioned in this post.&lt;/p&gt;
+
+&lt;p&gt;In particular, I think that the method described in &lt;a href=&quot;#resources&quot;&gt;@5&lt;/a&gt;  could be the perfect match for a follow-up. It extends the LRP framework to discover concepts, i.e. global explanation. Basically, LRP serves as a means to discover locally relevant neurons and paths. Then, concepts are discovered using an activation maximisation on these neurons.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout quote&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-quote-right&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; References&lt;/em&gt;&lt;/div&gt; &lt;ol&gt;
+    &lt;li&gt;Bach, Sebastian, et al. “On Pixel-Wise Explanations for Non-Linear Classifier Decisions by Layer-Wise Relevance Propagation.” &lt;em&gt;PLOS ONE&lt;/em&gt;, vol. 10, no. 7, 2015.&lt;/li&gt;
+    &lt;li&gt;Shrikumar, Avanti, et al. “Not Just a Black Box: Learning Important Features Through Propagating Activation Differences.” &lt;em&gt;ArXiv&lt;/em&gt;, 2016.&lt;/li&gt;
+    &lt;li&gt;Binder, Alexander, et al. “Layer-wise Relevance Propagation for Neural Networks with Local Renormalization Layers.” &lt;em&gt;ArXiv&lt;/em&gt;, 2016.&lt;/li&gt;
+    &lt;li&gt;Lapuschkin, Sebastian, et al. “Unmasking Clever Hans Predictors and Assessing What Machines Really Learn.” &lt;em&gt;Nature Communications&lt;/em&gt;, vol. 10, no. 1, 2019.&lt;/li&gt;
+    &lt;li&gt;Achtibat, Reduan, et al. “From Attribution Maps to Human-understandable Explanations through Concept Relevance Propagation.” &lt;em&gt;Nature Machine Intelligence&lt;/em&gt;, vol. 5, no. 9, 2023.&lt;/li&gt;
+    &lt;li&gt;Montavon, Grégoire, et al. “Explaining Nonlinear Classification Decisions with Deep Taylor Decomposition.” &lt;em&gt;Pattern Recognition&lt;/em&gt;, vol. 65, 2017.&lt;/li&gt;
+    &lt;li&gt;Sixt, Leon, and Tim Landgraf. “A Rigorous Study Of The Deep Taylor Decomposition.” &lt;em&gt;ArXiv&lt;/em&gt;, 2022.&lt;/li&gt;
+    &lt;li&gt;Anders, Christopher J., et al. “Software for Dataset-wide XAI: From Local Explanations to Global Insights with Zennit, CoRelAy, and ViRelAy.” &lt;em&gt;ArXiv&lt;/em&gt;, 2021.&lt;/li&gt;
+    &lt;li&gt;Thakoor, Shantanu, et al. “Learning to play othello without human knowledge.” &lt;em&gt;Stanford University&lt;/em&gt;, 2016.&lt;/li&gt;
+    &lt;li&gt;Silver, David, et al. “Mastering the Game of Go Without Human Knowledge.” Nature, vol. 550, no. 7676, 2017.&lt;/li&gt;
+    &lt;li&gt;Rosin, Christopher D. “Multi-armed bandits with episode context,” Annals of Mathematics and Artificial Intelligence, vol. 61, pp. 203–230, 09 2010.&lt;/li&gt;
+    &lt;li&gt;Sixt, Leon, et al. “When Explanations Lie: Why Many Modified BP Attributions Fail.” &lt;em&gt;ArXiv&lt;/em&gt;, 2019.&lt;/li&gt;
+    &lt;li&gt;Hedström, Anna, et al. “Quantus: An Explainable AI Toolkit for Responsible Evaluation of Neural Network Explanations and Beyond.” &lt;em&gt;Journal of Machine Learning Research&lt;/em&gt;, vol. 24, no. 34, 2023.&lt;/li&gt;
+  &lt;/ol&gt; &lt;/blockquote&gt;</content><author><name>[[Yoann Poupart]]</name></author><category term="XAI" /><category term="AlphaZero" /><summary type="html"></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://yp-edu.github.io/assets/images/layer-wise-relevance-propagation_thumbnail.png" /><media:content medium="image" url="https://yp-edu.github.io/assets/images/layer-wise-relevance-propagation_thumbnail.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Articles</title><link href="https://yp-edu.github.io/articles/index" rel="alternate" type="text/html" title="Articles" /><published>2024-02-29T09:10:02+00:00</published><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/articles/index</id><content type="html" xml:base="https://yp-edu.github.io/articles/index"></content><author><name></name></author><summary type="html"></summary></entry></feed>

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="https://yp-edu.github.io/stories/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yp-edu.github.io/" rel="alternate" type="text/html" /><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/stories/feed.xml</id><title type="html">Yoann Poupart | Stories</title><subtitle>Personal website, blog &amp; portfolio</subtitle><entry><title type="html">Why this blog?</title><link href="https://yp-edu.github.io/stories/why-this-blog" rel="alternate" type="text/html" title="Why this blog?" /><published>2024-02-29T09:10:02+00:00</published><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/stories/why-this-blog</id><content type="html" xml:base="https://yp-edu.github.io/stories/why-this-blog">&lt;blockquote class=&quot;callout tldr&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-clipboard-list&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; TL;DR&lt;/em&gt;&lt;/div&gt; &lt;p&gt;The main reason for me to write this blog is just to maintain some motivation and high expectations while satisfying my curiosity.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;callout example&quot;&gt; &lt;details&gt; &lt;summary&gt;&lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-list&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Table of content&lt;/em&gt;&lt;/div&gt;&lt;/summary&gt; &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;#the-target&quot;&gt;The Target&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#the-goal&quot;&gt;The Goal&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#the-shape&quot;&gt;The Shape&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#stories&quot;&gt;Stories&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#projects&quot;&gt;Projects&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#articles&quot;&gt;Articles&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#final-note&quot;&gt;Final Note&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#disclaimer&quot;&gt;Disclaimer&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#a-right-to-be-wrong&quot;&gt;A Right to Be Wrong&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt; &lt;/details&gt; &lt;/blockquote&gt;
+
+&lt;h2 id=&quot;the-target&quot;&gt;# The Target&lt;/h2&gt;
+
+&lt;p&gt;Before answering the “why?” let’s discuss the “whom for?”.&lt;/p&gt;
+
+&lt;p&gt;As a former teacher in both private tutoring and high school, I felt the need for an audience to share my knowledge, thoughts and understandings. Yet the best audience you could dream of lies here, on the web. And so, two years ago (during my first AI research internship), I thought of starting a podcast or a blog about AI subjects.&lt;/p&gt;
+
+&lt;p&gt;I never took the fall since I’ve never felt legitimate enough to talk about the recent technological advancements (which this blog will be about). It was not quite an impostor syndrome but rather the feeling I hadn’t collected the proper badge yet.&lt;/p&gt;
+
+&lt;p&gt;Only recently did I overcome this desperate need for approval and validation. I did collect some badges along the way, but I think there is no such thing as the “proper badge”. I, therefore, decided to write only for myself, considering any subject that would pique my curiosity.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-goal&quot;&gt;# The Goal&lt;/h2&gt;
+
+&lt;p&gt;The blog is for me, right, but what do I need it for? I sometimes need to clarify my thoughts; then, writing is the way to go. I love to learn and discover new subjects, so why not report and popularise what I learned to ensure I learned them well? I often tend to procrastinate in my projects, so “forcing” me with a timeline might reduce latency.&lt;/p&gt;
+
+&lt;p&gt;So why not just keep my writing in Obsidian (where I craft ideas from mind to words)? Obviously, making it public increases my expectations of its realisation and frequency.&lt;/p&gt;
+
+&lt;p&gt;Should any of my future posts help at least one person, I would consider the goal of this blog achieved, Yet I won’t stop since the more, the better. I will be opening some channels to make it as helpful as possible.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-shape&quot;&gt;# The Shape&lt;/h2&gt;
+
+&lt;h3 id=&quot;stories&quot;&gt;Stories&lt;/h3&gt;
+
+&lt;p&gt;These will be the main content of this blog, representing the easiest way for me to put ideas into words.&lt;/p&gt;
+
+&lt;p&gt;I expect them to be raw-ish content, improving over edits and the years. Obviously, I hope the quality will improve as I write more of them.&lt;/p&gt;
+
+&lt;p&gt;I don’t want to spend too much time on edits (unless for typos or changes of mind). I fear that it would drastically reduce the delivery amount, frequency and authenticity to the point that Somme will never come out.&lt;/p&gt;
+
+&lt;h3 id=&quot;projects&quot;&gt;Projects&lt;/h3&gt;
+
+&lt;p&gt;The main idea of the projects would be for me to create simple experiments or solutions. I expect their frequency to be much lower than for the stories.&lt;/p&gt;
+
+&lt;p&gt;As a perfectionist (in some ways), I tend to keep personal projects for myself. So, in the same line as with stories, I am going to try a quick and dirty approach. Obviously, I’ll attach some care to readability, maintainability and evolution, but maybe less than I used to.&lt;/p&gt;
+
+&lt;h3 id=&quot;articles&quot;&gt;Articles&lt;/h3&gt;
+
+&lt;p&gt;A place to share my understanding of recent articles, technology or even philosophical ideas. I expect many formats, as discussions might be a set of quick opinionated claims and hot takes. In comparison, explanations might try to focus on explaining some of the critical tweaks and contributions of the paper. The latter format might be way longer and will necessarily demand more time.&lt;/p&gt;
+
+&lt;p&gt;My starting point would be to convert my reading notes into a well-versed explanation or discussion.&lt;/p&gt;
+
+&lt;h2 id=&quot;final-note&quot;&gt;# Final Note&lt;/h2&gt;
+
+&lt;h3 id=&quot;disclaimer&quot;&gt;Disclaimer&lt;/h3&gt;
+
+&lt;p&gt;I am engaged in trying to distinguish facts from experience and from opinions. Using disclaimers, labelling and references. But keep in mind that this blog should not serve as a truth holder. I always encourage you to double-check and cross-reference my explanations or affirmations.&lt;/p&gt;
+
+&lt;h3 id=&quot;a-right-to-be-wrong&quot;&gt;A Right to Be Wrong&lt;/h3&gt;
+
+&lt;p&gt;Even if I am writing public content, I have a right to be wrong. I have a duty to cite previous and inspirational work. I have incentives to make the content as sharp and accurate as possible. Yet mistakes happen!&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout bug&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-bug&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Bug&lt;/em&gt;&lt;/div&gt; &lt;p&gt;Obviously, that’s not what this blog is for. So, in the event that you spot an error or a typo, feel free to drop an email at &lt;a href=&quot;mailto:error@yp-edu.org&quot;&gt;error@yp-edu.org&lt;/a&gt;.&lt;/p&gt; &lt;/blockquote&gt;</content><author><name>[[Yoann Poupart]]</name></author><category term="Blog" /><category term="Experience" /><summary type="html">TL;DR The main reason for me to write this blog is just to maintain some motivation and high expectations while satisfying my curiosity.</summary></entry><entry><title type="html">My Approach to AI Safety</title><link href="https://yp-edu.github.io/stories/my-approach-to-ai-safety" rel="alternate" type="text/html" title="My Approach to AI Safety" /><published>2024-02-29T09:10:02+00:00</published><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/stories/my-approach-to-ai-safety</id><content type="html" xml:base="https://yp-edu.github.io/stories/my-approach-to-ai-safety">&lt;blockquote class=&quot;callout tldr&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-clipboard-list&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; TL;DR&lt;/em&gt;&lt;/div&gt; &lt;p&gt;Shortcoming issues should not be undermined because, if not tackled immediately, they will make &lt;a href=&quot;https://en.wikipedia.org/wiki/The_Alignment_Problem&quot;&gt;Alignment&lt;/a&gt; a lot more complex. I am convinced that interpretability will be the best tool for monitoring and control, and for that, I will pursue this agenda through research and entrepreneurship.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;callout example&quot;&gt; &lt;details&gt; &lt;summary&gt;&lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-list&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Table of content&lt;/em&gt;&lt;/div&gt;&lt;/summary&gt; &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;#hot-takes&quot;&gt;Hot Takes&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#short-term-vs-long-term&quot;&gt;Short-term vs Long-term&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#the-industry-pressure&quot;&gt;The Industry Pressure&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#the-curse-of-ai-doomerism&quot;&gt;The Curse of AI Doomerism&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#viable-paths&quot;&gt;Viable Paths&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#entrepreneurship&quot;&gt;Entrepreneurship&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#precious-mindset&quot;&gt;Precious Mindset&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#founding-an-ai-startup&quot;&gt;Founding an AI Startup&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#founding-an-org&quot;&gt;Founding an Org&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#my-general-approach&quot;&gt;My General Approach&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#my-ais-edges&quot;&gt;My AIS Edges&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#brief-agenda&quot;&gt;Brief Agenda&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#whats-next&quot;&gt;What’s next?&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt; &lt;/details&gt; &lt;/blockquote&gt;
+
+&lt;h2 id=&quot;hot-takes&quot;&gt;# Hot Takes&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;It is necessary to pursue research for short-term and long-term AIS in the meantime&lt;/li&gt;
+  &lt;li&gt;Entrepreneurship can be highly valuable to contribute to AIS&lt;/li&gt;
+  &lt;li&gt;My impact is likely to be net positive for Alignment&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote class=&quot;callout caution&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-triangle-exclamation&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Epistemic Status&lt;/em&gt;&lt;/div&gt; &lt;p&gt;I am early in my career and even more in AIS; while I stand by the words below, I might not have considered the whole picture, and I don’t rule out the possibility of changing my mind.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;h2 id=&quot;short-term-vs-long-term&quot;&gt;# Short-term vs Long-term&lt;/h2&gt;
+
+&lt;h3 id=&quot;the-industry-pressure&quot;&gt;The Industry Pressure&lt;/h3&gt;
+
+&lt;p&gt;When thinking about what could go wrong with AI, it often comes to competitiveness and arm race dynamics. OpenAI, DeepMind &amp;amp; co are often criticised as having a monopoly on AI and are urged to make their research more open. Yet I really don’t see where letting all the models open-source could solve such an issue. Open source doesn’t genuinely reduce risks and can definitely make competition harder and faster. I am much more comfortable with the &lt;a href=&quot;https://openai.com/blog/frontier-model-forum&quot;&gt;Frontier Model Forum&lt;/a&gt; to foster cooperation and ensure that the most prominent players don’t fall into a race.&lt;/p&gt;
+
+&lt;p&gt;Regarding sustainability, the industry has a vile tendency towards technology solutionism, relying too heavily on technological solutions without fully considering other leverage. Each capability increase has an associated environmental or cyber-security cost. Such a rapid increase is not controllable or sustainable in the long run. Regulating might be the most efficient but also the only effective way to gain security as fast as the capabilities improve. AI governance is definitely needed as the transforming potential of AI is, first and foremost, a societal issue.&lt;/p&gt;
+
+&lt;p&gt;From a safety point of view, regulation might also have some gotchas. The two main drawbacks to take into account are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Control loss&lt;/strong&gt;:
+Regulation might cause a slowdown in technological advancements. Thus, a country unaffected by regulation might take the upper hand. The critical point here is to devise regulations that support innovation, e.g., highly regulating the use cases but less regulating the technology.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Goodhart%27s_law&quot;&gt;Goodhart’s law&lt;/a&gt;&lt;/strong&gt;:
+Benchmark optimisation has been seen with model evaluation and could also be the case with model interpretability. Companies will try to beat the benchmark or improve some interpretability metrics that don’t necessarily correlate with safety. It is, therefore, primordial to advance these safeguards as much as possible technically.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;the-curse-of-ai-doomerism&quot;&gt;The Curse of AI Doomerism&lt;/h3&gt;
+
+&lt;p&gt;I want to address mitigated criticism against AI Doomerism, which is reasonably represented in the AIS sphere. As an optimistic by nature, I might be failing to see the same future possibilities, and my arguments could be inaudible. In my Doomerism definition, I englobe focusing on long-term safety issues firstly because of existential risks.&lt;/p&gt;
+
+&lt;p&gt;The first criticism is the tendency to only consider worst-case scenarios. While I value some aspects of this approach, it often leads to working on highly theoretical and abstract subjects based on an extremely low probability with a lesser impact on immediate issues. Solving the worst-case scenario will not solve less dangerous ones.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout danger&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-bolt&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Gotcha&lt;/em&gt;&lt;/div&gt; &lt;p&gt;Alignment is obviously a double-edged sword. If you can align an AGI to be benevolent, you’ll also be able to align it to be rogue. Misuse cannot be solved by Alignment alone.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;It is crucial to address short-term issues that could potentially destroy Alignment research if they are not dealt with rapidly. It is essential to keep in mind that there are also other pressing matters that require attention, such as climate change, cybersecurity, and wars. I value prioritisation based on danger weighted by occurrence probability and timeline.&lt;/p&gt;
+
+&lt;p&gt;I finally have critics on some speeches I had the occasion to listen to, which is by far a loud minority. The righteous and moralistic speeches don’t foster debate and isolate the AIS community. This is dramatic when collaboration outside of the AIS sphere might just accelerate safety. Then, I sometimes feel too many people harbouring sentiments of culpability and pessimism. While scepticism is an essential research skill, I think that pessimism is terrible and ultimately prevents an extended range of expected rewards. It can also repulse people and cause isolation.&lt;/p&gt;
+
+&lt;h3 id=&quot;viable-paths&quot;&gt;Viable Paths&lt;/h3&gt;
+
+&lt;p&gt;Exploring effective strategies for AI safety, I believe, involves a blend of approaches. While I see the potential in symbolism and model conversion for inherent interpretability, they may not keep pace with rapid AI advancements. My focus is more on practical, immediate solutions.&lt;/p&gt;
+
+&lt;p&gt;I’m keen on closed evaluations where we can test AI models in controlled environments to understand their behaviours better. But that’s just the start; combining these closed evaluations with broader research into model interpretability can uncover patterns and insights that aren’t immediately obvious.&lt;/p&gt;
+
+&lt;p&gt;Another exciting direction I’m exploring is anchoring interpretability in theoretical foundations. This could lead us to a control theory for AI models, providing a solid framework for developing interpretable systems. It’s all about keeping up with AI’s fast-paced evolution while ensuring our safety measures are robust and scalable.&lt;/p&gt;
+
+&lt;h2 id=&quot;entrepreneurship&quot;&gt;# Entrepreneurship&lt;/h2&gt;
+
+&lt;h3 id=&quot;precious-mindset&quot;&gt;Precious Mindset&lt;/h3&gt;
+
+&lt;p&gt;One of the main points of disagreement I have with Yudowsky, and others are regarding the driving forces behind the development of AIS. Safety cannot emerge in a domain where there is no market or innovation. Safety is a logical response to ongoing concerns and needs to be part of the system to truly model it. I firmly believe that creation, innovation, and people focus should be the critical drivers for the upcoming new AI era.&lt;/p&gt;
+
+&lt;p&gt;In order to ensure a significant impact and bring about change in the industry and, more generally, in the system, it is essential to be an active participant rather than just a pawn. Easier said than done! Yet, I believe that entrepreneurship gives the best leverage for this, whereas employees’ goals are crushed by hierarchy, and industry pressure and academic dreams of impact can fade behind the publication pressure.&lt;/p&gt;
+
+&lt;h3 id=&quot;founding-an-ai-startup&quot;&gt;Founding an AI Startup&lt;/h3&gt;
+
+&lt;p&gt;Founding a startup can be an extremely valuable experience, as it allows for the development of a diverse skill set. It also provides an opportunity to gain a deeper understanding of the market and industry responses. By starting a company, you can work towards getting acknowledgement and influence in the industry, which can be invaluable for future success.&lt;/p&gt;
+
+&lt;p&gt;Obviously, AI will be the most transformative technology of our era, and there are plenty of possibilities to make AI applications into startups. I also think that this could be a first step towards creating a safety-oriented startup, which can be slightly different, as described in the next section &lt;a href=&quot;#founding-an-org&quot;&gt;Founding an Org&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout tip&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-fire-flame-curved&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Ulterior Motive&lt;/em&gt;&lt;/div&gt; &lt;p&gt;The people need to be empowered by AI for their own good.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;Although I am still at the beginning of this journey, I have learned a lot. It motivates me deeply and lets my creative and perfectionist selves be wholly expressed. I’ll be outlining this in a future post, “Creating a Startup”.&lt;/p&gt;
+
+&lt;h3 id=&quot;founding-an-org&quot;&gt;Founding an Org&lt;/h3&gt;
+
+&lt;p&gt;Establishing an organisation dedicated to AI safety is the most efficient way to contribute to this field. Such an initiative would allow for the cultivation of independent research tailored to address specific concerns in AI safety heads. The governance and direction of such an organisation would be crucial, hinging on the selection of a forward-thinking, safety-oriented board. I think there are so many safety issues that this mindset could scale for the next few decades.&lt;/p&gt;
+
+&lt;p&gt;With impact and regulation, there’s a burgeoning necessity for entities that can bridge the gap between AI industry practices and academic research. An organisation focused on AI safety could serve as this vital link, facilitating the translation of theoretical safety concepts into practical industry applications. While it shares some operational similarities with traditional startups, particularly in terms of funding and product orientation, its core mission remains distinctively focused on enhancing safety in the AI domain.&lt;/p&gt;
+
+&lt;p&gt;Through this venture, the aim is to create a collaborative ecosystem that not only advances safety research but also influences industry standards and practices. By fostering an environment where innovative safety solutions are developed and shared, the organisation would play a critical role in shaping a future where AI is both powerful and safe.&lt;/p&gt;
+
+&lt;h2 id=&quot;my-general-approach&quot;&gt;# My General Approach&lt;/h2&gt;
+
+&lt;h3 id=&quot;my-ais-edges&quot;&gt;My AIS Edges&lt;/h3&gt;
+
+&lt;p&gt;In order to maximise my impact on improving safety in AI, it is essential that I take advantage of all my edges. My first edge is technical problem-solving, taking advantage of my skills ranging from ML engineering to theoretical fundamentals from mathematics and physics. This enables me to tackle concrete AI Safety problems without being afraid of mathematical aspects while also being able to iterate quickly with simple concrete experiments. Obviously, my scope is limited, and I cannot really have a significant impact on too many theoretical, philosophical or political aspects for now.&lt;/p&gt;
+
+&lt;p&gt;Then, my second relevant edge for AIS lies in teaching and mentoring, which comes from my experiences and personal fit. I’m particularly passionate about mentoring, and I have helped students in private lessons in mathematics, CS, AI, and more throughout all my study years. I have been a high school teacher for a few months, introducing the fundamentals of CS. I am curious and a perfectionist by nature (fundamental teaching skills, IMO), and I think explaining concepts in the simplest way has always helped me. I would love to contribute to AIS by helping out with any upcoming AIS training programs, and overall, my goal is to continue learning and growing along with the field of AIS.&lt;/p&gt;
+
+&lt;p&gt;I left my entrepreneur edge apart since I am only beginning to grow and explore this facet. What is more, this edge is instead a catalyst and could serve the two previous ones outlined.&lt;/p&gt;
+
+&lt;h3 id=&quot;brief-agenda&quot;&gt;Brief Agenda&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;My main focus?&lt;/strong&gt; Making AI interpretable. It’s the key to scaling up safely alongside rapid advancements in AI capabilities. I’m all in for grounding interpretability in solid theory where it makes sense, making sure it’s not just a temporary fix but a long-term solution.&lt;/p&gt;
+
+&lt;p&gt;I’m also putting a lot of stock in model evaluation. Sure, it might be a challenge to scale in the long run, but right now, it’s where the most promising and practical work is happening. I’m especially interested in how we can intertwine evaluation and interpretability to get the best of both worlds.&lt;/p&gt;
+
+&lt;p&gt;My agenda is about being proactive and adaptable, always looking for the most effective ways to keep AI safe and beneficial. It’s a mix of immediate actions and strategic long-term planning, ensuring that we’re prepared for the evolving landscape of AI technology.&lt;/p&gt;
+
+&lt;h3 id=&quot;whats-next&quot;&gt;What’s next?&lt;/h3&gt;
+
+&lt;p&gt;I am currently undergoing a research internship on interpretability, and I maintain my participation in different AIS programs in parallel. I am finishing the program &lt;a href=&quot;https://berkeleyaisafety.com/spar&quot;&gt;SPAR&lt;/a&gt; and will be involved in a research project with &lt;a href=&quot;https://apartresearch.com/lab&quot;&gt;Apart Research&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I am also committed to developing my startup with my co-founders. While our focus is on empowering small shopkeepers with our solutions, I am also focusing on bringing the most valuable applications of AI to their shops for their productivity and their customers’ experience.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout success&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-check&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Line of Impact&lt;/em&gt;&lt;/div&gt; &lt;p&gt;These plans are in line with what I depicted and what I believe are the most important tasks I should work on as of today.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;In the long term, I am creating a PhD project with a focus on safety. I cannot say much for now, but it should involve multi-agent systems’ safety through interpretability. Meanwhile, I refused an industry PhD as I was worried I would be too constrained to explore the topics I wanted. This watershed opportunity might also be the occasion for me to start a podcast as a logical extension of this blog.&lt;/p&gt;
+
+&lt;p&gt;Regarding my involvement in the AIS sphere, I am planning to be a mentor in future iterations of AIS programs. I keep an eye on &lt;a href=&quot;https://www.camxrisk.org/&quot;&gt;CERI&lt;/a&gt;, &lt;a href=&quot;https://aisafety.camp/&quot;&gt;AIS Camp&lt;/a&gt;, and &lt;a href=&quot;https://berkeleyaisafety.com/spar&quot;&gt;SPAR&lt;/a&gt; should they support the technical interpretability agenda.&lt;/p&gt;</content><author><name>[[Yoann Poupart]]</name></author><category term="AIS" /><category term="Agenda" /><category term="Startup" /><summary type="html">TL;DR Shortcoming issues should not be undermined because, if not tackled immediately, they will make Alignment a lot more complex. I am convinced that interpretability will be the best tool for monitoring and control, and for that, I will pursue this agenda through research and entrepreneurship.</summary></entry><entry><title type="html">Stories</title><link href="https://yp-edu.github.io/stories/index" rel="alternate" type="text/html" title="Stories" /><published>2024-02-29T09:10:02+00:00</published><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/stories/index</id><content type="html" xml:base="https://yp-edu.github.io/stories/index"></content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">Creating a Startup</title><link href="https://yp-edu.github.io/stories/creating-a-startup" rel="alternate" type="text/html" title="Creating a Startup" /><published>2024-02-29T09:10:02+00:00</published><updated>2024-02-29T09:10:02+00:00</updated><id>https://yp-edu.github.io/stories/creating-a-startup</id><content type="html" xml:base="https://yp-edu.github.io/stories/creating-a-startup">&lt;p&gt;&lt;img src=&quot;/assets/images/creating-a-startup.png&quot; alt=&quot;Creating a Startup&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout tldr&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-clipboard-list&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; TL;DR&lt;/em&gt;&lt;/div&gt; &lt;p&gt;Creating a startup is not always about having the best or a totally new idea. Entrepreneurship is just another way to deliver value and achieve your goals, and it’s within everyone’s reach. We chose this path because it is flexible, stimulating, profoundly empowering, but also fun.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;callout example&quot;&gt; &lt;details&gt; &lt;summary&gt;&lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-list&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Table of content&lt;/em&gt;&lt;/div&gt;&lt;/summary&gt; &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;#the-creation-process&quot;&gt;The Creation Process&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#ideation&quot;&gt;Ideation&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#the-team&quot;&gt;The Team&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#the-official-creation&quot;&gt;The Official Creation&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#the-pitch&quot;&gt;The Pitch&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#why-blockloads&quot;&gt;Why BlockLoads?&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#the-roadmap&quot;&gt;The RoadMap&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#meet-us&quot;&gt;Meet Us&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#resources&quot;&gt;Resources&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt; &lt;/details&gt; &lt;/blockquote&gt;
+
+&lt;h2 id=&quot;the-creation-process&quot;&gt;# The Creation Process&lt;/h2&gt;
+
+&lt;h3 id=&quot;ideation&quot;&gt;Ideation&lt;/h3&gt;
+
+&lt;p&gt;Ideation is not fixed in time; it’s a long-lasting process that demands to iterate. It’s about refining some initial ideas with the first test and developments, as well as with the first customer feedback. Yet, it is always good to keep in mind some guiding drivers.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;“What and why?”: Represents what you are trying to solve and why it matters. There is a difference between nice-to-haves, must-haves and hair-on-fire issues, which often leads to forgotten failures.&lt;/li&gt;
+  &lt;li&gt;“Why now?”: Is essential with regard to market dynamics and technology advancement. Maybe new opportunities are opening up, or a new technology could solve previously too complex problems.&lt;/li&gt;
+  &lt;li&gt;“Why you?”: The “right” to solve the outlined problems of this precise market at this precise time. It’s important to be able to justify your legitimacy, which involves understanding your edges. More in the &lt;a href=&quot;#the-team&quot;&gt;team section&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Next, I will present the team-forming process, followed by the official creation, and lastly, the pitch. I think that for us, and in general, the idea should come afterwards and can be shallow, drafty and blurred at the beginning. What feels the most important is the will to make things happen and the determination to innovate, constantly feeling that you are the perfect team.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-team&quot;&gt;The Team&lt;/h3&gt;
+
+&lt;p&gt;The team presentation has two primary motives. First, it is important for potential investors or clients to get to know the team they’ll be working with, but it is also crucial to present our edge and answer the question, “Why us?”.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout note&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-pen&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Edge &lt;a href=&quot;#resources&quot;&gt;@1&lt;/a&gt;&lt;/em&gt;&lt;/div&gt; &lt;p&gt;Each individual has a specific edge, which is the combination of all his experiences and knowledge. There are three edges to consider in startup. The market edge, the technology edge and the catalyser edge. The latter is the diverse experiences and soft skills relevant to the given startup.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;The critical points for a startup are the diversification, adaptability and agility of its founders and their processes. In the beginning, it’s essential to have quick feedback loops first in the team and then with what you’re building. Each founder has to take the lead on various subjects, and they shall not fear learning beyond their edge.&lt;/p&gt;
+
+&lt;p&gt;In terms of the founding team size, three seems the most convenient. For two people, it’s faster to discuss and brainstorm ideas, yet the workload might be too heavy at the beginning. Four people is a lot of discussion channels/energy, and with regard to cohesion, it might be hard to keep everyone at the same level of commitment. At three, it’s still possible to communicate smoothly, the tasks can be divided, and when one person is unavailable, two are still on duty. And last but not least, it’s easy to break ties!&lt;/p&gt;
+
+&lt;p&gt;So here are the three champions:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Alexandre the CEO:&lt;/strong&gt; Market edge. He graduated with a Master’s in marketing, management and business. He has expertise in web agency building websites with &lt;a href=&quot;https://www.shopify.com/&quot;&gt;Shopify&lt;/a&gt; and other software like &lt;a href=&quot;https://webflow.com/&quot;&gt;Webflow&lt;/a&gt;. Moreover, he has plenty of precious entrepreneurial skills as he also runs another startup in parallel and always listens to market waves.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Florian, the COO/CFO:&lt;/strong&gt; Catalyser edge. With his engineering diploma in logistics, he has a broad background ranging from process optimisation and organisation to software and coding skills. He has a diverse set of lead experiences from projects as well as consulting that logically put him in charge of our processes. His engineering background enables him to understand and link technological solutions to market needs.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;I, Yoann, the CTO:&lt;/strong&gt; Technology edge. With my research degree and background, I have a broad knowledge of cutting-edge AI technology. Yet I also practised ML engineering during my apprenticeship, where I had projects linked to model training, MLOps, DevOps and cloud deployment. I am running and architecturing the backend logic of our solutions as well as the AI integration.&lt;/p&gt;
+
+&lt;p&gt;I always feel that my cofounders are just fantastic for the job they do and the efforts they put. If you don’t feel the same, maybe you should take a step back to assess your team edge deeper or speak up. Team cohesion is the cornerstone of the startup, especially in its early stages. Don’t forget to fail fast!&lt;/p&gt;
+
+&lt;h3 id=&quot;the-official-creation&quot;&gt;The Official Creation&lt;/h3&gt;
+
+&lt;p&gt;Our startup has now officially 6 months, but its inception is way older. Our CEO matured his ideas during his studies as I remember talking about &lt;a href=&quot;https://www.shopify.com/&quot;&gt;Shopify&lt;/a&gt; (our first “niche” target) four years ago. He embarked our CFO first, last year, to begin brainstorming concrete startup ideas. I can’t document their journey, but in January, we discussed their obstacles and the market gaps they found. As we saw that I could extend the team edge to tackle these, they fairly easily convinced me to jump on the boat.&lt;/p&gt;
+
+&lt;p&gt;My first mistake (and theirs) was to discuss the share distribution too soon. I embarked with cold feet as I had my own agenda and career expectations, and my time schedule was already heavy. I neglected this part in the beginning and grew resentful the more time and effort I put into the work. The legal process is not the funniest part, but it is undoubtedly the most important as it practically defines how the startup will run. It should be considered after a trial period where the team has begun to build a POC, as it is important to test your team and entrepreneur fits.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout danger&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-bolt&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Gotcha&lt;/em&gt;&lt;/div&gt; &lt;p&gt;Share distribution is the core issue when building a company, and it should be thoughtfully discussed. It is the moment for everyone to shed light on his strength and acknowledge others’. Yet this phase should come after a trial phase so that you can be sure of everyone’s commitment. This is especially tricky when you’re not beginning full-time, as commitment is hard to measure. Above all, the final decision should be unanimous and primarily based on what’s to come rather than what was brought.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;Once everyone has agreed on the distribution, the official creation can begin. It is fairly important to be quick and efficient regarding legal, finance and administration. In the beginning, there is no time to lose time on such matters, and later, if the startup works, its foundations cannot be shaky. Therefore, don’t hesitate to invest some money in these processes to delegate dull and boring tasks and focus on what matters and where you can add value.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-pitch&quot;&gt;# The Pitch&lt;/h2&gt;
+
+&lt;h3 id=&quot;why-blockloadshttpsblockloadscom&quot;&gt;Why &lt;a href=&quot;https://blockloads.com&quot;&gt;BlockLoads&lt;/a&gt;?&lt;/h3&gt;
+
+&lt;p&gt;As you always start somewhere, the initial startup ideas were really focused on automated website creation specifically for &lt;a href=&quot;https://www.shopify.com/&quot;&gt;Shopify&lt;/a&gt;. If you have already developed with &lt;a href=&quot;https://www.shopify.com/&quot;&gt;Shopify&lt;/a&gt;, you should know that composability is somewhat more complex compared to other platforms like &lt;a href=&quot;https://webflow.com/&quot;&gt;Webflow&lt;/a&gt;, especially for non-developers. Thus, we envisioned an easy platform to use where you can select pre-built sections ready for integration on your website. In this respect, we think that &lt;a href=&quot;https://blockloads.com&quot;&gt;Blockloads&lt;/a&gt; conveys the core idea of code modularity, component integration, and customisable software.&lt;/p&gt;
+
+&lt;p&gt;With the months, ideas got broader, and this trademark might fail to capture our deep essence.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-roadmap&quot;&gt;The RoadMap&lt;/h3&gt;
+
+&lt;p&gt;Describing our current roadmap is hard (and we might keep some aspects private) since it has changed a lot. Yet, this is expected in the early stages, and we were prepared for it since we work in agile mode. Our leading guidelines are to make website development much easier and cheaper as well as to provide tools to enhance productivity and business.&lt;/p&gt;
+
+&lt;p&gt;As a matter of fact, integrating AI was the reason I joined, yet I might have been too naive about the amount of work needed, especially minimising tech debt. At the time, I already knew DevOps, yet I thought it was only helpful for more prominent companies. It turned out that this is the fundamental component that helped me build highly stable, reproducible and easily deployable applications. We also changed the roadmap to include more dev tasks to make the most of my edge when I fully joined the team.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout success&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-check&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Goal&lt;/em&gt;&lt;/div&gt; &lt;p&gt;Our ultimate goal has always been and always will be to facilitate and accelerate the shop’s development and administration. We want to be accessible to the modest shopkeepers, empowering them in their market adventure.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;What’s next?&lt;/strong&gt; We envision first launching our long-thought-out products this year. As there are some settled competitors, we plan to cut the prices. We’ll also have some applications ready for this summer which can finally integrate AI into everyone’s shop. Obviously, we are open to changes along the road with the first dead-ends (very likely) and customer feedback. We keep an adaptative mindset, and when it comes to products, we don’t forget the fast-failing aspect.&lt;/p&gt;
+
+&lt;h3 id=&quot;meet-us&quot;&gt;Meet Us&lt;/h3&gt;
+
+&lt;p&gt;In order to get close to our customers and partners, we decided to create a Discord server &lt;a href=&quot;https://discord.gg/gf2j9P4JEa&quot;&gt;BlockLoading&lt;/a&gt;. We chose Discord as it is the perfect match for community building, but also because we are already using it to run our startup.&lt;/p&gt;
+
+&lt;blockquote class=&quot;callout caution&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-triangle-exclamation&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; Disclaimer&lt;/em&gt;&lt;/div&gt; &lt;p&gt;This server is under development regarding its architecture, bots, automation, and purpose. While we are committed to growing a community, this server might just be for customer service in the end.&lt;/p&gt; &lt;/blockquote&gt;
+
+&lt;p&gt;We envision this media and cyber-space as a way to deliver fast and tailored customer service. We planned on hosting conferences, discussion groups and obviously QnA about our solutions but also about the Shopify ecosystem.&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;# Resources&lt;/h2&gt;
+
+&lt;blockquote class=&quot;callout quote&quot;&gt; &lt;div class=&quot;callout-title&quot;&gt; &lt;i class=&quot;fa-solid fa-quote-right&quot; href=&quot;#&quot;&gt;&lt;/i&gt; &lt;em&gt; References&lt;/em&gt;&lt;/div&gt; &lt;ol&gt;
+    &lt;li&gt;A. Bentinck and M. Clifford, “How to Be a Founder: How Entrepreneurs can Identify, Fund and Launch their Best Ideas,” ‎ in &lt;em&gt;Bloomsbury Business; 1st edition&lt;/em&gt;, 2022.&lt;/li&gt;
+  &lt;/ol&gt; &lt;/blockquote&gt;</content><author><name>[[Yoann Poupart]]</name></author><category term="Startup" /><category term="Experience" /><summary type="html"></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://yp-edu.github.io/assets/images/creating-a-startup_thumbnail.png" /><media:content medium="image" url="https://yp-edu.github.io/assets/images/creating-a-startup_thumbnail.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
