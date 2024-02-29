@@ -64,7 +64,7 @@ The training code is available on the associated GitHub repository [training-gpt
 
 For the [dataset](https://huggingface.co/datasets/yp-edu/stockfish-debug) I used the simple format of prompt + completion:
 
-```json
+```
 {"prompt": "FEN: {fen}\nMOVE:", "completion": " {move}"}
 ```
 
