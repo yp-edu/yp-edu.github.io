@@ -7,3 +7,4 @@ vendor
 pages/**/*
 !pages/**/
 !pages/**/*.md
+!pages/_publications/*
