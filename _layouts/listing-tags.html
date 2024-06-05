@@ -14,7 +14,7 @@ layout: default
 <span>No item yet...</span>
 <p>Be patient!</p>
 {% else %}
-  {% assign sorted_collection = collection | sort: "publishedOn" | reverse %}
+  {% assign sorted_collection = collection | sort: "title" %}
   {% for item in sorted_collection %}
     {% if item.title != title %}
         <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
