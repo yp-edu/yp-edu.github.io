@@ -1,4 +1,4 @@
 ---
 title: Publications
-layout: listing
+layout: listing-no-feed
 ---

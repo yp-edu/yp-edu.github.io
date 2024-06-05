@@ -1,6 +1,6 @@
 ---
 title: Drafts
-layout: listing
+layout: listing-no-feed
 ---
 
 <blockquote class="callout warning"> <div class="callout-title"> <i class="fa-solid fa-triangle-exclamation" href="#"></i> 
