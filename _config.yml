@@ -78,6 +78,11 @@ defaults:
       type: 'drafts'
     values:
       layout: 'story'
+  - scope:
+      path: ''
+      type: 'publications'
+    values:
+      layout: 'publication'
 
 # Collections
 collections_dir: pages
@@ -95,6 +100,9 @@ collections:
     output: true
     permalink: /:collection/:title
   drafts:
+    output: true
+    permalink: /:collection/:title
+  publications:
     output: true
     permalink: /:collection/:title
 
