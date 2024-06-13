@@ -32,6 +32,8 @@ I could reach and help more pupils but ended up having a lesser impact.
 
 This trade-off between impact and audience is crucial, and with this blog, I'll be trying to maximise the effect while moving to a greater audience I've never had.
 
+See my [teaching materials](/materials).
+
 ## Research Interests
 
 I have a broad interest in AI research regarding the technology component (NLP, CV, RL). 
@@ -39,6 +41,8 @@ Yet, I am trying to focus, first and foremost, on the safety of these technologi
 
 Regarding AI in general, I am primarily concerned with misuse. This problem is at the heart of many other technologies, and we should always keep it in mind while devising new products. 
 Then, like many others, I also noticed a considerable gap between the development speed of capabilities compared to safety. What's even more concerning is that this gap tends to widen. I outlined this in the story [My Approach to AI Safety](/stories/my-approach-to-ai-safety), and I might add another post on the subject detailing my agenda, theory of change, theory of impact and more.
+
+See my [publications](/publications).
 
 ## Contact
 

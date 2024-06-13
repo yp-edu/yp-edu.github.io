@@ -34,6 +34,8 @@ github:
   version: 1.0.0
 linkedin:
   url: "https://www.linkedin.com/in/yoann-poupart"
+google:
+  url: "https://scholar.google.com/citations?user=hX7LNgUAAAAJ&hl"
 
 
 # Build settings
@@ -83,6 +85,11 @@ defaults:
       type: 'publications'
     values:
       layout: 'publication'
+  - scope:
+      path: ''
+      type: 'materials'
+    values:
+      layout: 'story'
 
 # Collections
 collections_dir: pages
@@ -103,6 +110,9 @@ collections:
     output: true
     permalink: /:collection/:title
   publications:
+    output: true
+    permalink: /:collection/:title
+  materials:
     output: true
     permalink: /:collection/:title
 
