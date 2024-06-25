@@ -133,9 +133,19 @@ body {
   font-size: smaller;
 }
 
+input[type="checkbox"] {
+  position: relative;
+  left: -2.4em;
+  margin-right: -1.8em;
+}
+
 .checkbox-list {
   list-style-type: none !important; 
   padding-left: 0;
   float: left;
+  margin-bottom: 1.5rem !important;
 }
 
+.subtitle-custom {
+  margin-bottom: 0 !important;
+}
