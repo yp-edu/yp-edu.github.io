@@ -133,5 +133,9 @@ body {
   font-size: smaller;
 }
 
-
+.checkbox-list {
+  list-style-type: none !important; 
+  padding-left: 0;
+  float: left;
+}
 
