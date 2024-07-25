@@ -171,7 +171,7 @@ description: TL;DR> We propose contrastive sparse autoencoders (CSAE), a novel f
         src="https://lczero-planning-demo.hf.space"
         frameborder="0" 
         width="100%"
-        height="800"
+        height="600"
         style="border-radius: 10px;"
       ></iframe>
     </div>
@@ -228,6 +228,11 @@ description: TL;DR> We propose contrastive sparse autoencoders (CSAE), a novel f
               with human effort, and there's a lack of extensive qualitative evidence to support the interpretability of learned features. Quantitatively, the performance metrics like F1, precision, and recall are barely above threshold levels, and no robust statistical analysis is provided to support the findings. Moreover, there's a gap in demonstrating 
               how these features impact chess-playing decisions in practical scenarios.
             </li>
+            <li>
+              <strong>Interesting idea:</strong> Despite the aforementioned criticisms, the idea of using CSAE to interpret the planning of chess-playing agents 
+              was overall praised. It was considered a novel approach that could potentially provide valuable insights
+              should it be validated by a deeper study.
+            </li>
           </ul>
         </div>
       </div>
@@ -244,27 +249,27 @@ description: TL;DR> We propose contrastive sparse autoencoders (CSAE), a novel f
           <h3 class="subtitle subtitle-custom is-5">I propose the following roadmap to address the reviews:</h3>
           <ul class="checkbox-list">
             <li>
-              <input type="checkbox" onclick="return false;"/> <strong> Enhanced method evaluation:</strong> 
-              Currently, the paper lacks comparative analysis with other methods. 
-              To address this, I plan to conduct evaluations against simple heuristic models to determine how 
-              effectively my method extracts meaningful features. Additionally, I will compare the performance of Contrastive Sparse Autoencoders (CSAEs) with standard Sparse Autoencoders (SAE) and other relevant techniques to establish a clear benchmark.
-            </li>
-            <li>
-              <input type="checkbox" onclick="return false;"/> <strong>Feature ablation study:</strong> I will carry out an ablation study to assess the impact of individual features extracted by the CSAE on the decision-making process of the chess agent. 
-              This will help quantify the contribution of each feature towards enhancing the agent’s planning capabilities.
+              <input type="checkbox" onclick="return false;" checked/> <strike><strong>Feature ablation study:</strong> I will carry out an ablation study to assess the impact of individual features extracted by the CSAE on the decision-making process of the chess agent. 
+              This will help quantify the contribution of each feature towards enhancing the agent’s planning capabilities.</strike>
             </li>
             <li>
               <input type="checkbox" onclick="return false;"/> <strong>Expose more features:</strong> In addition to the Huggingface space created for the paper, I will provide a more detailed
               analysis of the features extracted by the CSAE.
             </li>
             <li>
-              <input type="checkbox" onclick="return false;"/> <strong>Remove or rethink the clustering approach:</strong> While theoretically the clustering approach would 
+              <input type="checkbox" onclick="return false;" checked/> <strike><strong>Remove or rethink the clustering approach:</strong> While theoretically the clustering approach would 
               be interesting to scale human analysis it is not clear how it would be used in practice. 
-              I have no clear idea on how to address this issue yet and might remove it from the paper.
+              I have no clear idea on how to address this issue yet and might remove it from the paper.</strike>
             </li>
           </ul>
           <h3 class="subtitle subtitle-custom is-5">What I might leave out for further work:</h3>
           <ul class="checkbox-list">
+            <li>
+              <input type="checkbox" onclick="return false;"/> <strong> Enhanced method evaluation:</strong> 
+              Currently, the paper lacks comparative analysis with other methods. 
+              To address this, I plan to conduct evaluations against simple heuristic models to determine how 
+              effectively my method extracts meaningful features. Additionally, I will compare the performance of Contrastive Sparse Autoencoders (CSAEs) with standard Sparse Autoencoders (SAE) and other relevant techniques to establish a clear benchmark.
+            </li>
             <li>
               <input type="checkbox" onclick="return false;"/> <strong>Establishing a proper benchmark: </strong> Setting up a robust benchmark, particularly in the context of chess, 
                 would address many criticisms and provide a more objective evaluation of the CSAE. However, due to the significant work required, 
@@ -332,21 +337,21 @@ description: TL;DR> We propose contrastive sparse autoencoders (CSAE), a novel f
 
 
 <!-- Paper poster -->
-<!-- <section class="hero is-small is-light">
+<section class="hero is-small is-light">
   <div class="hero-body">
     <div class="container">
       <h2 class="title">Poster</h2>
 
       <iframe
-        src="/assets/publications/pdfs/sample.pdf" 
+        src="/assets/publications/pdfs/lczero-planning_poster.pdf"
         width="100%" 
-        height="550"
+        height="600"
         style="border-radius: 10px;"
       ></iframe>
         
       </div>
     </div>
-  </section> -->
+  </section>
 <!--End paper poster -->
 
 
@@ -355,11 +360,14 @@ description: TL;DR> We propose contrastive sparse autoencoders (CSAE), a novel f
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
       <pre>
-<code>@inproceedings{poupart2024contrastive,
-  title={Contrastive Sparse Autoencoders for Interpreting Planning of Chess-Playing Agents},
-  author={Poupart, Yoann},
+<code>@misc{poupart2024contrastivesparseautoencodersinterpreting,
+  title={Contrastive Sparse Autoencoders for Interpreting Planning of Chess-Playing Agents}, 
+  author={Yoann Poupart},
   year={2024},
-  booktitle={Workshop on Interpretable Policies in Reinforcement Learning@ RLC-2024}
+  eprint={2406.04028},
+  archivePrefix={arXiv},
+  primaryClass={cs.AI},
+  url={https://arxiv.org/abs/2406.04028}, 
 }</code></pre>
     </div>
 </section>
