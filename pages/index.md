@@ -17,7 +17,7 @@ You'll find here a collection of stories, projects and articles.
 
 ## Pinned [stories](/stories/)  [::rss::](/stories/feed.xml)
 
-{% assign pinned_stories = "/stories/why-this-blog, /stories/my-approach-to-ai-safety, /stories/creating-a-startup" | split: ", " %}
+{% assign pinned_stories = "/stories/my-approach-to-ai-safety, /stories/creating-a-startup, /stories/my-phd" | split: ", " %}
 {% assign collection = site.stories | sort: "publishedOn" | reverse %}
 {% for item in collection %}
 {% if pinned_stories contains item.url %}
