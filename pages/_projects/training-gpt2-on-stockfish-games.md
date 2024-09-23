@@ -14,7 +14,7 @@ publishedOn: 2024-02-29
 editedOn: 2024-02-29
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 15
+readingTime: 12
 image: /assets/images/training-gpt2-on-stockfish-games_thumbnail.webp
 description: TL;DR> I trained a GPT-2 model on Stockfish self-played games in the most naive way, with no search, and it can play decently. The model is trained to output the next move given the FEN string of the board (single state). While I present some gotchas and caveats, the results are quite acceptable for the amount of work and computing invested. I also present a basic attention visualiser parsing the attention of the text tokens into the board.
 ---
