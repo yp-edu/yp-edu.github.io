@@ -1,6 +1,6 @@
 ---
 title: My PhD
-tldr: A short-story about why I decided to do a PhD on the subject of explainable multi-agent reinforcement learning. I detail how I weighted this decision as well as the proposal creation process I underwent. I also try to depict what I plan to do to make the best of my PhD.
+tldr: A short-story about why I decided to do a PhD on the subject of explainable multi-agent reinforcement learning. I detail how I weighted this decision and how I created my proposal. I also try to depict what I plan to do for making the best of my PhD.
 tags:
   - Experience
   - Research
@@ -16,13 +16,13 @@ authors:
   - "[[Yoann Poupart]]"
 readingTime: 10
 image: /assets/images/my-phd_thumbnail.png
-description: TL;DR> A short-story about why I decided to do a PhD on the subject of explainable multi-agent reinforcement learning. I detail how I weighted this decision as well as the proposal creation process I underwent. I also try to depict what I plan to do to make the best of my PhD.
+description: TL;DR> A short-story about why I decided to do a PhD on the subject of explainable multi-agent reinforcement learning. I detail how I weighted this decision and how I created my proposal. I also try to depict what I plan to do for making the best of my PhD.
 ---
 ![My PhD](my-phd.png)
 
 > [!tldr] TL;DR
 > 
-> A short-story about why I decided to do a PhD on the subject of explainable multi-agent reinforcement learning. I detail how I weighted this decision as well as the proposal creation process I underwent. I also try to depict what I plan to do to make the best of my PhD.
+> A short-story about why I decided to do a PhD on the subject of explainable multi-agent reinforcement learning. I detail how I weighted this decision and how I created my proposal. I also try to depict what I plan to do for making the best of my PhD.
 
 > [!example] Table of content
 > 
@@ -65,18 +65,19 @@ If you choose to do a PhD, you might miss other opportunities. You might miss a 
 > 
 > There is also an opportunity cost for not doing a PhD. This internationally revered badge is often the entry ticket to high-value position in big R&D teams. And while it's technically possible to do it later few will take the plunge and accept this high-demanding and stressful experience later-on.
 
-While I expect not so much PhD to have already created a startup when beginning their PhD (unlike me), I think it is common to do it after a PhD. I also think that your PhD knowledge is a crucial Edge (c.f. [Creating a Startup](/stories/creating-a-startup)), e.g. you could be using your PhD subject to create a startup. You have 3 years to think this through! 
+While I expect not so much PhDs to have already created a startup when beginning their journey (unlike me), I think it is common build one after a PhD. I also think that your PhD knowledge is a crucial Edge (c.f. [Creating a Startup](/stories/creating-a-startup)), e.g. you could be using your research subject to create a startup. You have 3 years to think this through! 
 
 > [!tip] Hot Take
 > 
 > A PhD is just one more experience, and as such it is beneficial even you fail or give up. Obviously, I expect most academia folks to disagree but I am ready to double down on it.
 > 
 
-Which is why I think beginning a PhD not necessarily block you for 3 years. It shouldn't prevent you from doing other enterprise, should you find them more exciting or promising for your sake.
+Which is why I think beginning a PhD not necessarily blocks you for 3 years. It shouldn't prevent you from doing other enterprise, should you find them more exciting or promising for your sake.
 
 ### The Intrinsic Motivation
 
 In my opinion the intrinsic motivation overrules the previous conditions:
+
 - Don't do a PhD if you have no intrinsic motivation, even if you can.
 - Having an intrinsic motivation can help waver or forget the opportunity cost.
 
@@ -89,29 +90,33 @@ The motivation doesn't necessarily need to be research on its own but could be d
 
 ## Proposal Creation Process
 
+Now that you're convinced about doing a PhD, let me tell you about the process to get one.
+
 ### DIY!
 
-If you can, do it yourself! This is a great opportunity to engage with the subject you want/need to explore and as the startup saying goes, "Fail fast!". The sooner you discover a subject, the sooner you'll be able to pivot should you find it less exciting or interesting.
+If you can, do it yourself! This is a great opportunity to engage with the subject you want/need to explore and as the saying goes, "Fail fast!". The sooner you discover a subject, the sooner you'll be able to pivot should you find it less exciting or interesting.
 
-Every exploration you'll make or article you'll read will be beneficial for building your scientific knowledge, even if peripheral to your "actual" subject. And by actual I mean the subject you'll end up writing about. I personally already made a shift in my subject (from the proposal), focusing on a nicher subject. As the more you dig, the more you discover, and inevitably you'll need to focus on a subset of the initial subject that you might not even know existed before doing your PhD.
+Every exploration you'll make or article you'll read will be beneficial for building your scientific knowledge, even if peripheral to your "actual" subject. And by actual I mean the subject you'll end up writing about. I personally already made a shift in my subject (from the proposal), focusing on a niche subject. As the more you dig, the more you discover, and inevitably you'll need to focus on a subset of the initial subject that you might not even know existed before starting your PhD.
 
-With my former university (ENS Lyon) I had the opportunity to apply for funding and chose the subject. Yet, because of various causes (gap year and others (that I might detail in a forthcoming story)), I found my supervisor late w.r.t. the application deadline and was assigned, mostly by myself, to do the proposal. I thought it as a double-edge sword, it was a way to explore a subject I cared about and a way to convince my supervisor support my application
+With my former university (ENS Lyon) I had the opportunity to apply for funding and chose the subject. Yet, because of various causes (gap year and others (that I might detail in a forthcoming story)), I found my supervisor late w.r.t. the application deadline and was assigned, mostly by myself, to do the proposal. I thought it as a double-edge sword, it was a way to explore a subject I cared about and a way to convince my supervisor support my application.
 
 > [!danger] Gotcha
 > 
-> Obviously this depends a lot on your PhD funding and hosting team. I am glad I could do it, and as a matter of fact I turned down an industry PhD because I felt I wouldn't be free to chose my subject (because of the company's objectives).
+> Obviously, this depends a lot on your PhD funding and hosting team. I am glad I could do it, and as a matter of fact I turned down an industry PhD because I felt I wouldn't be free to choose my subject (because of the company's objectives).
 
-For the interested folks I give some technical details about my proposal (and also give the proposal) in the [Roadmap](#the-roadmap) section, spoiler it is called **Interpretability for Multi-Agent Systems Safety**.
+For the interested folks, I give some technical details about my proposal (and also give the proposal) in the [Roadmap](#the-roadmap) section, spoiler it is called **Interpretability for Multi-Agent Systems Safety**.
 
 ### On What Should You Compromise?
 
 While I "brought" an opportunity with my application, I expect it not always to be the case. You should always ask if you can write it, but you might apply to funding already allocated to a particular PhD subject. In this case you might need to compromise and thus you should define your priorities among the following:
-- The subjects you want to study
-- The places where you want to do your PhD 
+
+- The subjects you want to study.
+- The places where you want to do your PhD.
 - The people you want to work with.
-- Your personal constraints
+- Your personal constraints.
 
 > [!tip] My Priorities
+> 
 > During my prospection, and in case I would not have gotten my funding I ranked it as the following. Working on Explainability and RL was a priority of mine as I think it really matters, see [My Approach to AI Safety](/stories/my-approach-to-ai-safety). I wanted to work with people caring about such problems. Even though you should be autonomous during a PhD, it's good to have some support from your direction, even if it means giving you free reign. Finally, while the places didn't really matter to me, Europe was easier for my personal life (3 years is a long time).
 > 
 
