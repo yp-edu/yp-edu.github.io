@@ -163,4 +163,4 @@ In addition to my main axes of research I plan to work on the followings:
 
 ## Resources
 
-You can read my proposal about "Interpretability for Multi-Agent Systems Safety" [here](/assets/files/my-phd_proposal.pdf), to which correspond a public PhD offer (soo available).
+You can read my proposal about "Interpretability for Multi-Agent Systems Safety" [here](/assets/files/my-phd_proposal.pdf), to which correspond a public PhD offer (soon available).
