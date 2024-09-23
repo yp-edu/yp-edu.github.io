@@ -6,8 +6,8 @@ permalink: /about/
 
 ## About me
 
-I am a French trainee researcher in AI with a focus on AI Safety, [here](/assets/files/CV_Yoann_Poupart.pdf) is a more detailed CV.
-I aspire to become a PhD candidate in September 2024.
+I am a French PhD student in AI with a focus on AI Safety, [here](/assets/files/CV_Yoann_Poupart.pdf) is a more detailed CV.
+I aspire to become a full-time entrepreneur in September 2027.
 
 
 **Hobbies**
@@ -31,6 +31,8 @@ During my gap year 2022/2023, I also taught computer science introductions in hi
 I could reach and help more pupils but ended up having a lesser impact.
 
 This trade-off between impact and audience is crucial, and with this blog, I'll be trying to maximise the effect while moving to a greater audience I've never had.
+
+As part of my PhD I will also have the opportunity to teach at Sorbonne University. Starting with basic Python practical exercises.
 
 See my [teaching materials](/materials).
 
