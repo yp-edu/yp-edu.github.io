@@ -129,7 +129,7 @@ I think that XAI really matters for AI in order to make it safe and reliable, as
 
 Then, during my internships I explored interpretability applied to Reinforcement Learning. On subject I worked on was to interpret RL models able to play chess better than human. It was very fascinating, as many gamers I was thrilled by to work on AI beating humans at games. I later on discovered Multi-Agent Reinforcement Learning which seems to have a lot of research traction, but I don't forget you AlphaZero.
 
-I thus, in collaboration with my supervisor, decided to write my proposal on "Interpretability for Multi-Agent Systems Safety", available [here](/files/my-phd_proposal.pdf). At the time I also included related works on LLMs (both LLM interpretability and LLM-base Multi-Agent Systems), as I was familiar with the field. Yet now I only see it as a potential extension that I might only play around.
+I thus, in collaboration with my supervisor, decided to write my proposal on "Interpretability for Multi-Agent Systems Safety", available [here](/assets/files/my-phd_proposal.pdf). At the time I also included related works on LLMs (both LLM interpretability and LLM-base Multi-Agent Systems), as I was familiar with the field. Yet now I only see it as a potential extension that I might only play around.
 
 ### The Daily Basis
 
@@ -151,4 +151,4 @@ In addition to my main axes of research I plan to work on the followings:
 
 ## Resources
 
-You can read my proposal about "Interpretability for Multi-Agent Systems Safety" [here](/files/my-phd_proposal.pdf), to which correspond a public PhD offer (soo available).
+You can read my proposal about "Interpretability for Multi-Agent Systems Safety" [here](/assets/files/my-phd_proposal.pdf), to which correspond a public PhD offer (soo available).
