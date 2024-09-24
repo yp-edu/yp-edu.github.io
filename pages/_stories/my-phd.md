@@ -11,10 +11,10 @@ references:
 aliases: 
 crossposts: 
 publishedOn: 2024-09-23
-editedOn: 2024-09-23
+editedOn: 2024-09-24
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 10
+readingTime: 11
 image: /assets/images/my-phd_thumbnail.png
 description: TL;DR> A short-story about why I decided to do a PhD on the subject of explainable multi-agent reinforcement learning. I detail how I weighted this decision and how I created my proposal. I also try to depict what I plan to do for making the best of my PhD.
 ---
@@ -139,7 +139,7 @@ Then, during my internships I explored interpretability applied to Reinforcement
 > As discussed in the following section I think it is important to have sub-projects. It helps broaden your vision and can prevent your subject from driving you crazy. I am thus planning to keep working on chess models occasionally.
 > 
 
-I thus, in collaboration with my supervisor, decided to write my proposal on "Interpretability for Multi-Agent Systems Safety", available [here](/assets/files/my-phd_proposal.pdf). At the time I also included related works on LLMs (both LLM interpretability and LLM-base Multi-Agent Systems), as I was familiar with the field. Yet now I only see it as a potential extension that I might only play around.
+I thus, in collaboration with my supervisor, decided to write my proposal on "Interpretability for Multi-Agent Systems Safety", available [here](/assets/files/my-phd_proposal.pdf). At the time I also included related works on LLMs (both LLM interpretability and LLM-based Multi-Agent Systems), as I was familiar with the field. Yet, I now only see it as a potential extension that I might only play around.
 
 ### The Daily Basis
 
