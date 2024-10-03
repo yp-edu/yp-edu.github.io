@@ -18,6 +18,7 @@ readingTime: 11
 image: /assets/images/my-phd_thumbnail.png
 description: TL;DR> A short-story about why I decided to do a PhD on the subject of explainable multi-agent reinforcement learning. I detail how I weighted this decision and how I created my proposal. I also try to depict what I plan to do for making the best of my PhD.
 ---
+
 ![My PhD](my-phd.png)
 
 > [!tldr] TL;DR
