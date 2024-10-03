@@ -22,6 +22,7 @@ FA_CALLOUTS = {
   "example" => "fa-solid fa-list",
   "quote" => "fa-solid fa-quote-right",
   "question" => "fa-solid fa-circle-question",
+  "todo" => "fa-solid fa-circle-check",
 }
 DEBUG = false
 

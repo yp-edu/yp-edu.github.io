@@ -3,9 +3,9 @@ title: FHE for Open Model Audits
 tldr: Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, as many, that these advancement are a real opportunity to improve AI safety. I thus outline possible applications in model evaluation and interpretability, the most mature tools in safety in my opinion.
 tags:
   - AIS
-  - Eval
   - XAI
-  - TFHE
+  - FHE
+  - Eval
 references: 
 aliases: 
 crossposts: 
@@ -59,13 +59,13 @@ First, FHE stands for "fully homomorphic encryption", a framework for cryptosyst
 
 > [!todo] Privacy Checklist
 > 
-> - [ ] Who wants to protect what?
-> - [ ] What is encrypted?
-> - [ ] Where is the compute executed?
-> - [ ] Who decrypts?
-> - [ ] Who needs the compute results?
-> - [ ] Is FHE really necessary here?
-> - [ ] Is FHE realistic here?
+> - Who wants to protect what?
+> - What is encrypted?
+> - Where is the compute executed?
+> - Who decrypts?
+> - Who needs the compute results?
+> -  Is FHE really necessary here?
+> - Is FHE realistic here?
 
 The last two points are crucial, as you want to avoid using FHE as much as possible. Bear in mind that computing on cyphertexts is expensive! For example if you can run locally on th
 It can often be reducted to Is there enough local power to run the model? 
