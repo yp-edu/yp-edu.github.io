@@ -83,4 +83,4 @@ Even if I am writing public content, I have a right to be wrong. I have a duty t
 
 > [!bug] Bug
 > 
->Obviously, that's not what this blog is for. So, in the event that you spot an error or a typo, feel free to drop an email at [error@yp-edu.org](mailto:error@yp-edu.org).
+>Obviously, that's not what this blog is for. So, in the event that you spot an error or a typo, feel free to drop an email at [yoann.poupar@ens-lyon.org](mailto:yoann.poupar@ens-lyon.org).
