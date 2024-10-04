@@ -57,8 +57,6 @@ First, FHE stands for "fully homomorphic encryption", a framework for cryptosyst
 
 > [!todo] Privacy Checklist
 > 
-> Here is a simple checklist for your privacy preserving application:
-> 
 > - Who wants to protect what?
 > - What is encrypted?
 > - Where is the compute executed?
