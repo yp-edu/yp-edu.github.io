@@ -57,6 +57,12 @@ class Jekyll::Converters::Markdown
         '<em>\2</em></div></summary> <ul>\3</ul> </details> </blockquote>'
         )
       parsed_html = parsed_html.gsub(
+          /<blockquote>\s*<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s*<p>((?:(?!blockquote).)*)<\/p>\s*<ul>((?:(?!blockquote).)*)<\/ul>\s*<\/blockquote>/m,
+          '<blockquote class="callout \1"> <div class="callout-title"> '\
+          '<i class="fa-\1" href="#"></i> '\
+          '<em>\2</em></div> <p>\3</p> <ul>\4</ul> </blockquote>'
+          )
+      parsed_html = parsed_html.gsub(
         /<blockquote>\s*<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s*<ul>((?:(?!blockquote).)*)<\/ul>\s*<\/blockquote>/m,
         '<blockquote class="callout \1"> <div class="callout-title"> '\
         '<i class="fa-\1" href="#"></i> '\
