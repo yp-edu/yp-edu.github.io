@@ -15,6 +15,8 @@ You'll find here a collection of stories, projects and articles.
 - Project: concrete application (mostly around AI)
 - Article: paper explanation or discussion (definitely about AI)
 
+You can use [tags](/tags) to find posts on a specific topic!
+
 ## Pinned [stories](/stories/)  [::rss::](/stories/feed.xml)
 
 {% assign pinned_stories = "/stories/my-approach-to-ai-safety, /stories/creating-a-startup, /stories/my-phd" | split: ", " %}
