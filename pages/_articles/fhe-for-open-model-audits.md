@@ -13,7 +13,7 @@ publishedOn: 2024-10-05
 editedOn: 2024-10-05
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 12
+readingTime: 14
 image: /assets/images/fhe-for-open-model-audits_thumbnail.webp
 description: TL;DR> Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.
 ---

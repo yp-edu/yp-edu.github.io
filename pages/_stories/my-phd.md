@@ -121,7 +121,7 @@ While I "brought" an opportunity with my application, I expect it not always to 
 > During my prospection, and in case I would not have gotten my funding I ranked it as the following. Working on Explainability and RL was a priority of mine as I think it really matters, see [My Approach to AI Safety](/stories/my-approach-to-ai-safety). I wanted to work with people caring about such problems. Even though you should be autonomous during a PhD, it's good to have some support from your direction, even if it means giving you free reign. Finally, while the places didn't really matter to me, Europe was easier for my personal life (3 years is a long time).
 > 
 
-As the subject was my priority I fixed those even before looking for a supervisor, and thus turned down the industry PhD. Then, I looked for supervisors throughout Europe, but mostly in France. I reached out to dozens and interviewed with a few. In addition to a pre-PhD internship what convinced was that I could push a proposal. Among them was [Nicolas Maudet](https://nmaudet.gitlab.io), working on multi-agent systems and part of an [XAI](/tags/xai) research group ([EXPLICON](https://gdr-radia.cnrs.fr/gt-xplicon/)), with whom I applied to my fundings.  Overall, I only applied to less than 5 PhD offers as I was fairly stubborn with the subject. 
+As the subject was my priority I fixed those even before looking for a supervisor, and thus turned down the industry PhD. Then, I looked for supervisors throughout Europe, but mostly in France. I reached out to dozens and interviewed with a few. In addition to a pre-PhD internship what convinced was that I could push a proposal. Among them was [Nicolas Maudet](https://nmaudet.gitlab.io), working on multi-agent systems and part of an [XAI](/tags/xai) research group ([EXPLICON](https://gdr-radia.cnrs.fr/gt-xplicon/)), with whom I applied for my funding.  Overall, I only applied to less than 5 PhD offers as I was fairly stubborn with the subject. 
 
 ## So What's the Plan?
 
@@ -140,28 +140,28 @@ Then, during my internships I explored interpretability applied to Reinforcement
 > As discussed in the following section I think it is important to have sub-projects. It helps broaden your vision and can prevent your subject from driving you crazy. I am thus planning to keep working on chess models occasionally.
 > 
 
-I thus, in collaboration with my supervisor, decided to write my proposal on "Interpretability for Multi-Agent Systems Safety", available [here](/assets/files/my-phd_proposal.pdf). At the time I also included related works on LLMs (both LLM interpretability and LLM-based Multi-Agent Systems), as I was familiar with the field. Yet, I now only see it as a potential extension that I might only play around.
+I thus, in collaboration with my supervisor, decided to write my proposal on "Interpretability for Multi-Agent Systems Safety", available [here](/assets/files/my-phd_proposal.pdf). At the time, I also included related works on LLMs (both LLM interpretability and LLM-based Multi-Agent Systems), as I was familiar with the field. Yet, I now only see it as a potential extension that I might only play around with.
 
 ### The Daily Basis
 
-I am convinced that the success of any enterprise lies in the daily efforts. Making the objectives and efforts small and reachable waver the quotidian stress but also make the mountains more easy to climb! 
+I am convinced that the success of any enterprise lies in daily efforts. Making the objectives and efforts small and reachable waver the quotidian stress but also make the mountains more easy to climb! 
 
 In addition to small goals, it could also be interesting to divert your attention and energy to proxy goals. It could be about being involved in other projects or collaborations or about exploring a new research or technical field.
 
-In addition to my main axes of research I plan to work on the followings:
+In addition to my main axes of research, I plan to work on the following:
 
-- This blog: it helps me explore new subjects and  master knowledge by digging more deeply.
+- This blog: it helps me explore new subjects and master knowledge by digging more deeply.
 - Teaching: I like teaching and it is a great opportunity to review foundational subjects.
 - Projects on chess XAI: I feel I could do more in chess XAI.
 - Projects on NLP XAI: Using my previous expertise to explore more.
 
- Otherwise I still want to take time with my hobbies:
+ Otherwise, I still want to take time with my hobbies:
  
  - Working on my startup.
- - Practicing climbing and bouldering (indoor and outdoor).
+ - Practising climbing and bouldering (indoor and outdoor).
  - Learning foreign languages (I'll focus on Japanese this year).
  - Doing a podcast? (Really unlikely but who knows...).
 
 ## Resources
 
-You can read my proposal about "Interpretability for Multi-Agent Systems Safety" [here](/assets/files/my-phd_proposal.pdf), to which correspond a public PhD offer (soon available).
+You can read my proposal about "Interpretability for Multi-Agent Systems Safety" [here](/assets/files/my-phd_proposal.pdf), to which correspond a public PhD offer (soon available) "Interpretability for Deep Multi-Agent Systems".
