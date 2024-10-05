@@ -61,7 +61,7 @@ You can use [tags](/tags) to find posts on a specific topic!
 
 ## Pinned [articles](/articles/) [::rss::](/articles/feed.xml)
 
-{% assign pinned_articles = "/articles/layer-wise-relevance-propagation" | split: ", " %}
+{% assign pinned_articles = "/articles/layer-wise-relevance-propagation, /articles/fhe-for-open-model-audits" | split: ", " %}
 {% assign collection = site.articles | sort: "publishedOn" | reverse %}
 {% for item in collection %}
 {% if pinned_articles contains item.url %}
