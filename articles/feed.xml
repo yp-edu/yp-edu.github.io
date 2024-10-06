@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="https://yp-edu.github.io/articles/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yp-edu.github.io/" rel="alternate" type="text/html" /><updated>2024-10-06T17:53:02+00:00</updated><id>https://yp-edu.github.io/articles/feed.xml</id><title type="html">Yoann Poupart | Articles</title><subtitle>Personal website, blog &amp; portfolio.</subtitle><entry><title type="html">Layer-Wise Relevance Propagation</title><link href="https://yp-edu.github.io/articles/layer-wise-relevance-propagation" rel="alternate" type="text/html" title="Layer-Wise Relevance Propagation" /><published>2024-10-06T17:53:02+00:00</published><updated>2024-10-06T17:53:02+00:00</updated><id>https://yp-edu.github.io/articles/layer-wise-relevance-propagation</id><content type="html" xml:base="https://yp-edu.github.io/articles/layer-wise-relevance-propagation"><![CDATA[<p><img src="/assets/images/layer-wise-relevance-propagation.png" alt="Layer-Wise Relevance Propagation" /></p>
+
+<blockquote class="callout tldr"> <div class="callout-title"> <i class="fa-solid fa-clipboard-list" href="#"></i> <em> TL;DR</em></div> <p>Layer-Wise Relevance Propagation (LRP) is a propagation method that produces relevances for a given input with regard to a target output. Technically, the computation happens using a single back-propagation pass, similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.</p> </blockquote>
+
+<blockquote class="callout example"> <details> <summary><div class="callout-title"> <i class="fa-solid fa-list" href="#"></i> <em> Table of content</em></div></summary> <ul>
+    <li><a href="#lrp-framework">LRP Framework</a>
+      <ul>
+        <li><a href="#formulation">Formulation</a></li>
+        <li><a href="#different-rules-for-different-layers">Different Rules for Different Layers</a></li>
+        <li><a href="#technical-details">Technical Details</a></li>
+      </ul>
+    </li>
+    <li><a href="#interpreting-othello-zero">Interpreting Othello Zero</a>
+      <ul>
+        <li><a href="#playing-othello">Playing Othello</a></li>
+        <li><a href="#network-decomposition">Network Decomposition</a></li>
+        <li><a href="#interpretation">Interpretation</a></li>
+        <li><a href="#evaluate-an-explanation">Evaluate an Explanation</a></li>
+      </ul>
+    </li>
+    <li><a href="#resources">Resources</a></li>
+  </ul> </details> </blockquote>
+
+<h2 id="lrp-framework"># LRP Framework</h2>
+
+<h3 id="formulation">Formulation</h3>
+
+<p>LRP <a href="#resources">@1</a> is a local interpretability method which attributes relevance to any neuron activation inside a neural network with regard to a target output and a given input. The target output can be non-terminal (e.g. an intermediate layer neuron activation), multi-dimensional (e.g. the final vector of logits) or uni-dimensional (e.g. a single class logit). Its formulation is similar to the classical Gradient$\times$Input <a href="#resources">@2</a> as it is computed using a single modified backward pass. Yet, it doesn’t suffer from the noisiness of the gradient.</p>
+
+<blockquote class="callout info"> <div class="callout-title"> <i class="fa-solid fa-circle-info" href="#"></i> <em> Notation</em></div> <p>The activation of the $j$-th neuron in the layer $l$ is noted $a_j^{[l]}$ and its associated relevance is noted $R_j^{[l]}$ and by convention $a_j^{[0]}$ represents the input and $R_j^{[L]}$ the target output. Weights are indexed similarly such that if the layer $l+1$ is linear its weights are noted $w_{kj}^{[l+1]}$ (<a href="https://pytorch.org/docs/stable/generated/torch.nn.Linear.html">torch convention</a>) and $b_k^{[l+1]}$ performing the mapping, to the $k$-th neuron of the layer $l+1$, given by equation $\ref{eq:linear_mapping}$ where $g$ is the activation function.</p> </blockquote>
+
+\[\begin{equation}
+\label{eq:linear_mapping}
+a_k^{[l+1]}=g\left(\sum_{j}w_{kj}^{[l+1]}a_{j}^{[l]}+b_k^{[l+1]}\right)
+\end{equation}\]
+
+<p>Figure <a href="#relevance-back-propagation">1</a> illustrates the process of relevance propagation, which can be intuited as a redistribution flow. The relevance $R_k^{[l+1]}$ is decomposed in “messages” sent to the previous layer. The message, $R_{j\leftarrow k}^{[l\leftarrow l+1]}$, from the $j$-th neuron of the layer $l+1$ to the $i$-th layer of the layer $l$ is then given by the equation $\ref{eq:message_decomposition}$, where $\Omega_{jk}^{[l+1]}$ is the decomposition rule (see bellow). The new relevance $R_j^{[l]}$ is then obtained by summing each “message” sent, as described by equation $\ref{eq:message_aggregation}$.</p>
+
+\[\begin{equation}
+\label{eq:message_decomposition}
+R_{j\leftarrow k}^{[l\leftarrow l+1]}=\Omega_{jk}^{[l+1]}R_k^{[l+1]}
+\end{equation}\]
+
+\[\begin{equation}
+\label{eq:message_aggregation}
+R_j^{[l]} = \sum_kR_{j\leftarrow k}^{[l\leftarrow l+1]}=\sum_k\Omega_{jk}^{[l+1]}R_k^{[l+1]}
+\end{equation}\]
+
+<blockquote class="callout note"> <div class="callout-title"> <i class="fa-solid fa-pen" href="#"></i> <em> Decomposition Rules</em></div> <p>A rule  $\Omega_{jk}^{[l+1]}$ defines how to redistribute the relevance $R_k^{[l+1]}$ of the layer $l+1$ into the previous layer $l$. The ideal rule depends on the nature of the layer $l+1$ and is an active topic of research <a href="#resources">@3@4@5</a> (e.g. for new or more complex architecture like Transformers), more on this in the <a href="#different-rules-for-different-layers">rule</a> and <a href="#evaluate-an-explanation">evaluation</a> sections.</p> </blockquote>
+
+<p class="im-center" id="relevance-back-propagation"><img src="/assets/images/layer-wise-relevance-propagation_backward.png" alt="layer-wise-relevance-propagation_backward" />
+<em>Figure 1: Relevance back-propagation of the dog logit, <a href="#resources">@5</a>.</em></p>
+
+<p>The most basic LRP rule <a href="#resources">@1</a> is given by the equation $\ref{eq:original_lrp_rule}$, which is a simple pre-activation weighting. One drawback of this rule is that it is not conservative, i.e. $\sum_jR_{j}^{[l]}\neq\sum_kR_{k}^{[l+1]}$ $\Leftrightarrow$ $\sum_j\Omega_{jk}^{[l+1]}\neq1$, and thus relevance get lost or created by the bias along the propagation. Therefore, this rule was revisited by <a href="#resources">@5</a> as LRP-$0$ by setting the biases to $0$ (a trick).</p>
+
+\[\begin{equation}
+\label{eq:original_lrp_rule}
+\Omega_{jk}^{[l+1]}=\dfrac{w_{kj}^{[l+1]}a_{j}^{[l]}}{\sum_{j}w_{kj}^{[l+1]}a_{j}^{[l]}+b_k^{[l+1]}}
+\end{equation}\]
+
+<blockquote class="callout danger"> <div class="callout-title"> <i class="fa-solid fa-bolt" href="#"></i> <em> Generalisation Gotcha</em></div> <p>The layer superscript is sometimes omitted in the literature because it doesn’t cover the general formulation. For example, to account for residual connections, the propagation should be spread across multiple layers. The general formulation is thus simply given by a causally weighted sum $R_{j}=\sum_{k}\Omega_{jk}R_k$ where the numbering is across all the neurons (causally means $\Omega_{jk}=0$ if $k&lt;=j$, messages are only sent backwards). It is less informative about the practical implementation but still carries the idea of tracking the actual computation.</p> </blockquote>
+
+<h3 id="different-rules-for-different-layers">Different Rules for Different Layers</h3>
+
+<p>Intuitively, the relevance propagation rules should be dependent on the layer’s nature, as is the forward flow. Fundamentally, this idea comes from the ambition of tracking the model’s various kinds of actual computation into each relevance. The classical framework for deriving these rules is Deep Taylor’s series Decomposition (DTD) <a href="#resources">@6</a>, yet it should be justified with care <a href="#resources">@7</a>. I’ll now present the necessary rules needed for the experiments I conducted, whose derivation can be found in the various linked <a href="#resources">resources</a> (most of them assume ReLU, which is the case here).</p>
+
+<blockquote class="callout info"> <div class="callout-title"> <i class="fa-solid fa-circle-info" href="#"></i> <em> Notation</em></div> <p>The layer superscript is dropped in this section for readability and since all the rules will be applied on consecutive layers. The index $j$ still refers to layer $l$ and the index $k$ to layer $l+1$.</p> </blockquote>
+
+<p><strong>LRP-$\epsilon$ <a href="#resources">@1</a>:</strong>  Defined by the equation $\ref{eq:lrpe_rule}$, it introduces $\epsilon$, a numerical stabilizer and the $z$ coefficients are set accordingly to the equation $\ref{eq:original_lrp_rule}$ ($z_{jk}=w_{kj}a_j$ and $z_k=\sum_{j}w_{kj}a_{j}+b_k$). A variant of this rule can be computed by setting the biases to $0$, but this is not enough for the propagation to be conservative. The stabiliser $\epsilon$ will absorb some relevance and should, therefore, be kept as small as possible. In practice, this rule is made for linear mappings (<code>Linear</code> &amp; <code>BatchNorm</code>).</p>
+
+\[\begin{equation}
+\label{eq:lrpe_rule}
+\Omega_{jk}=\dfrac{z_{jk}}{z_{k}+\epsilon \cdot {\rm sign}\left(z_{k}\right)}
+\end{equation}\]
+
+<p><strong>$z^+$ <a href="#resources">@6</a>:</strong> Defined by the equation $\ref{eq:zplus_rule}$, where $w_{kj}^+$ stands for the positive part of $w_{kj}$, i.e. $w_{kj}^+$ if $w_{kj}&lt;0$. This rule is conservative and positive (and thus consistent <a href="#resources">@6</a>). In practice, this rule is used for convolution.</p>
+
+\[\begin{equation}
+\label{eq:zplus_rule}
+\Omega_{jk}=\dfrac{w_{kj}^+a_{j}}{\sum_jw_{kj}^+a_{j}}
+\end{equation}\]
+
+<p><strong>$w^2$ <a href="#resources">@4</a>:</strong> Defined by the equation $\ref{eq:wsquare_rule}$, this rule is meant for early layers. This rule is conservative and positive (and thus consistent). In practice, it is used for the first layer, e.g. in order to propagate relevance to dead input neurons.</p>
+
+\[\begin{equation}
+\label{eq:wsquare_rule}
+\Omega_{jk}=\dfrac{w_{kj}^2}{\sum_j w_{kj}^2}
+\end{equation}\]
+
+<p><strong>Flat <a href="#resources">@4</a>:</strong> Defined by the equation $\ref{eq:flat_rule}$, this rule is similar to $w^2$ but assuming a constant weighting. It, therefore, redistributes equally the relevance across every preceding neuron. This rule is conservative and positive (and thus consistent). In practice, it is used for the first layer, e.g. in order to propagate relevance to dead input neurons.</p>
+
+\[\begin{equation}
+\label{eq:flat_rule}
+\Omega_{jk}=\dfrac{1}{\sum_j 1}
+\end{equation}\]
+
+<h3 id="technical-details">Technical Details</h3>
+
+<p>All the LRP computation can be done using the original authors’ library <a href="https://zennit.readthedocs.io/en/latest/">Zennit</a> <a href="#resources">@8</a>.
+In practice, the graph and back-propagation mechanism of <code>torch.autograd</code> is used using backward hooks; see the snippet below. The models need to implement the forward pass only using proper modules (child of the model instance) for them to be detected by <a href="https://zennit.readthedocs.io/en/latest/">Zennit</a> and hooked. And since it relies on full back-propagation, every module of the graph should be hooked (even activation functions).</p>
+
+<p><strong>Pass rule:</strong> This is a practical rule necessary regarding <a href="https://zennit.readthedocs.io/en/latest/">Zennit</a> implementation. In practice, even activation functions should be hooked because otherwise, the classical gradient will be computed during the backward pass. And since the actual relevance propagation is carried by other module hooks (<code>Linear</code>, <code>Conv</code>, etc.), no modification should be done (it’s a pass-through). It is typically used for activation functions.</p>
+
+<script src="https://gist.github.com/Xmaster6y/6734100a89f4ab9bd17fe24e84831d40.js"></script>
+
+<p>This important snippet explains how backward hooks are coded in <a href="https://zennit.readthedocs.io/en/latest/">Zennit</a>, which is fundamental to designing new rules. Besides <strong>Rules</strong>, derived from the <code>BasicHook</code>, other fundamental objects are available:</p>
+
+<ul>
+  <li><strong>Stabilizers</strong>: $\epsilon$ term in the LRP-$\epsilon$, which make the computation numerically stable. All rules are used in practice.</li>
+  <li><strong>Canonizer</strong>: Needed when using <code>BatchNorm</code> layers <a href="#resources">@3</a>, to reorder the computation.</li>
+  <li><strong>Composites</strong>: To easily combine rules.</li>
+</ul>
+
+<p>To illustrate rules, below is a snippet of the $z^+$ rule implementation. The first element is <code>param_modifiers</code>, which is used to modify the weights of the module, like here to separate positive and negative weights or like in LRP-$0$ to set the biases to zero. Then there are the <code>input_modifiers</code> and the <code>output_modifiers</code>, which enable lightweight modification of the forward pass (using the modified weights). In the rule below, they are used to separate positive from negative inputs. Finally, the <code>gradient_mapper</code> is used to compute the final form of the rule ($\Omega_{jk}$) here, one for positive and one for negative contribution, and the <code>reducer</code> computes the module relevance ($R_j$).</p>
+
+<script src="https://gist.github.com/Xmaster6y/a87cb4c058c47558e0f3cb9634b419e5.js"></script>
+
+<h2 id="interpreting-othello-zero"># Interpreting Othello Zero</h2>
+
+<h3 id="playing-othello">Playing Othello</h3>
+
+<p>Before digging into the actual interpretation of the network I borrowed from <a href="https://github.com/suragnair/alpha-zero-general">Alpha Zero General</a> <a href="#resources">@9</a>, it is important to understand how it is used in practice and how it was trained. I highly recommend checking their code on <a href="https://github.com/suragnair/alpha-zero-general">Github</a> or the associated <a href="https://web.stanford.edu/~surag/posts/alphazero.html">blog post</a> as well as the original Alpha Zero paper <a href="#resources">@10</a>.</p>
+
+<p>Tree representation of game (Min-Max, Alpha-Beta, MCTS, …) is an intuitive representation of a game whose main components are the root (the current position), the nodes (board states $s$) and the edges (action chosen for a given state $(s,a)$). Regarding search, the Alpha Zero paper <a href="#resources">@10</a> used MCTS PUCT <a href="#resources">@11</a>, with the upper bound confidence (UCB) given by the equation $\ref{eq:upper_confidence_boundary}$. This equation involves network predictions (heuristic) with $P_\theta(s)$ the policy vector and $Q_s$ is the average expected value over the visited children (terminal reward or intermediate network evaluation, i.e. the value $v_\theta(s)$). $c_{\rm puct}$ is a constant to balance  exploitation with exploration and after multiple rollouts the action is often chosen according to the tempered visit distribution, $\pi_s$ , given by the equation $\ref{eq:visit_distribution}$, with $\tau$ the temperature.</p>
+
+\[\begin{equation}
+\label{eq:upper_confidence_boundary}
+    U_s=Q_s+c_{\rm puct}\cdot P_\theta(s) \cdot \dfrac{\sqrt{||N_{s}||_1}}{1+N_{s}}
+\end{equation}\]
+
+\[\begin{equation}
+\label{eq:visit_distribution}
+    \pi_s = \dfrac{N_s^{1/\tau}}{ {||N_{s}||_{1/\tau}}^{1/\tau}}
+\end{equation}\]
+
+<p>The network is trained by combining the loss from the value and the policy predictions. It especially makes sense since these predictions share a common graph (architecture) in the model. The value output $v_\theta(s)$ should predict the ending reward of the game $z$ (-1, 0 or 1 depending on the outcome) and the policy output $P_\theta(s)$ should predict the action sampling distribution obtained after search $\pi_s$. The loss is then <a href="#resources">@10</a>:</p>
+
+\[\begin{equation}
+\label{eq:training_loss}
+    l= (z- v_\theta(s))^2 + \pi \cdot {\rm log (P_\theta(s))}
+\end{equation}\]
+
+<p>In my drafty accompanying notebook <a href="https://colab.research.google.com/drive/1ozMKtcRS9nRtvUfwZwj00ZZNpui5MhLr?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>, I chose functional version of this algorithm, with few minor changes from the <a href="https://github.com/suragnair/alpha-zero-general">Alpha Zero General</a> code. Also, I put below a slightly modified version of the MCTS that is compatible with the LRP framework. The idea is quite simple: you have to keep track of the gradient in order to perform a backward pass under <a href="https://zennit.readthedocs.io/en/latest/">Zennit</a> context later. In this way, you could interpret the aggregated quantities $Q_s$ and $U_s$ in terms of relevance. These quantities carry information about the subsequent tree from node $s$ and could be used a posteriori or during inference.</p>
+
+<script src="https://gist.github.com/Xmaster6y/fd8ff108d39b0fdd09cb49e6809d2c54.js"></script>
+
+<blockquote class="callout warning"> <div class="callout-title"> <i class="fa-solid fa-triangle-exclamation" href="#"></i> <em> Disclaimer</em></div> <p>This last piece of work is only exploratory, and I have made no digging in this direction yet. However, I am convinced that refining and experimenting in this direction could lead to interesting tracks like tree analysis or relevance-guided search.</p> </blockquote>
+
+<h3 id="network-decomposition">Network Decomposition</h3>
+
+<p>In order to use <a href="https://zennit.readthedocs.io/en/latest/">Zennit</a>, it is important to remember how it is implemented and adapt the network accordingly. First, all used modules should be instantiated under the target module (even activations). Then softmax should not be used because of the exponential. Here, it can be safely removed as the output is the <code>Soflogmax</code>, which is a simple translation of the raw logits and doesn’t change the action sampling.</p>
+
+<p>The network architecture is quite simple as it is a basic CNN mostly using ReLU activation. For the convolution layer, I’ll use the $z^+$ rule, and for the linear mapping (including batch normalisation), I’ll use LRP-$\epsilon$. These settings are recommended, but you could try various different ones. To evaluate the different combinations of rules, refer to the <a href="#evaluation">evaluation</a> section.</p>
+
+<blockquote class="callout danger"> <div class="callout-title"> <i class="fa-solid fa-bolt" href="#"></i> <em> Gotcha</em></div> <p>It is important to acknowledge the similarity in computation for the value and the policy. This will expectedly lead to very close relevance heatmaps as only one layer differs between the two.</p> </blockquote>
+
+<p>One practical limitation for interpreting board games concerns the empty cells. Using traditional LRP rules will attribute zero relevance to those cells. Indeed, during the computation, the model doesn’t use these pixels but rather uses biases. In order to overcome this difficulty, I propose to use the Flat or the $w^2$ rules in the first layer.</p>
+
+<h3 id="interpretation">Interpretation</h3>
+
+<blockquote class="callout warning"> <div class="callout-title"> <i class="fa-solid fa-triangle-exclamation" href="#"></i> <em> Disclaimer</em></div> <p>The following experiments are highly shallow, and I don’t pretend they are highly relevant or valuable. This work is only for illustrative purposes and definitely needs more digging. If you are interested in a follow-up of this project (by yourself or by me) and/or have questions, feel free to <a href="/about/#contact">contact</a> me.</p> </blockquote>
+
+<p>I’ll now study a particular board picked during a self-played game with different parameters for black and white ($c_{\rm puct}=0.1$. for black and $c_{\rm puct}=2$ for white) using 10 rollouts per move and keeping the data from the previous moves. Playing multiple games with these parameters shows that the middle game is dominated by black while the endgame is dominated by black, i.e. exploration is a long-run payoff. I picked board 31 (black to move) as it is balanced (before black domination). Using the described rules, with Flat in the first layer, the relevance heatmap obtained is plotted in Figure <a href="#v-relevance-flat">2</a>. The value relevance is localised around the best move (B6), found by the MCTS, and negative or close to 0 around illegal moves.</p>
+
+<p class="im-center" id="v-relevance-flat"><img src="/assets/images/layer-wise-relevance-propagation_v_relevance_flat.png" alt="v_relevance_flat" />
+<em>Figure 2: Value relevance heatmap using Flat, $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.</em></p>
+
+<p>Yet, is it really what I think it is? Remember that the biases and the Flat rule are used here to compute the relevance. With the same rules, using an empty board yields the heatmap of Figure <a href="#empty-relevance">3</a>.</p>
+
+<p class="im-center" id="empty-relevance"><img src="/assets/images/layer-wise-relevance-propagation_empty_relevance.png" alt="empty_relevance" />
+<em>Figure 3: Value relevance heatmap of the empty board using Flat, $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.</em></p>
+
+<p>If it is harder to interpret, I’ll leave it for a more comprehensive study and change the Flat rule for a $z^+$ rule (the first layer is a convolution). This then yields the value relevance in Figure [4] and the policy relevance in Figure [5]. The value relevance is still localised around the best move, but it might be a correlation. Indeed, the relevance seems to indicate that the networks attribute more value to the pieces flipped by the move A7 that put a piece on the side. The way the network perceives value in sides and corners should be dug more. The policy relevance heatmap is more difficult to interpret, and note that the sign is due to logit initialisation. Yet, it attributes more relevance to the pieces flipped by the move B6.</p>
+
+<p class="im-center" id="v-relevance-flat"><img src="/assets/images/layer-wise-relevance-propagation_v_relevance.png" alt="v_relevance" />
+<em>Figure 4: Value relevance heatmap using $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.</em></p>
+
+<p class="im-center" id="v-relevance-flat"><img src="/assets/images/layer-wise-relevance-propagation_pi_relevance.png" alt="pi_relevance" />
+<em>Figure 5: Policy relevance heatmap using $z^+$ and LRP-$\epsilon$, normalised by the maximum relevance amplitude.</em></p>
+
+<p>The next section describes how to evaluate the explanation’s faithfulness and robustness. Yet it was not successful as the board games add an extra layer of complexity since the input space is sparse. More complex considerations are needed.</p>
+
+<h3 id="evaluate-an-explanation">Evaluate an Explanation</h3>
+
+<p>It is important to keep in mind that producing a heatmap is easy, but interpreting it in a faithful way is much harder. What’s more, you also have to be careful about what <strong>actually</strong> is what you are visualising. There is sometimes a big difference between what you want to measure, what you think you’re measuring and what you actually measure. In this meaning the produced heatmaps should be interpreted with care <a href="#resources">@7@12</a>.</p>
+
+<p>Measuring the faithfulness and robustness of the XAI method is an active topic of research, and I’ll only present and use one here. The idea of <a href="#resources">@13</a> is quite intuitive:</p>
+
+<ol>
+  <li>Assuming that you have computed a pixel relevance heatmap, you start by corrupting the most relevant pixel (using mean, black, white or random noise).</li>
+  <li>You observe the decrease of the target, e.g. a logit, and you compute your new heatmap.</li>
+  <li>You iterate on 1.</li>
+  <li>Finally, you plot/measure the evolution of the target.</li>
+</ol>
+
+<p>The best XAI method would lead to the highest drop in the target. In practice, this can be used to compare XAI methods, and in particular, it can be compared to random pixel corruption. For example, it could be used to verify that the rules derived using DTD are actually the best fit for each layer type.</p>
+
+<h2 id="resources"># Resources</h2>
+
+<p>A drafty notebook that self-contains all the practical experiments presented here and more is available on Colab: <a href="https://colab.research.google.com/drive/1ozMKtcRS9nRtvUfwZwj00ZZNpui5MhLr?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>. I first explored the network capabilities like the policy prediction and the games play. Below is a list of references containing the papers and code mentioned in this post.</p>
+
+<p>In particular, I think that the method described in <a href="#resources">@5</a>  could be the perfect match for a follow-up. It extends the LRP framework to discover concepts, i.e. global explanation. Basically, LRP serves as a means to discover locally relevant neurons and paths. Then, concepts are discovered using an activation maximisation on these neurons.</p>
+
+<blockquote class="callout quote"> <div class="callout-title"> <i class="fa-solid fa-quote-right" href="#"></i> <em> References</em></div> <ol>
+    <li>Bach, Sebastian, et al. “On Pixel-Wise Explanations for Non-Linear Classifier Decisions by Layer-Wise Relevance Propagation.” <em>PLOS ONE</em>, vol. 10, no. 7, 2015.</li>
+    <li>Shrikumar, Avanti, et al. “Not Just a Black Box: Learning Important Features Through Propagating Activation Differences.” <em>ArXiv</em>, 2016.</li>
+    <li>Binder, Alexander, et al. “Layer-wise Relevance Propagation for Neural Networks with Local Renormalization Layers.” <em>ArXiv</em>, 2016.</li>
+    <li>Lapuschkin, Sebastian, et al. “Unmasking Clever Hans Predictors and Assessing What Machines Really Learn.” <em>Nature Communications</em>, vol. 10, no. 1, 2019.</li>
+    <li>Achtibat, Reduan, et al. “From Attribution Maps to Human-understandable Explanations through Concept Relevance Propagation.” <em>Nature Machine Intelligence</em>, vol. 5, no. 9, 2023.</li>
+    <li>Montavon, Grégoire, et al. “Explaining Nonlinear Classification Decisions with Deep Taylor Decomposition.” <em>Pattern Recognition</em>, vol. 65, 2017.</li>
+    <li>Sixt, Leon, and Tim Landgraf. “A Rigorous Study Of The Deep Taylor Decomposition.” <em>ArXiv</em>, 2022.</li>
+    <li>Anders, Christopher J., et al. “Software for Dataset-wide XAI: From Local Explanations to Global Insights with Zennit, CoRelAy, and ViRelAy.” <em>ArXiv</em>, 2021.</li>
+    <li>Thakoor, Shantanu, et al. “Learning to play othello without human knowledge.” <em>Stanford University</em>, 2016.</li>
+    <li>Silver, David, et al. “Mastering the Game of Go Without Human Knowledge.” Nature, vol. 550, no. 7676, 2017.</li>
+    <li>Rosin, Christopher D. “Multi-armed bandits with episode context,” Annals of Mathematics and Artificial Intelligence, vol. 61, pp. 203–230, 09 2010.</li>
+    <li>Sixt, Leon, et al. “When Explanations Lie: Why Many Modified BP Attributions Fail.” <em>ArXiv</em>, 2019.</li>
+    <li>Hedström, Anna, et al. “Quantus: An Explainable AI Toolkit for Responsible Evaluation of Neural Network Explanations and Beyond.” <em>Journal of Machine Learning Research</em>, vol. 24, no. 34, 2023.</li>
+  </ol> </blockquote>]]></content><author><name>[[Yoann Poupart]]</name></author><category term="XAI" /><category term="AlphaZero" /><summary type="html"><![CDATA[TL;DR> Layer-Wise Relevance Propagation (LRP) is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://yp-edu.github.io/assets/images/layer-wise-relevance-propagation_thumbnail.png" /><media:content medium="image" url="https://yp-edu.github.io/assets/images/layer-wise-relevance-propagation_thumbnail.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Articles</title><link href="https://yp-edu.github.io/articles/index" rel="alternate" type="text/html" title="Articles" /><published>2024-10-06T17:53:02+00:00</published><updated>2024-10-06T17:53:02+00:00</updated><id>https://yp-edu.github.io/articles/index</id><content type="html" xml:base="https://yp-edu.github.io/articles/index"><![CDATA[]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">FHE for Open Model Audits</title><link href="https://yp-edu.github.io/articles/fhe-for-open-model-audits" rel="alternate" type="text/html" title="FHE for Open Model Audits" /><published>2024-10-06T17:53:02+00:00</published><updated>2024-10-06T17:53:02+00:00</updated><id>https://yp-edu.github.io/articles/fhe-for-open-model-audits</id><content type="html" xml:base="https://yp-edu.github.io/articles/fhe-for-open-model-audits"><![CDATA[<p><img src="/assets/images/fhe-for-open-model-audits.webp" alt="TFHE for Open Interpretability Audits" /></p>
+
+<blockquote class="callout tldr"> <div class="callout-title"> <i class="fa-solid fa-clipboard-list" href="#"></i> <em> TL;DR</em></div> <p>Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications of FHE in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.</p> </blockquote>
+
+<blockquote class="callout example"> <details> <summary><div class="callout-title"> <i class="fa-solid fa-list" href="#"></i> <em> Table of content</em></div></summary> <ul>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#what-is-fhe">What is FHE?</a>
+      <ul>
+        <li><a href="#the-fhe-scheme">The FHE scheme</a></li>
+        <li><a href="#fhe-applied-to-ml">FHE Applied to ML</a></li>
+      </ul>
+    </li>
+    <li><a href="#hiding-the-test-set-in-public">Hiding the Test Set in Public</a>
+      <ul>
+        <li><a href="#the-test-set-game">The Test Set Game</a></li>
+        <li><a href="#zero-trust-for-better-safety">Zero Trust for Better Safety</a></li>
+      </ul>
+    </li>
+    <li><a href="#privately-inspecting-model-biases">Privately Inspecting Model Biases</a>
+      <ul>
+        <li><a href="#io-interpretability-methods">I/O Interpretability Methods</a></li>
+        <li><a href="#whats-missing">What’s Missing?</a></li>
+      </ul>
+    </li>
+    <li><a href="#resources">Resources</a></li>
+  </ul> </details> </blockquote>
+
+<h2 id="context"># Context</h2>
+
+<p>I recently participated in the Privacy Preserving AI Hackathon organised by <a href="https://www.linkedin.com/company/entrepreneur-first/">Entrepreneur First</a>, <a href="https://www.linkedin.com/company/huggingface/">Hugging Face</a> and <a href="https://www.linkedin.com/company/zama-ai/">Zama</a>. With my team we focused on privately matching patients with clinic trials that have specific requirements. Even though we didn’t win, I learned a lot, and I want to continue building with this amazing technology!</p>
+
+<blockquote class="callout caution"> <div class="callout-title"> <i class="fa-solid fa-triangle-exclamation" href="#"></i> <em> Epistemic Status</em></div> <p>I am still beginner in FHE and definitely not a crypto-guy. I know the basics and really love the field, The Code Book <a href="#resources">@1</a> inspired me to focus on cybersecurity back in  my Bachelor. In comparison I would say that I am well versed on the subject of AI evaluation and interpretability. The following is thus an article from an AI-guy trying to apply FHE for the sake of improving AI safety.</p> </blockquote>
+
+<h2 id="what-is-fhe"># What is FHE?</h2>
+
+<h3 id="the-fhe-scheme">The FHE scheme</h3>
+
+<p>First, FHE stands for “fully homomorphic encryption”, a framework for cryptosystems supporting computation on cyphertexts. As the name “fully homomorphic” suggests, the beauty of the method is enabling a correspondence between computation in the encrypted space and the clear space. Indeed, if $\varepsilon$ is the encryption mechanism, $\varepsilon(\lambda \cdot A + B)=\lambda\circ\varepsilon(A)\star\varepsilon(B)$, such that a series of computations can be performed while encrypted, only needing to decrypt the result.</p>
+
+<p><strong>Why does it matter?</strong> It matters because it means that the computation can be performed by an untrusted entity w.r.t. the input data. For the entity performing the computation, it also means that you don’t need to give away your “secret sauce”, i.e. the series of computations. This scheme adheres to the spirit of zero trust by design. This enables the building of privacy-preserving applications that might leverage highly tailored features based on your personal data without any leak. Such applications could range from content recommendation, based on your age, sex or localisation, to health checks.</p>
+
+<blockquote class="callout todo"> <div class="callout-title"> <i class="fa-solid fa-circle-check" href="#"></i> <em> Privacy Checklist</em></div> <p>Here is a simple checklist for your privacy-preserving application:</p> <ul>
+    <li>Who wants to protect what?</li>
+    <li>What is encrypted?</li>
+    <li>Where is the compute executed?</li>
+    <li>Who decrypts?</li>
+    <li>Who needs the computed results?</li>
+    <li>Is FHE really necessary here?</li>
+    <li>Is FHE realistic here?</li>
+  </ul> </blockquote>
+
+<p>Bear in mind that computing on cyphertexts is expensive, so you might want to avoid using FHE as much as possible! For example, you should prefer running the non-critical parts of your system locally, on the client machine, to the extent of the power needed. You’ll then keep the encryption scheme for most sensitive business-related computations.</p>
+
+<h3 id="fhe-applied-to-ml">FHE Applied to ML</h3>
+
+<p>FHE was thought of at the end of the last century and was practically discovered in 2009 <a href="#references">@2</a>, but it still needed to be scalable. Fortunately, the last decade has shown great improvement in the various implementations of the FHE scheme, like with TFHE <a href="#references">@3</a>, enabling efficient addition and multiplication over cyphertexts. What’s more, with the adoption and ecosystem growth, private companies like <a href="https://www.linkedin.com/company/zama-ai/">Zama</a> were created and participated in improving FHE.</p>
+
+<p>What particularly interests us here is how to perform non-linear computation. This step is crucial to handle neural networks’ activation functions and other ML algorithms.
+This was mostly made possible by fast bootstrapping <a href="#resources">@4</a>, the evolution of the original bootstrapping trick <a href="#references">@2</a>, which was then improved by <a href="https://www.linkedin.com/company/zama-ai/">Zama</a>, who made it scalable <a href="#references">@5</a>.</p>
+
+<blockquote class="callout info"> <div class="callout-title"> <i class="fa-solid fa-circle-info" href="#"></i> <em> Going Deeper</em></div> <p>If you want to go deeper and learn about the actual algorithms implemented have a look at <a href="https://www.zama.ai">Zama’s blog</a>. I especially recommend their <a href="https://www.zama.ai/post/homomorphic-encryption-101">101</a> on FHE, which clearly explains bootstrapping and its application to neural networks. In general, they have great resources, tutorials, and stories for crypto experts, but also for less technical wanderers.</p> </blockquote>
+
+<p>In practice, you need to remember that all the computations are done with integers and are slower. With Zama’s library <a href="https://docs.zama.ai/concrete-ml"><code>concrete-ml</code></a>, you don’t need to handle or write any crypto code. You’ll be able to manipulate and customise your <code>torch</code> model at will, providing that you use supported operations. Indeed, when you compile your model, it will be translated under the hood into FHE-friendly operations. <a href="https://docs.zama.ai/concrete-ml"><code>concrete-ml</code></a> provides native APIs to create an FHE model from a regular <code>torch</code> or <code>scikit-learn</code> model. They made it so easy, it would be a shame not to use it!</p>
+
+<blockquote class="callout tip"> <div class="callout-title"> <i class="fa-solid fa-fire-flame-curved" href="#"></i> <em> Universal ML</em></div> <p>As software/languages/libraries go, there is a need to abstract and universalise certain concepts. As such, ONNX is commonly used to share or convert models, e.g. from Tensorflow to PyTorch. On the other side MLIR is used by vendors as a middle-layer between their hardware and high-level programming, natively integrated in new ML-oriented languages like MOJO, worth checking!</p> </blockquote>
+
+<p>In privacy-preserving ML applications, the common scheme is often based on:</p>
+
+<ul>
+  <li>A model owner who wants to keep its secret sauce (mostly the model).</li>
+  <li>A data owner who wants to keep their privacy while accessing a tailored feature.</li>
+</ul>
+
+<p>An application example of such a scheme could be a method to classify people based on their private data (bank loans, insurance policies, etc.) or to enable a feature for known users (facial recognition, DNA testing, etc.). In the end, what matters is that the user has the same service but takes back control over their own data.</p>
+
+<p>I argue that AI safety shares the same goals as described above. You want to be sure that all models are safe, not only the open-source ones. You might want to regulate or inspect models without letting the model owner know, as in many other domains. The current state of affairs could be more satisfying, and I will describe in the next sections what directions could be net beneficial for AI safety.</p>
+
+<h2 id="hiding-the-test-set-in-public"># Hiding the Test Set in Public</h2>
+
+<h3 id="the-test-set-game">The Test Set Game</h3>
+
+<p>In ML, it is well known that you should always keep a subset of data hidden from the model, the test set. Consequently, this dataset provides a faithful model evaluation, should it be big enough and randomly sampled from the original dataset. It should be not mistaken for the validation set, used for hyperparameters search, which doesn’t provide a good evaluation metric due to the Goodhart’s law similarily to the train set.</p>
+
+<p>But what if you train on the test set? In frugal ML, per se using <code>scikit-learn</code>, it only happens willingly in scarce data problems like health predictions. Except for this particular case, should you encounter a data leakage problem, you can often re-process the datasets and re-train from scratch. Yet, in the era of big pre-trained models, such a solution would be far too expensive. It is thus a real problem, well illustrated by this satirical article <a href="#resources">@6</a>. You can also think of using machine unlearning for such a scale and diversity of data; you would dramatically hurt the performances.</p>
+
+<p>This major problem is primarily due to an aggressive data harvest that scrapes the web and, willingly or not, incorporates a test set of different known benchmarks. In order to avoid or control this leak, the two best SOTA approaches are:</p>
+
+<ul>
+  <li>Don’t publish the test set.</li>
+  <li>Contaminate the test set.</li>
+</ul>
+
+<p>Yet, since the evaluations are sent in clear to the models, they could be saved and later be reused. As for the contamination, it could be overcome by additional training, adversarial attacks, or surgical machine unlearning.</p>
+
+<blockquote class="callout success"> <div class="callout-title"> <i class="fa-solid fa-check" href="#"></i> <em> Policies</em></div> <p>Fortunately, certain model providers, like <a href="https://azure.microsoft.com">Azure</a>, adopted privacy policies stating that no data sent to the model would be collected. This is often encouraged by treaties like the GDPR.</p> </blockquote>
+
+<h3 id="zero-trust-for-better-safety">Zero Trust for Better Safety</h3>
+
+<p>It’s thus clear that you shouldn’t trust model owners with your evaluation data. However, model owners could also mistrust the evaluations. To solve this, I propose a simple scheme. First, provide an encrypted test set and then run the evaluation publicly, e.g., on an HF space like MTEB.</p>
+
+<p>We can push the distrust scheme even further. What if model owners didn’t want to leak on which inputs their model made a mistake? We would process similarly but using a common public key with a segmented private key. First, the model owners would provide the encrypted output, which is impossible to decrypt without their agreement. Then, we would run a circuit computing the accuracy. And finally, together, we would decrypt the metric result. In order to illustrate this process we can simply write a torch model computing the accuracy.</p>
+
+<script src="https://gist.github.com/Xmaster6y/0b84195df1ba6204e6b5b5c88e621472.js"></script>
+
+<blockquote class="callout error"> <div class="callout-title"> <i class="fa-solid fa-bolt" href="#"></i> <em> Gotcha</em></div> <p>This problem would require the creation of an accuracy circuit for each dataset, generating a new key for each model and encrypting the test set on the fly <strong>every time</strong>. While not practicable it illustrates the power of FHE to operate in scenarios where there is absolutely no trust.</p> </blockquote>
+
+<p><strong>What kind of governance would it enable?</strong> The last detail I previously didn’t mention for the sake of illustration is about trusting the data. In order to overcome this issue, we’ll need an additional entity, a regulator, that would, in the end, own the data. As such, they would be the ones to approve the dataset and deliver the associated certificate. The business organisation would be based on:</p>
+
+<ul>
+  <li>A law enforcing requiring model evaluation certificates.</li>
+  <li>An evaluator entity, entitled by the legislator to deliver certificates.</li>
+  <li>A model company paying the evaluator to abide by the law and look good with the certificate.</li>
+</ul>
+
+<p>Obviously, legal enforcement might not be enough. Indeed, some companies are willing to pay fines, even more when benefits largely outweighs the fines. Yet, pushing technologies like FHE might enable new use cases for AI safety.</p>
+
+<h2 id="privately-inspecting-model-biases"># Privately Inspecting Model Biases</h2>
+
+<p>Can we say more about a model than just its performances with only limited access?</p>
+
+<h3 id="io-interpretability-methods">I/O Interpretability Methods</h3>
+
+<p>In the era of sparse autoencoders or activation manipulation, heavily relying on model internals, let’s shed some light on interpretability methods only requiring input/output mapping, widely used by the non-DL folks.</p>
+
+<p>One of the first naive approaches to analyse a true black-box would be to recreate it. Depending on the model, e.g. ChatGPT, it might be too expensive but still a good start if done locally. In the field of XAI, LIME <a href="#resources">@7</a> was proposed using a much simpler surrogate model trained locally. Linear models, like logistic regression, are chosen for their straightforward interpretation and can be seen as a local Taylor approximation.</p>
+
+<p>Another very common framework to explain models with only a black box access is the Shapley Values <a href="#resources">@8</a>. Put simply, the Shapley Values, originating from game theory, disentangle the contribution of each player to a common team reward. In XAI we might want to disentangle the contribution from each input feature (player) to the model prediction (reward). Feature importance was efficiently implemented in SHAP <a href="#resources">@9</a>, and remains model agnostic.</p>
+
+<p>Last but not least, it is possible to create explanations centred on input data. Like the intuitive methods of occlusion <a href="#resources">@10</a>, which answers “What happens if I remove this part of the data?”, or anchors <a href="#resources">@11</a>, which answers “What are parts of the data must remain to keep the same prediction?”. These methods, along with LIME and SHAP, were unified as a set of “Explaining by Removing” methods <a href="#resources">@12</a>. More sophisticated methods could make use of adversarial samples, like using semantically equivalent adversaries <a href="#resources">@13</a>. In general, finding adversarial examples is possible, even with black box access, by training a surrogate model and using transfer <a href="#resources">@14</a>.</p>
+
+<blockquote class="callout tip"> <div class="callout-title"> <i class="fa-solid fa-fire-flame-curved" href="#"></i> <em> Transferability</em></div> <p>Certain adversarial attacks are transferable by nature, as related by meaningful features <a href="#resources">@15</a>. Indeed, the link between model robustness and adversarial attacks is still an active topic, especially for the latest models <a href="#resources">@16</a>. It aligns with the natural abstraction hypothesis, which states that dominant concepts will eventually be learned (with enough time and computation) despite the learning methodology.</p> </blockquote>
+
+<p>In conclusion, there exists a vast panel of methods to inspect a model only based on I/O. They would provide a deeper understanding of the model, e.g. biases, clever hans or condensed knowledge, while being FHE friendly.</p>
+
+<h3 id="whats-missing">What’s Missing?</h3>
+
+<p><strong>Model internals.</strong> Modern post-hoc interpretability methods studying deep neural networks use the model’s internals, such as activations, embeddings, individual neurons, weights, gradients, etc. Yet this data is way more sensitive for the model owner than its output since it would drastically lower the replication barrier. It would also be illusory to ask them to compute the interpretability methods themselves, as they could impair the results.</p>
+
+<p><strong>Speed</strong> As previously said FHE suffer from performance issues compare to clear evaluation. And while evaluation only require one forward pass interpretability often require many, especially in with black-box access. So speed would be primordial to improve, but obviously Zama, and others, are working on it as it would drastically improve FHE usability.</p>
+
+<p><strong>Model support.</strong> While it is true that <code>concrete-ml</code> makes it super easy to rewrite a torch model, an auto-converter would increase development speed. Imagine if you could to compile any model to FHE, HuggingFace would the perfect ecosystem (it already is). More generally improving model support, that could be helped by private companies, would speed and widen adoption.</p>
+
+<p>While it is true that such adjuncts would be terrific, I think that you can already build solid and useful software with it.</p>
+
+<h2 id="resources"># Resources</h2>
+
+<p>Below is a short list of the references cited throughout this blog post.</p>
+
+<blockquote class="callout quote"> <div class="callout-title"> <i class="fa-solid fa-quote-right" href="#"></i> <em> References</em></div> <ol>
+    <li>Singh, Simon. “The Code Book: The Evolution of Secrecy from Mary, Queen of Scots, to Quantum Cryptography” (1st. ed.). Doubleday, USA (1999).</li>
+    <li>Craig Gentry. “A fully homomorphic encryption scheme.” PhD thesis, Stanford University, (2009).</li>
+    <li>Chillotti, Ilaria et al. “TFHE: Fast Fully Homomorphic Encryption over the Torus.” (2016).</li>
+    <li>Chillotti, Ilaria et al. “Programmable Bootstrapping Enables Efficient Homomorphic Inference of Deep Neural Networks.” (2021).</li>
+    <li>Stoian, Andrei et al. “Deep Neural Networks for Encrypted Inference with TFHE.” (2023).</li>
+    <li>Schaeffer, Rylan. “Pretraining on the test set is all you need.” <em>arXiv preprint arXiv:2309.08632</em> (2023).</li>
+    <li>Ribeiro, Marco Tulio et al. ““Why Should I Trust You?”: Explaining the Predictions of Any Classifier.” <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em> (2016).</li>
+    <li>Shapley, Lloyd S. ”Notes on the n-Person Game – II: The Value of an n-Person Game.” Santa Monica, Calif.: RAND Corporation (1951).</li>
+    <li>Lundberg, Scott M. and Su-In Lee. “A Unified Approach to Interpreting Model Predictions.” <em>Neural Information Processing Systems</em> (2017).</li>
+    <li>Zeiler, Matthew D. and Rob Fergus. “Visualizing and Understanding Convolutional Networks.” <em>ArXiv</em> abs/1311.2901 (2013).</li>
+    <li>Ribeiro, Marco Tulio et al. “Anchors: High-Precision Model-Agnostic Explanations.” <em>AAAI Conference on Artificial Intelligence</em> (2018).</li>
+    <li>Covert, Ian et al. “Explaining by Removing: A Unified Framework for Model Explanation.” <em>J. Mach. Learn. Res.</em> 22 (2020): 209:1-209:90.</li>
+    <li>Ribeiro, Marco Tulio et al. “Semantically Equivalent Adversarial Rules for Debugging NLP models.” <em>Annual Meeting of the Association for Computational Linguistics</em> (2018).</li>
+    <li>Shi, Yi et al. “Active Deep Learning Attacks under Strict Rate Limitations for Online API Calls.” <em>2018 IEEE International Symposium on Technologies for Homeland Security (HST)</em> (2018).</li>
+    <li>Ilyas, Andrew et al. “Adversarial Examples Are Not Bugs, They Are Features.” <em>Neural Information Processing Systems</em> (2019).</li>
+    <li>Schlarmann, Christian and Matthias Hein. “On the Adversarial Robustness of Multi-Modal Foundation Models.” <em>2023 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)</em> (2023).</li>
+  </ol> </blockquote>]]></content><author><name>[[Yoann Poupart]]</name></author><category term="AIS" /><category term="XAI" /><category term="FHE" /><category term="Eval" /><summary type="html"><![CDATA[TL;DR> Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications of FHE in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://yp-edu.github.io/assets/images/fhe-for-open-model-audits_thumbnail.webp" /><media:content medium="image" url="https://yp-edu.github.io/assets/images/fhe-for-open-model-audits_thumbnail.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

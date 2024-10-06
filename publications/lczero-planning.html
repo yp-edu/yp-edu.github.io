@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Contrastive Sparse Autoencoders for Interpreting Planning of Chess-Playing Agents | Yoann Poupart</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Contrastive Sparse Autoencoders for Interpreting Planning of Chess-Playing Agents" />
+<meta name="author" content="[[Yoann Poupart]]" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="TL;DR&gt; We propose contrastive sparse autoencoders (CSAE), a novel framework for studying pairs of game trajectories. Using CSAE, we are able to extract and interpret concepts that are meaningful to the chess-agent plans. We primarily focused on a qualitative analysis of the CSAE features before proposing an automated feature taxonomy. Furthermore, to evaluate the quality of our trained CSAE, we devise sanity checks to wave spurious correlations in our results." />
+<meta property="og:description" content="TL;DR&gt; We propose contrastive sparse autoencoders (CSAE), a novel framework for studying pairs of game trajectories. Using CSAE, we are able to extract and interpret concepts that are meaningful to the chess-agent plans. We primarily focused on a qualitative analysis of the CSAE features before proposing an automated feature taxonomy. Furthermore, to evaluate the quality of our trained CSAE, we devise sanity checks to wave spurious correlations in our results." />
+<link rel="canonical" href="https://yp-edu.github.io/publications/lczero-planning" />
+<meta property="og:url" content="https://yp-edu.github.io/publications/lczero-planning" />
+<meta property="og:site_name" content="Yoann Poupart" />
+<meta property="og:image" content="https://yp-edu.github.io/assets/publications/images/lczero-planning_thumbnail.png" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://yp-edu.github.io/assets/publications/images/lczero-planning_thumbnail.png" />
+<meta property="twitter:title" content="Contrastive Sparse Autoencoders for Interpreting Planning of Chess-Playing Agents" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"[[Yoann Poupart]]"},"description":"TL;DR&gt; We propose contrastive sparse autoencoders (CSAE), a novel framework for studying pairs of game trajectories. Using CSAE, we are able to extract and interpret concepts that are meaningful to the chess-agent plans. We primarily focused on a qualitative analysis of the CSAE features before proposing an automated feature taxonomy. Furthermore, to evaluate the quality of our trained CSAE, we devise sanity checks to wave spurious correlations in our results.","headline":"Contrastive Sparse Autoencoders for Interpreting Planning of Chess-Playing Agents","image":"https://yp-edu.github.io/assets/publications/images/lczero-planning_thumbnail.png","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://yp-edu.github.io/assets/images/logo.png"},"name":"[[Yoann Poupart]]"},"url":"https://yp-edu.github.io/publications/lczero-planning"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link rel="icon" type="image/x-icon" href="/assets/images/logo.png">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/publications/css/bulma.min.css">
+  <link rel="stylesheet" href="/assets/publications/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="/assets/publications/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="/assets/publications/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="/assets/publications/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="/assets/publications/js/fontawesome.all.min.js"></script>
+  <script src="/assets/publications/js/bulma-carousel.min.js"></script>
+  <script src="/assets/publications/js/bulma-slider.min.js"></script>
+  <script src="/assets/publications/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Contrastive Sparse Autoencoders for Interpreting Planning of Chess-Playing Agents</h1>
+          <div class="is-size-5 publication-authors">
+            <!-- Paper authors -->
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=hX7LNgUAAAAJ&hl=fr" target="_blank">Yoann Poupart</a><sup>*</sup>
+            </span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">ENS de Lyon<br>Worskhop on Interpretable Policies in Reinforcement Learning @ RLC-2024 </span>
+          </div>
+          <div class="column has-text-centered">
+            <div class="publication-links">
+                  <!-- Arxiv PDF link -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2406.04028.pdf" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+              <!-- Github link -->
+              <span class="link-block">
+                <a href="https://github.com/Xmaster6y/lczero-planning" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i> 
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://huggingface.co/lczero-planning" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-database"></i>
+                  </span>
+                  <span>Data (HF)</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://openreview.net/forum?id=qVtp4lbuCN" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-pen"></i>
+                  </span>
+                  <span>OpenReview (RLC)</span>
+                </a>
+              </span>
+
+              <!-- ArXiv abstract Link -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2406.04028" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser video-->
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <source src="/assets/publications/videos/banner_video.mp4"
+        type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus. 
+      </h2>
+    </div>
+  </div>
+</section> -->
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            AI led chess systems to a superhuman level, yet these systems heavily rely on black-box algorithms. This is unsustainable in ensuring transparency to the end-user, particularly when these systems are responsible for sensitive decision-making. Recent interpretability work has shown that the inner representations of Deep Neural Networks (DNNs) were fathomable and contained human-understandable concepts. Yet, these methods are seldom contextualised and are often based on a single hidden state, which makes them unable to interpret multi-step reasoning, e.g. planning. In this respect, we propose contrastive sparse autoencoders (CSAE), a novel framework for studying pairs of game trajectories. Using CSAE, we are able to extract and interpret concepts that are meaningful to the chess-agent plans. We primarily focused on a qualitative analysis of the CSAE features before proposing an automated feature taxonomy. Furthermore, to evaluate the quality of our trained CSAE, we devise sanity checks to wave spurious correlations in our results.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!-- Image carousel -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item is-centered has-text-centered">
+          <img src="/assets/publications/images/lczero-planning_dynamical-concepts.pdf" alt="Dynamical Concetps"/>
+          <h2 class="subtitle has-text-centered">
+            Dynamical concepts illustration.
+          </h2>
+        </div>
+        <div class="item is-centered has-text-centered">
+          <img src="/assets/publications/images/lczero-planning_csae.pdf" alt="CSAE"/>
+          <h2 class="subtitle has-text-centered">
+            Contrastive Sparse Autoencoders (CSAE) schematic view.
+          </h2>
+        </div>
+        <div class="item is-centered has-text-centered">
+          <img src="/assets/publications/images/lczero-planning_extraction.pdf" alt="Dynamical concepts extraction"/>
+          <h2 class="subtitle has-text-centered">
+            Dynamical concepts extraction.
+          </h2>
+        </div>
+        <div class="item is-centered has-text-centered">
+          <img src="/assets/publications/images/lczero-planning_analysis.pdf" alt="CSAE features analysis"/>
+          <h2 class="subtitle has-text-centered">
+            CSAE features analysis.
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End image carousel -->
+
+
+<section class="section hero">
+  <div class="hero-body">
+    <div class="container is-centered has-text-centered">
+      <iframe  
+        src="https://lczero-planning-demo.hf.space"
+        frameborder="0" 
+        width="100%"
+        height="600"
+        style="border-radius: 10px;"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Reviews</h2>
+        <div class="is-size-5 publication-authors">
+          <span class="author-block">Mechanistic Interpretability Workshop @ ICML-2024 </span>
+        </div>
+        <div class="column has-text-centered">
+          <div class="publication-links">
+            <span class="link-block">
+              <a href="https://openreview.net/forum?id=tXe9BqcjNY" target="_blank"
+              class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fas fa-pen"></i>
+                </span>
+                <span>OpenReview (ICML)</span>
+              </a>
+            </span>
+          </div>
+        </div>
+        <div>
+          <span>Main criticisms:</span>
+        </div>
+        <div class="content has-text-justified">
+          <ul>
+            <li>
+              <strong>Not enough training details:</strong> The training of the CSAE is under-detailed, particularly concerning the choice of hyperparameters, 
+              data generation, and evaluation metrics. 
+              Specific layers used for training and the integration of the contrast loss are not clearly explained, making it difficult to replicate or understand the methodology fully.
+            </li>
+            <li>
+              <strong>Lack of comparison with other methods:</strong> The paper fails to compare the proposed CSAE 
+              method with other feature extraction techniques, such as standard Sparse Autoencoders (SAE), Independent Component Analysis (ICA), and other clustering or probing methods. 
+              This comparison is crucial to validate the efficacy and novelty of the CSAE over existing methods.
+            </li>
+            <li>
+              <strong>Lack of feature interpretation:</strong> The interpretation of features generated by CSAE is inadequate. The paper does not convincingly demonstrate that the identified features correspond to meaningful chess concepts, 
+              as only a few cherry-picked examples are provided without thorough validation of monosemanticity or broader representativeness.
+            </li>
+            <li>
+              <strong>No utilisation of the proposed clustering:</strong>   Although clustering and dendrogram techniques are mentioned, they are not effectively used to enhance the understanding of the feature space. 
+              The paper does not provide labeled clusters or investigate the similarity within clusters to help readers understand the model’s internal representation.
+            </li>
+            <li>
+              <strong>Insufficient qualitative and quantitative evaluations:</strong>   The qualitative assessments do not scale well 
+              with human effort, and there's a lack of extensive qualitative evidence to support the interpretability of learned features. Quantitatively, the performance metrics like F1, precision, and recall are barely above threshold levels, and no robust statistical analysis is provided to support the findings. Moreover, there's a gap in demonstrating 
+              how these features impact chess-playing decisions in practical scenarios.
+            </li>
+            <li>
+              <strong>Interesting idea:</strong> Despite the aforementioned criticisms, the idea of using CSAE to interpret the planning of chess-playing agents 
+              was overall praised. It was considered a novel approach that could potentially provide valuable insights
+              should it be validated by a deeper study.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Roadmap</h2>
+        <div class="container content has-text-justified">
+          <h3 class="subtitle subtitle-custom is-5">I propose the following roadmap to address the reviews:</h3>
+          <ul class="checkbox-list">
+            <li>
+              <input type="checkbox" onclick="return false;" checked/> <strike><strong>Feature ablation study:</strong> I will carry out an ablation study to assess the impact of individual features extracted by the CSAE on the decision-making process of the chess agent. 
+              This will help quantify the contribution of each feature towards enhancing the agent’s planning capabilities.</strike>
+            </li>
+            <li>
+              <input type="checkbox" onclick="return false;"/> <strong>Expose more features:</strong> In addition to the Huggingface space created for the paper, I will provide a more detailed
+              analysis of the features extracted by the CSAE.
+            </li>
+            <li>
+              <input type="checkbox" onclick="return false;" checked/> <strike><strong>Remove or rethink the clustering approach:</strong> While theoretically the clustering approach would 
+              be interesting to scale human analysis it is not clear how it would be used in practice. 
+              I have no clear idea on how to address this issue yet and might remove it from the paper.</strike>
+            </li>
+          </ul>
+          <h3 class="subtitle subtitle-custom is-5">What I might leave out for further work:</h3>
+          <ul class="checkbox-list">
+            <li>
+              <input type="checkbox" onclick="return false;"/> <strong> Enhanced method evaluation:</strong> 
+              Currently, the paper lacks comparative analysis with other methods. 
+              To address this, I plan to conduct evaluations against simple heuristic models to determine how 
+              effectively my method extracts meaningful features. Additionally, I will compare the performance of Contrastive Sparse Autoencoders (CSAEs) with standard Sparse Autoencoders (SAE) and other relevant techniques to establish a clear benchmark.
+            </li>
+            <li>
+              <input type="checkbox" onclick="return false;"/> <strong>Establishing a proper benchmark: </strong> Setting up a robust benchmark, particularly in the context of chess, 
+                would address many criticisms and provide a more objective evaluation of the CSAE. However, due to the significant work required, 
+                I consider this an essential next step for future research rather than for inclusion in the current paper revision
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Youtube video -->
+<!-- <section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Video Presentation</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- End youtube video -->
+
+
+<!-- Video carousel -->
+<!-- <section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Another Carousel</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="100%">
+            <source src="/assets/publications/videos/carousel1.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" autoplay controls muted loop height="100%">
+            <source src="/assets/publications/videos/carousel2.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="100%">\
+            <source src="/assets/publications/videos/carousel3.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- End video carousel -->
+
+
+
+
+
+<!-- Paper poster -->
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title">Poster</h2>
+
+      <iframe
+        src="/assets/publications/pdfs/lczero-planning_poster.pdf"
+        width="100%" 
+        height="600"
+        style="border-radius: 10px;"
+      ></iframe>
+        
+      </div>
+    </div>
+  </section>
+<!--End paper poster -->
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre>
+<code>@misc{poupart2024contrastivesparseautoencodersinterpreting,
+  title={Contrastive Sparse Autoencoders for Interpreting Planning of Chess-Playing Agents}, 
+  author={Yoann Poupart},
+  year={2024},
+  eprint={2406.04028},
+  archivePrefix={arXiv},
+  primaryClass={cs.AI},
+  url={https://arxiv.org/abs/2406.04028}, 
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

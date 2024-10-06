@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>FHE for Open Model Audits | Yoann Poupart</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="FHE for Open Model Audits" />
+<meta name="author" content="[[Yoann Poupart]]" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="TL;DR&gt; Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications of FHE in model evaluation and interpretability, the most mature tools in safety as of today in my opinion." />
+<meta property="og:description" content="TL;DR&gt; Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications of FHE in model evaluation and interpretability, the most mature tools in safety as of today in my opinion." />
+<link rel="canonical" href="https://yp-edu.github.io/articles/fhe-for-open-model-audits" />
+<meta property="og:url" content="https://yp-edu.github.io/articles/fhe-for-open-model-audits" />
+<meta property="og:site_name" content="Yoann Poupart" />
+<meta property="og:image" content="https://yp-edu.github.io/assets/images/fhe-for-open-model-audits_thumbnail.webp" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-10-06T17:53:02+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://yp-edu.github.io/assets/images/fhe-for-open-model-audits_thumbnail.webp" />
+<meta property="twitter:title" content="FHE for Open Model Audits" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"[[Yoann Poupart]]"},"dateModified":"2024-10-06T17:53:02+00:00","datePublished":"2024-10-06T17:53:02+00:00","description":"TL;DR&gt; Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications of FHE in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.","headline":"FHE for Open Model Audits","image":"https://yp-edu.github.io/assets/images/fhe-for-open-model-audits_thumbnail.webp","mainEntityOfPage":{"@type":"WebPage","@id":"https://yp-edu.github.io/articles/fhe-for-open-model-audits"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://yp-edu.github.io/assets/images/logo.png"},"name":"[[Yoann Poupart]]"},"url":"https://yp-edu.github.io/articles/fhe-for-open-model-audits"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/assets/css/style.css?v=1.0.0">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+<!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<link rel="shortcut icon" type="image/x-icon" href="/assets/images/logo.png">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<link href='https://fonts.googleapis.com/css?family=Oxygen Mono' rel='stylesheet'>
+
+<!-- end custom head snippets -->
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script> 
+      MathJax = {
+        tex: {
+          tags: 'ams',
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <nav id="menu">
+          <a href="https://yp-edu.github.io/">Home</a>
+          <a href="https://yp-edu.github.io/stories">Stories</a>
+          <a href="https://yp-edu.github.io/projects">Projects</a>
+          <a href="https://yp-edu.github.io/articles">Articles</a>
+          <a href="https://yp-edu.github.io/about">About</a>
+        </nav>
+        <div class="vertical-container">
+          <div class="logo">
+            <i id="menu-icon" class="icon-menu fa fa-bars" href="#"></i>
+          </div>
+          <div class="logo">
+            <a href="https://www.linkedin.com/in/yoann-poupart"><i class="fa-brands fa-linkedin"></i></a>
+          </div>
+          <div class="logo">
+            <a href="https://github.com/Xmaster6y/"><i class="fa-brands fa-github"></i></a>
+          </div>
+          <div class="logo">
+            <a href="https://scholar.google.com/citations?user=hX7LNgUAAAAJ&hl"><i class="fa-brands fa-google-scholar"></i></a>
+          </div>
+        </div>
+      </header>
+      <div class="content">
+        
+
+<small>5 October 2024 | <em>last update: 6 October 2024</em> | 14 min read</small>
+
+
+
+  <span>Tags: 
+  
+    <em><a href="/tags/ais" class="tag"> AIS <i class="fa-solid fa-tag"></i></a></em> 
+  
+    <em><a href="/tags/xai" class="tag"> XAI <i class="fa-solid fa-tag"></i></a></em> 
+  
+    <em><a href="/tags/fhe" class="tag"> FHE <i class="fa-solid fa-tag"></i></a></em> 
+  
+    <em><a href="/tags/eval" class="tag"> Eval <i class="fa-solid fa-tag"></i></a></em> 
+  
+  </span>
+
+
+<h1>FHE for Open Model Audits</h1>
+<section>
+<p><img src="/assets/images/fhe-for-open-model-audits.webp" alt="TFHE for Open Interpretability Audits" /></p>
+
+<blockquote class="callout tldr"> <div class="callout-title"> <i class="fa-solid fa-clipboard-list" href="#"></i> <em> TL;DR</em></div> <p>Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications of FHE in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.</p> </blockquote>
+
+<blockquote class="callout example"> <details> <summary><div class="callout-title"> <i class="fa-solid fa-list" href="#"></i> <em> Table of content</em></div></summary> <ul>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#what-is-fhe">What is FHE?</a>
+      <ul>
+        <li><a href="#the-fhe-scheme">The FHE scheme</a></li>
+        <li><a href="#fhe-applied-to-ml">FHE Applied to ML</a></li>
+      </ul>
+    </li>
+    <li><a href="#hiding-the-test-set-in-public">Hiding the Test Set in Public</a>
+      <ul>
+        <li><a href="#the-test-set-game">The Test Set Game</a></li>
+        <li><a href="#zero-trust-for-better-safety">Zero Trust for Better Safety</a></li>
+      </ul>
+    </li>
+    <li><a href="#privately-inspecting-model-biases">Privately Inspecting Model Biases</a>
+      <ul>
+        <li><a href="#io-interpretability-methods">I/O Interpretability Methods</a></li>
+        <li><a href="#whats-missing">What’s Missing?</a></li>
+      </ul>
+    </li>
+    <li><a href="#resources">Resources</a></li>
+  </ul> </details> </blockquote>
+
+<h2 id="context"># Context</h2>
+
+<p>I recently participated in the Privacy Preserving AI Hackathon organised by <a href="https://www.linkedin.com/company/entrepreneur-first/">Entrepreneur First</a>, <a href="https://www.linkedin.com/company/huggingface/">Hugging Face</a> and <a href="https://www.linkedin.com/company/zama-ai/">Zama</a>. With my team we focused on privately matching patients with clinic trials that have specific requirements. Even though we didn’t win, I learned a lot, and I want to continue building with this amazing technology!</p>
+
+<blockquote class="callout caution"> <div class="callout-title"> <i class="fa-solid fa-triangle-exclamation" href="#"></i> <em> Epistemic Status</em></div> <p>I am still beginner in FHE and definitely not a crypto-guy. I know the basics and really love the field, The Code Book <a href="#resources">@1</a> inspired me to focus on cybersecurity back in  my Bachelor. In comparison I would say that I am well versed on the subject of AI evaluation and interpretability. The following is thus an article from an AI-guy trying to apply FHE for the sake of improving AI safety.</p> </blockquote>
+
+<h2 id="what-is-fhe"># What is FHE?</h2>
+
+<h3 id="the-fhe-scheme">The FHE scheme</h3>
+
+<p>First, FHE stands for “fully homomorphic encryption”, a framework for cryptosystems supporting computation on cyphertexts. As the name “fully homomorphic” suggests, the beauty of the method is enabling a correspondence between computation in the encrypted space and the clear space. Indeed, if $\varepsilon$ is the encryption mechanism, $\varepsilon(\lambda \cdot A + B)=\lambda\circ\varepsilon(A)\star\varepsilon(B)$, such that a series of computations can be performed while encrypted, only needing to decrypt the result.</p>
+
+<p><strong>Why does it matter?</strong> It matters because it means that the computation can be performed by an untrusted entity w.r.t. the input data. For the entity performing the computation, it also means that you don’t need to give away your “secret sauce”, i.e. the series of computations. This scheme adheres to the spirit of zero trust by design. This enables the building of privacy-preserving applications that might leverage highly tailored features based on your personal data without any leak. Such applications could range from content recommendation, based on your age, sex or localisation, to health checks.</p>
+
+<blockquote class="callout todo"> <div class="callout-title"> <i class="fa-solid fa-circle-check" href="#"></i> <em> Privacy Checklist</em></div> <p>Here is a simple checklist for your privacy-preserving application:</p> <ul>
+    <li>Who wants to protect what?</li>
+    <li>What is encrypted?</li>
+    <li>Where is the compute executed?</li>
+    <li>Who decrypts?</li>
+    <li>Who needs the computed results?</li>
+    <li>Is FHE really necessary here?</li>
+    <li>Is FHE realistic here?</li>
+  </ul> </blockquote>
+
+<p>Bear in mind that computing on cyphertexts is expensive, so you might want to avoid using FHE as much as possible! For example, you should prefer running the non-critical parts of your system locally, on the client machine, to the extent of the power needed. You’ll then keep the encryption scheme for most sensitive business-related computations.</p>
+
+<h3 id="fhe-applied-to-ml">FHE Applied to ML</h3>
+
+<p>FHE was thought of at the end of the last century and was practically discovered in 2009 <a href="#references">@2</a>, but it still needed to be scalable. Fortunately, the last decade has shown great improvement in the various implementations of the FHE scheme, like with TFHE <a href="#references">@3</a>, enabling efficient addition and multiplication over cyphertexts. What’s more, with the adoption and ecosystem growth, private companies like <a href="https://www.linkedin.com/company/zama-ai/">Zama</a> were created and participated in improving FHE.</p>
+
+<p>What particularly interests us here is how to perform non-linear computation. This step is crucial to handle neural networks’ activation functions and other ML algorithms.
+This was mostly made possible by fast bootstrapping <a href="#resources">@4</a>, the evolution of the original bootstrapping trick <a href="#references">@2</a>, which was then improved by <a href="https://www.linkedin.com/company/zama-ai/">Zama</a>, who made it scalable <a href="#references">@5</a>.</p>
+
+<blockquote class="callout info"> <div class="callout-title"> <i class="fa-solid fa-circle-info" href="#"></i> <em> Going Deeper</em></div> <p>If you want to go deeper and learn about the actual algorithms implemented have a look at <a href="https://www.zama.ai">Zama’s blog</a>. I especially recommend their <a href="https://www.zama.ai/post/homomorphic-encryption-101">101</a> on FHE, which clearly explains bootstrapping and its application to neural networks. In general, they have great resources, tutorials, and stories for crypto experts, but also for less technical wanderers.</p> </blockquote>
+
+<p>In practice, you need to remember that all the computations are done with integers and are slower. With Zama’s library <a href="https://docs.zama.ai/concrete-ml"><code>concrete-ml</code></a>, you don’t need to handle or write any crypto code. You’ll be able to manipulate and customise your <code>torch</code> model at will, providing that you use supported operations. Indeed, when you compile your model, it will be translated under the hood into FHE-friendly operations. <a href="https://docs.zama.ai/concrete-ml"><code>concrete-ml</code></a> provides native APIs to create an FHE model from a regular <code>torch</code> or <code>scikit-learn</code> model. They made it so easy, it would be a shame not to use it!</p>
+
+<blockquote class="callout tip"> <div class="callout-title"> <i class="fa-solid fa-fire-flame-curved" href="#"></i> <em> Universal ML</em></div> <p>As software/languages/libraries go, there is a need to abstract and universalise certain concepts. As such, ONNX is commonly used to share or convert models, e.g. from Tensorflow to PyTorch. On the other side MLIR is used by vendors as a middle-layer between their hardware and high-level programming, natively integrated in new ML-oriented languages like MOJO, worth checking!</p> </blockquote>
+
+<p>In privacy-preserving ML applications, the common scheme is often based on:</p>
+
+<ul>
+  <li>A model owner who wants to keep its secret sauce (mostly the model).</li>
+  <li>A data owner who wants to keep their privacy while accessing a tailored feature.</li>
+</ul>
+
+<p>An application example of such a scheme could be a method to classify people based on their private data (bank loans, insurance policies, etc.) or to enable a feature for known users (facial recognition, DNA testing, etc.). In the end, what matters is that the user has the same service but takes back control over their own data.</p>
+
+<p>I argue that AI safety shares the same goals as described above. You want to be sure that all models are safe, not only the open-source ones. You might want to regulate or inspect models without letting the model owner know, as in many other domains. The current state of affairs could be more satisfying, and I will describe in the next sections what directions could be net beneficial for AI safety.</p>
+
+<h2 id="hiding-the-test-set-in-public"># Hiding the Test Set in Public</h2>
+
+<h3 id="the-test-set-game">The Test Set Game</h3>
+
+<p>In ML, it is well known that you should always keep a subset of data hidden from the model, the test set. Consequently, this dataset provides a faithful model evaluation, should it be big enough and randomly sampled from the original dataset. It should be not mistaken for the validation set, used for hyperparameters search, which doesn’t provide a good evaluation metric due to the Goodhart’s law similarily to the train set.</p>
+
+<p>But what if you train on the test set? In frugal ML, per se using <code>scikit-learn</code>, it only happens willingly in scarce data problems like health predictions. Except for this particular case, should you encounter a data leakage problem, you can often re-process the datasets and re-train from scratch. Yet, in the era of big pre-trained models, such a solution would be far too expensive. It is thus a real problem, well illustrated by this satirical article <a href="#resources">@6</a>. You can also think of using machine unlearning for such a scale and diversity of data; you would dramatically hurt the performances.</p>
+
+<p>This major problem is primarily due to an aggressive data harvest that scrapes the web and, willingly or not, incorporates a test set of different known benchmarks. In order to avoid or control this leak, the two best SOTA approaches are:</p>
+
+<ul>
+  <li>Don’t publish the test set.</li>
+  <li>Contaminate the test set.</li>
+</ul>
+
+<p>Yet, since the evaluations are sent in clear to the models, they could be saved and later be reused. As for the contamination, it could be overcome by additional training, adversarial attacks, or surgical machine unlearning.</p>
+
+<blockquote class="callout success"> <div class="callout-title"> <i class="fa-solid fa-check" href="#"></i> <em> Policies</em></div> <p>Fortunately, certain model providers, like <a href="https://azure.microsoft.com">Azure</a>, adopted privacy policies stating that no data sent to the model would be collected. This is often encouraged by treaties like the GDPR.</p> </blockquote>
+
+<h3 id="zero-trust-for-better-safety">Zero Trust for Better Safety</h3>
+
+<p>It’s thus clear that you shouldn’t trust model owners with your evaluation data. However, model owners could also mistrust the evaluations. To solve this, I propose a simple scheme. First, provide an encrypted test set and then run the evaluation publicly, e.g., on an HF space like MTEB.</p>
+
+<p>We can push the distrust scheme even further. What if model owners didn’t want to leak on which inputs their model made a mistake? We would process similarly but using a common public key with a segmented private key. First, the model owners would provide the encrypted output, which is impossible to decrypt without their agreement. Then, we would run a circuit computing the accuracy. And finally, together, we would decrypt the metric result. In order to illustrate this process we can simply write a torch model computing the accuracy.</p>
+
+<script src="https://gist.github.com/Xmaster6y/0b84195df1ba6204e6b5b5c88e621472.js"></script>
+
+<blockquote class="callout error"> <div class="callout-title"> <i class="fa-solid fa-bolt" href="#"></i> <em> Gotcha</em></div> <p>This problem would require the creation of an accuracy circuit for each dataset, generating a new key for each model and encrypting the test set on the fly <strong>every time</strong>. While not practicable it illustrates the power of FHE to operate in scenarios where there is absolutely no trust.</p> </blockquote>
+
+<p><strong>What kind of governance would it enable?</strong> The last detail I previously didn’t mention for the sake of illustration is about trusting the data. In order to overcome this issue, we’ll need an additional entity, a regulator, that would, in the end, own the data. As such, they would be the ones to approve the dataset and deliver the associated certificate. The business organisation would be based on:</p>
+
+<ul>
+  <li>A law enforcing requiring model evaluation certificates.</li>
+  <li>An evaluator entity, entitled by the legislator to deliver certificates.</li>
+  <li>A model company paying the evaluator to abide by the law and look good with the certificate.</li>
+</ul>
+
+<p>Obviously, legal enforcement might not be enough. Indeed, some companies are willing to pay fines, even more when benefits largely outweighs the fines. Yet, pushing technologies like FHE might enable new use cases for AI safety.</p>
+
+<h2 id="privately-inspecting-model-biases"># Privately Inspecting Model Biases</h2>
+
+<p>Can we say more about a model than just its performances with only limited access?</p>
+
+<h3 id="io-interpretability-methods">I/O Interpretability Methods</h3>
+
+<p>In the era of sparse autoencoders or activation manipulation, heavily relying on model internals, let’s shed some light on interpretability methods only requiring input/output mapping, widely used by the non-DL folks.</p>
+
+<p>One of the first naive approaches to analyse a true black-box would be to recreate it. Depending on the model, e.g. ChatGPT, it might be too expensive but still a good start if done locally. In the field of XAI, LIME <a href="#resources">@7</a> was proposed using a much simpler surrogate model trained locally. Linear models, like logistic regression, are chosen for their straightforward interpretation and can be seen as a local Taylor approximation.</p>
+
+<p>Another very common framework to explain models with only a black box access is the Shapley Values <a href="#resources">@8</a>. Put simply, the Shapley Values, originating from game theory, disentangle the contribution of each player to a common team reward. In XAI we might want to disentangle the contribution from each input feature (player) to the model prediction (reward). Feature importance was efficiently implemented in SHAP <a href="#resources">@9</a>, and remains model agnostic.</p>
+
+<p>Last but not least, it is possible to create explanations centred on input data. Like the intuitive methods of occlusion <a href="#resources">@10</a>, which answers “What happens if I remove this part of the data?”, or anchors <a href="#resources">@11</a>, which answers “What are parts of the data must remain to keep the same prediction?”. These methods, along with LIME and SHAP, were unified as a set of “Explaining by Removing” methods <a href="#resources">@12</a>. More sophisticated methods could make use of adversarial samples, like using semantically equivalent adversaries <a href="#resources">@13</a>. In general, finding adversarial examples is possible, even with black box access, by training a surrogate model and using transfer <a href="#resources">@14</a>.</p>
+
+<blockquote class="callout tip"> <div class="callout-title"> <i class="fa-solid fa-fire-flame-curved" href="#"></i> <em> Transferability</em></div> <p>Certain adversarial attacks are transferable by nature, as related by meaningful features <a href="#resources">@15</a>. Indeed, the link between model robustness and adversarial attacks is still an active topic, especially for the latest models <a href="#resources">@16</a>. It aligns with the natural abstraction hypothesis, which states that dominant concepts will eventually be learned (with enough time and computation) despite the learning methodology.</p> </blockquote>
+
+<p>In conclusion, there exists a vast panel of methods to inspect a model only based on I/O. They would provide a deeper understanding of the model, e.g. biases, clever hans or condensed knowledge, while being FHE friendly.</p>
+
+<h3 id="whats-missing">What’s Missing?</h3>
+
+<p><strong>Model internals.</strong> Modern post-hoc interpretability methods studying deep neural networks use the model’s internals, such as activations, embeddings, individual neurons, weights, gradients, etc. Yet this data is way more sensitive for the model owner than its output since it would drastically lower the replication barrier. It would also be illusory to ask them to compute the interpretability methods themselves, as they could impair the results.</p>
+
+<p><strong>Speed</strong> As previously said FHE suffer from performance issues compare to clear evaluation. And while evaluation only require one forward pass interpretability often require many, especially in with black-box access. So speed would be primordial to improve, but obviously Zama, and others, are working on it as it would drastically improve FHE usability.</p>
+
+<p><strong>Model support.</strong> While it is true that <code>concrete-ml</code> makes it super easy to rewrite a torch model, an auto-converter would increase development speed. Imagine if you could to compile any model to FHE, HuggingFace would the perfect ecosystem (it already is). More generally improving model support, that could be helped by private companies, would speed and widen adoption.</p>
+
+<p>While it is true that such adjuncts would be terrific, I think that you can already build solid and useful software with it.</p>
+
+<h2 id="resources"># Resources</h2>
+
+<p>Below is a short list of the references cited throughout this blog post.</p>
+
+<blockquote class="callout quote"> <div class="callout-title"> <i class="fa-solid fa-quote-right" href="#"></i> <em> References</em></div> <ol>
+    <li>Singh, Simon. “The Code Book: The Evolution of Secrecy from Mary, Queen of Scots, to Quantum Cryptography” (1st. ed.). Doubleday, USA (1999).</li>
+    <li>Craig Gentry. “A fully homomorphic encryption scheme.” PhD thesis, Stanford University, (2009).</li>
+    <li>Chillotti, Ilaria et al. “TFHE: Fast Fully Homomorphic Encryption over the Torus.” (2016).</li>
+    <li>Chillotti, Ilaria et al. “Programmable Bootstrapping Enables Efficient Homomorphic Inference of Deep Neural Networks.” (2021).</li>
+    <li>Stoian, Andrei et al. “Deep Neural Networks for Encrypted Inference with TFHE.” (2023).</li>
+    <li>Schaeffer, Rylan. “Pretraining on the test set is all you need.” <em>arXiv preprint arXiv:2309.08632</em> (2023).</li>
+    <li>Ribeiro, Marco Tulio et al. ““Why Should I Trust You?”: Explaining the Predictions of Any Classifier.” <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em> (2016).</li>
+    <li>Shapley, Lloyd S. ”Notes on the n-Person Game – II: The Value of an n-Person Game.” Santa Monica, Calif.: RAND Corporation (1951).</li>
+    <li>Lundberg, Scott M. and Su-In Lee. “A Unified Approach to Interpreting Model Predictions.” <em>Neural Information Processing Systems</em> (2017).</li>
+    <li>Zeiler, Matthew D. and Rob Fergus. “Visualizing and Understanding Convolutional Networks.” <em>ArXiv</em> abs/1311.2901 (2013).</li>
+    <li>Ribeiro, Marco Tulio et al. “Anchors: High-Precision Model-Agnostic Explanations.” <em>AAAI Conference on Artificial Intelligence</em> (2018).</li>
+    <li>Covert, Ian et al. “Explaining by Removing: A Unified Framework for Model Explanation.” <em>J. Mach. Learn. Res.</em> 22 (2020): 209:1-209:90.</li>
+    <li>Ribeiro, Marco Tulio et al. “Semantically Equivalent Adversarial Rules for Debugging NLP models.” <em>Annual Meeting of the Association for Computational Linguistics</em> (2018).</li>
+    <li>Shi, Yi et al. “Active Deep Learning Attacks under Strict Rate Limitations for Online API Calls.” <em>2018 IEEE International Symposium on Technologies for Homeland Security (HST)</em> (2018).</li>
+    <li>Ilyas, Andrew et al. “Adversarial Examples Are Not Bugs, They Are Features.” <em>Neural Information Processing Systems</em> (2019).</li>
+    <li>Schlarmann, Christian and Matthias Hein. “On the Adversarial Robustness of Multi-Modal Foundation Models.” <em>2023 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)</em> (2023).</li>
+  </ol> </blockquote>
+
+</section>
+
+      </div>
+      <footer>
+        <div>
+          <nav>
+            <small>
+              <a href="https://yp-edu.github.io/">Home </a>
+              <a href="https://yp-edu.github.io/stories">Stories</a>
+              <a href="https://yp-edu.github.io/projects">Projects</a>
+              <a href="https://yp-edu.github.io/articles">Articles</a>
+              <a href="https://yp-edu.github.io/about">About</a>   
+            </small>
+          </nav>
+          <small>Copyright <i class="fa-regular fa-copyright"></i> 2024</small>
+        </div>
+        <div>
+          <small>Powered by Jekyll & GitHub Pages <a class="icon-block" href="https://github.com/yp-edu/yp-edu.github.io"><i class="fa-brands fa-github"></i></a></small>
+        </div>
+      </footer>
+    </div>
+    <script src="/assets/js/scale.fix.js"></script>
+<script src="https://kit.fontawesome.com/3fdff6d6f2.js" crossorigin="anonymous"></script>
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/nav.visibility.js"></script>
+
+  </body>
+</html>
