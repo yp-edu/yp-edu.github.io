@@ -1,6 +1,6 @@
 ---
 title: Evidence of Learned Look-Ahead
-tldr: Reproduction of the paper Evidence of Learned Look-Ahead using my own interpretability library lczerolens. This article investigate how chess agents can predict
+tldr: TLDR
 tags:
   - XAI
   - AlphaZero
@@ -12,16 +12,16 @@ publishedOn: 2024-06-27
 editedOn: 2024-06-27
 authors:
   - "[[Yoann Poupart]]"
-readingTime: 18
+readingTime: 2
 image: /assets/images/evidence-of-learned-look-ahead_thumbnail.png
-description: TL;DR> Layer-Wise Relevance Propagation (LRP) is a propagation method that produces relevances for a given input with regard to a target output. Technically the computation happens using a single back-progation pass similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
+description: TL;DR> TLDR
 ---
 
 ![Evidence of Learned Look-Ahead](evidence-of-learned-look-ahead.png)
 
 > [!tldr] TL;DR
 > 
-> Layer-Wise Relevance Propagation (LRP) is a propagation method that produces relevances for a given input with regard to a target output. Technically, the computation happens using a single back-propagation pass, similarly to deconvolution. I propose to illustrate this method on an Alpha-Zero network trained to play Othello.
+> TLDR
 
 > [!example] Table of content
 > 

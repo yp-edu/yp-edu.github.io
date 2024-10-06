@@ -1,6 +1,6 @@
 ---
 title: FHE for Open Model Audits
-tldr: Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.
+tldr: Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications of FHE in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.
 tags:
   - AIS
   - XAI
@@ -10,19 +10,19 @@ references:
 aliases: 
 crossposts: 
 publishedOn: 2024-10-05
-editedOn: 2024-10-05
+editedOn: 2024-10-06
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 14
 image: /assets/images/fhe-for-open-model-audits_thumbnail.webp
-description: TL;DR> Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.
+description: TL;DR> Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications of FHE in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.
 ---
 
 ![TFHE for Open Interpretability Audits](fhe-for-open-model-audits.webp)
 
 > [!tldr] TL;DR
 > 
-> Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.
+> Thanks to recent developments, FHE can now be applied easily and scalably to deep neural networks. I think, like many, that these advancements are a real opportunity to improve AI safety. I thus outline possible applications of FHE in model evaluation and interpretability, the most mature tools in safety as of today in my opinion.
 
 > [!example] Table of content
 > 
@@ -52,7 +52,7 @@ I recently participated in the Privacy Preserving AI Hackathon organised by [Ent
 
 First, FHE stands for "fully homomorphic encryption", a framework for cryptosystems supporting computation on cyphertexts. As the name "fully homomorphic" suggests, the beauty of the method is enabling a correspondence between computation in the encrypted space and the clear space. Indeed, if $\varepsilon$ is the encryption mechanism, $\varepsilon(\lambda \cdot A + B)=\lambda\circ\varepsilon(A)\star\varepsilon(B)$, such that a series of computations can be performed while encrypted, only needing to decrypt the result.
 
-**Why does it matter?** It matters because it means that the computation can be performed by an untrusted entity w.r.t. the input data. For the entity performing the computation, it also means that you don't need to give away your "secret sauce", i.e. the series of computations. This scheme adheres to the spirit of zero trust by design. This enables the building of privacy-preserving applications that might leverage highly tailored features based on your personal data without any leak.
+**Why does it matter?** It matters because it means that the computation can be performed by an untrusted entity w.r.t. the input data. For the entity performing the computation, it also means that you don't need to give away your "secret sauce", i.e. the series of computations. This scheme adheres to the spirit of zero trust by design. This enables the building of privacy-preserving applications that might leverage highly tailored features based on your personal data without any leak. Such applications could range from content recommendation, based on your age, sex or localisation, to health checks.
 
 > [!todo] Privacy Checklist
 > 
@@ -66,7 +66,7 @@ First, FHE stands for "fully homomorphic encryption", a framework for cryptosyst
 > -  Is FHE really necessary here?
 > - Is FHE realistic here?
 
-The last two points are crucial, as you want to avoid using FHE as much as possible. Bear in mind that computing on cyphertexts is expensive! For example, you should prefer running the non-critical parts of your system locally, on the client machine, to the extent of the power needed. You'll then keep the encryption scheme for most sensitive business-related computations. 
+ Bear in mind that computing on cyphertexts is expensive, so you might want to avoid using FHE as much as possible! For example, you should prefer running the non-critical parts of your system locally, on the client machine, to the extent of the power needed. You'll then keep the encryption scheme for most sensitive business-related computations. 
 
 ### FHE Applied to ML
 
@@ -79,7 +79,7 @@ This was mostly made possible by fast bootstrapping [@4](#resources), the evolut
 > 
 > If you want to go deeper and learn about the actual algorithms implemented have a look at [Zama's blog](https://www.zama.ai). I especially recommend their [101](https://www.zama.ai/post/homomorphic-encryption-101) on FHE, which clearly explains bootstrapping and its application to neural networks. In general, they have great resources, tutorials, and stories for crypto experts, but also for less technical wanderers.
 
-  In practice, you need to remember that all the computations are done with integers and are slower. With Zama's library [`conrete-ml`](https://docs.zama.ai/concrete-ml), you don't need to handle or write any crypto code. You'll be able to manipulate and customise your `torch` model at will, providing that you use supported operations. Indeed, when you compile your model, it will be translated under the hood into FHE-friendly operations. [`conrete-ml`](https://docs.zama.ai/concrete-ml) provides native APIs to create an FHE model from a regular `torch` or `sklearn` model. They made it so easy, it would be a shame not to use it!
+  In practice, you need to remember that all the computations are done with integers and are slower. With Zama's library [`concrete-ml`](https://docs.zama.ai/concrete-ml), you don't need to handle or write any crypto code. You'll be able to manipulate and customise your `torch` model at will, providing that you use supported operations. Indeed, when you compile your model, it will be translated under the hood into FHE-friendly operations. [`concrete-ml`](https://docs.zama.ai/concrete-ml) provides native APIs to create an FHE model from a regular `torch` or `scikit-learn` model. They made it so easy, it would be a shame not to use it!
 
 > [!tip] Universal ML
 > 
@@ -98,7 +98,7 @@ I argue that AI safety shares the same goals as described above. You want to be 
 
 ### The Test Set Game
 
-In ML it is well known that you should always keep a subset of data hidden from the model, the test set. Consequently, this dataset provides a faithful model evaluation, should it be big enough and randomly sampled from the original dataset. It should be not mistaken for the validation set, used for hyperparameters search, which doesn't provide a good evaluation metric due to the Goodhart's law similarily to the train set.
+In ML, it is well known that you should always keep a subset of data hidden from the model, the test set. Consequently, this dataset provides a faithful model evaluation, should it be big enough and randomly sampled from the original dataset. It should be not mistaken for the validation set, used for hyperparameters search, which doesn't provide a good evaluation metric due to the Goodhart's law similarily to the train set.
 
 But what if you train on the test set? In frugal ML, per se using `scikit-learn`, it only happens willingly in scarce data problems like health predictions. Except for this particular case, should you encounter a data leakage problem, you can often re-process the datasets and re-train from scratch. Yet, in the era of big pre-trained models, such a solution would be far too expensive. It is thus a real problem, well illustrated by this satirical article [@6](#resources). You can also think of using machine unlearning for such a scale and diversity of data; you would dramatically hurt the performances.
 
