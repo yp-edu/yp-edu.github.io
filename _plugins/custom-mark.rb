@@ -23,6 +23,7 @@ FA_CALLOUTS = {
   "quote" => "fa-solid fa-quote-right",
   "question" => "fa-solid fa-circle-question",
   "todo" => "fa-solid fa-circle-check",
+  "thanks" => "fa-solid fa-heart",
 }
 DEBUG = false
 
