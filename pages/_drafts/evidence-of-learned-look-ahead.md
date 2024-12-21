@@ -8,8 +8,8 @@ tags:
 references: 
 aliases: 
 crossposts: 
-publishedOn: 2024-12-22
-editedOn: 2024-12-22
+publishedOn: 2024-12-29
+editedOn: 2024-12-29
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 10
@@ -98,11 +98,11 @@ In order to improve the accuracy it could be tempting to augment the probe compl
 
 ### Activation Patching
 
-Activation patching was proposed a causal mediation analysis in order to causally measure the impact of different model's components to downstream tasks [@6](#resources). The downstream task can be a single prediction, multiple predictions or other forms of loss. Figure [1](#activation-patching) present the different mediation analyses, using an indirect or direct intervention. For the indirect intervention (c) on a component $C$, an observed variation in a downstream metric, similar to the corrupted pass (b), implies that $C$ was *necessary* for the compute. While for the direct intervention (d) on a component $C$, a recovered performance on a downstream metric, similar to the clean pass (a), implies that $C$ held *sufficient* information. 
+Activation patching was proposed a causal mediation analysis in order to causally measure the impact of different model's components to downstream tasks [@6](#resources). The downstream task can be a single prediction, multiple predictions or other forms of loss. Figure [1](#activation-patching-ill) present the different mediation analyses, using an indirect or direct intervention. For the indirect intervention (c) on a component $C$, an observed variation in a downstream metric, similar to the corrupted pass (b), implies that $C$ was *necessary* for the compute. While for the direct intervention (d) on a component $C$, a recovered performance on a downstream metric, similar to the clean pass (a), implies that $C$ held *sufficient* information. 
 
 ![activation-patching](evidence-of-learned-look-ahead_activation-patching.png)
 *Figure 1: Illustration of the activation patching method. This method needs two forward passes, one clean (a) and one corrupted (b). Then to measure the impact of a component $C$ on a downstream task we can use an indirect intervention (c) or a direct intervention (d).*
-{: .im-center#activation-patching}
+{: .im-center#activation-patching-ill}
 
 Applying this method to lc0 networks lets us test which parts of the activations/heads/layers encode or compute critical information. By swapping activations between clean and corrupted board states, [@1](#resources) pinpointed the squares that store crucial information. This information is somehow used in a planning mechanism coined "look-ahead", which technically predicts a line of moves, taking into account the opponent's best response.
 
