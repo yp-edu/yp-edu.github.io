@@ -79,3 +79,7 @@ You can use [tags](/tags) to find posts on a specific topic!
 </div>
 {% endif %}
 {% endfor %}
+
+## Feedback
+
+Feedback is always welcome! Feel free to open a [discussion on Github](https://github.com/orgs/yp-edu/discussions) at any time for any subject related to my blog.

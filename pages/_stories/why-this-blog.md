@@ -8,7 +8,7 @@ references:
 crossposts: 
 aliases: 
 publishedOn: 2023-09-17
-editedOn: 2023-09-21
+editedOn: 2025-01-07
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 5
@@ -83,4 +83,4 @@ Even if I am writing public content, I have a right to be wrong. I have a duty t
 
 > [!bug] Bug
 > 
->Obviously, that's not what this blog is for. So, in the event that you spot an error or a typo, feel free to drop an email at [yoann.poupar@ens-lyon.org](mailto:yoann.poupar@ens-lyon.org).
+>Obviously, that's not what this blog is for. So, in the event that you spot an error or a typo, feel free to open a [discussion on Github](https://github.com/orgs/yp-edu/discussions).
