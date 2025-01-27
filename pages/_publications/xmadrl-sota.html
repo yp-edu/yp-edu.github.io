@@ -1,0 +1,221 @@
+---
+title: Perspectives for Direct Interpretability in Multi-Agent Deep Reinforcement Learning
+tldr: By addressing Multi-Agent Deep Reinforcement Learning interpretability, we propose directions aiming to advance active topics such as team identification, swarm coordination and sample efficiency. This paper advocates for direct interpretability, generating post hoc explanations directly from trained models, offering scalable insights into agents' behaviour, emergent phenomena, and biases without altering models' architectures.
+tags:
+  - MARL
+  - XAI
+references: 
+aliases: 
+crossposts: 
+publishedOn: 2024-01-14
+editedOn: 2024-01-14
+authors:
+  - "[[Yoann Poupart]]"
+readingTime: 25
+image: /assets/publications/images/xmadrl-sota_thumbnail.png
+description: TL;DR> By addressing Multi-Agent Deep Reinforcement Learning interpretability, we propose directions aiming to advance active topics such as team identification, swarm coordination and sample efficiency. This paper advocates for direct interpretability, generating post hoc explanations directly from trained models, offering insights into agents' behaviour, emergent phenomena, and biases without altering models' architectures.
+---
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Perspectives for Direct Interpretability in Multi-Agent Deep Reinforcement Learning</h1>
+          <div class="is-size-5 publication-authors">
+            <!-- Paper authors -->
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=hX7LNgUAAAAJ" target="_blank">Yoann Poupart</a><sup>*</sup>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=Cala-wwAAAAJ" target="_blank">Aurélie Beynier</a><sup>*</sup>
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.fr/citations?user=aTh7cOcAAAAJ" target="_blank">Nicolas Maudet</a><sup>*</sup>
+            </span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              LIP6, Sorbonne University
+              <br>Explain'AI Workshop @ EGC-2025
+              <br><strong>Arxiv release coming soon!</strong>
+            </span>
+          </div>
+          <div class="column has-text-centered">
+            <div class="publication-links">
+                  <!-- Arxiv PDF link -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/ARXIV_ID" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+              <!-- ArXiv abstract Link -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/ARXIV_ID" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser video-->
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <source src="/assets/publications/videos/banner_video.mp4"
+        type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus. 
+      </h2>
+    </div>
+  </div>
+</section> -->
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Multi-Agent Deep Reinforcement Learning (MADRL) was proven efficient in solving complex problems in robotics or games, yet most of the trained models are hard to interpret. While learning intrinsically interpretable models remains a prominent approach, its scalability and flexibility are limited in handling complex tasks or multi-agent dynamics. This paper advocates for direct interpretability, generating post hoc explanations directly from trained models, as a versatile and scalable alternative, offering insights into agents' behaviour, emergent phenomena, and biases without altering models' architectures. We explore modern methods, including relevance backpropagation, knowledge edition, model steering, activation patching, sparse autoencoders and circuit discovery, to highlight their applicability to single-agent, multi-agent, and training process challenges. By addressing MADRL interpretability, we propose directions aiming to advance active topics such as team identification, swarm coordination and sample efficiency.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!-- Image carousel -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item is-centered has-text-centered">
+          <img src="/assets/publications/images/xmadrl-sota_madrl.png" alt="MADRL systems" width="50%">
+          <h2 class="subtitle has-text-centered">
+            MADRL systems.
+          </h2>
+        </div>
+        <div class="item is-centered has-text-centered">
+          <img src="/assets/publications/images/xmadrl-sota_taxonomy.png" alt="MADRL challenges taxonomy" width="50%">
+          <h2 class="subtitle has-text-centered">
+            MADRL challenges taxonomy.
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End image carousel -->
+
+<!-- Youtube video -->
+<!-- <section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Video Presentation</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- End youtube video -->
+
+
+<!-- Video carousel -->
+<!-- <section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Another Carousel</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="100%">
+            <source src="/assets/publications/videos/carousel1.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" autoplay controls muted loop height="100%">
+            <source src="/assets/publications/videos/carousel2.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="100%">\
+            <source src="/assets/publications/videos/carousel3.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- End video carousel -->
+
+
+
+
+
+<!-- Paper poster -->
+<!-- <section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title">Poster</h2>
+
+      <iframe
+        src="/assets/publications/pdfs/lczero-planning_poster.pdf"
+        width="100%" 
+        height="600"
+        style="border-radius: 10px;"
+      ></iframe>
+        
+      </div>
+    </div>
+  </section> -->
+<!--End paper poster -->
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre>
+<code>@misc{poupart2025perspectives,
+  title={Perspectives for Direct Interpretability in Multi-Agent Deep Reinforcement Learning}, 
+  author={Yoann Poupart, Aurélie Beynier, Nicolas Maudet},
+  year={2025},
+  eprint={ARXIV_ID},
+  archivePrefix={arXiv},
+  primaryClass={cs.AI},
+  url={https://arxiv.org/abs/ARXIV_ID}, 
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
