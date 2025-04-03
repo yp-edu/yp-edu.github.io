@@ -14,7 +14,7 @@ authors:
   - "[[Yoann Poupart]]"
 readingTime: 10
 image: /assets/images/evidence-of-learned-look-ahead_thumbnail.png
-description: TL;DR> Dive into how Leela Chess Zero, a class of neural networks to play chess, implements planning through a look-ahead mechanism. We'll break down the key findings of the linked article and explore the interpretability techniques used to study the model, like probing and activation patching. These findings will be reproduced using the library lczerolens, a tool for chess XAI.
+description: TL;DR> Dive into how Leela Chess Zero, a class of neural networks to play chess, implements planning through a look-ahead mechanism. We'll break down the key findings of the linked articles and explore the interpretability techniques used to study the model, like probing and activation patching. These findings will be reproduced using the library lczerolens, a tool for chess XAI.
 ---
 
 ![Evidence of Learned Look-Ahead](evidence-of-learned-look-ahead.png)
@@ -38,6 +38,9 @@ description: TL;DR> Dive into how Leela Chess Zero, a class of neural networks t
 >   - [What's Next?](#whats-next)
 > - [Resources](#resources)
 
+> [!thanks] Acknowledgement
+> 
+> I want to thank Imene for reviewing an advanced draft of this post and providing useful feedback. 
 
 > [!info] Side Note
 > 
@@ -47,7 +50,7 @@ description: TL;DR> Dive into how Leela Chess Zero, a class of neural networks t
 
 ### Chess-Playing Agents
 
-Leela Chess Zero (lc0) is a neural network-powered chess engine trained via reinforcement learning and self-play [@2][#resources]. Originally it was an open source reproduction of the groundebreaking algorithm AlphaZero [@3](#resources), but since the launch of this project the Leela team pushed many improvements like the latest transformer series of models [@4](@resources). At the heart of the lc0 chess engine there are two main components, the neural network, which can be modelled has an advanced search heuristic, and the Monte Carlo Tree Search (MCTS), which is a brute force operator that simulates game trajectories in order to find the best strategy.
+Leela Chess Zero (lc0) is a neural network-powered chess engine trained via reinforcement learning and self-play [@2](#resources). Originally it was an open source reproduction of the groundebreaking algorithm AlphaZero [@3](#resources), but since the launch of this project the Leela team pushed many improvements like the latest transformer series of models [@4](@resources). At the heart of the lc0 chess engine there are two main components, the neural network, which can be modelled has an advanced search heuristic, and the Monte Carlo Tree Search (MCTS), which is a brute force operator that simulates game trajectories in order to find the best strategy.
 
 The experiments from the article are only meant to study the network part, leaving the MCTS aside. Indeed, trying to interpret the MCTS along with the network can be harder, but understanding the standalone complex heuristic is already an interesting challenge. This network takes in input the board squares as tokens, process them in a Transformer architecture and then produces three outputs through the policy head, the value head and the move-left head. In practice these outputs then serve as a complex heuristic that guides the MCTS by a smart initialisation on new nodes.
 

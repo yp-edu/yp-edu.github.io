@@ -133,5 +133,38 @@ layout: default
     {% endif %}
   {% endif %}
 {% endfor %}
+
+{% assign collection = site.materials | sort: "publishedOn" | reverse %}
+{% assign article_count = 0 %}
+{% for item in collection %}
+  {% if item.name != "index.md"%}
+    {% if item.tags contains page.tag %}
+      {% if article_count == 0 %}
+      <h2># <a href={{ "/materials/" | absolute_url }}>Materials</a></h2>
+      {% endif %}
+      <small class="date">{{ item.publishedOn | date: "%-d %B %Y" }}</small> 
+      <small>| {{ item.readingTime }} min read </small>
+      <small> 
+        | tags:
+      {% for tag in item.tags %}
+        <em><a href="/tags/{{ tag | downcase }}" class="tag"> {{ tag }} <i class="fa-solid fa-tag"></i></a></em> 
+      {% endfor %}
+      </small>
+      <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
+      <div class="thumbnail">
+        {% if item.image %}
+          <a href="{{ item.url }}"><img src="{{ item.image }}" alt="{{ item.title }}" class="thumbnail" /></a>
+        {% endif %}
+        {% if item.tldr %}
+          <p class="tldr">
+            <small>{{ item.tldr}}</small>
+          </p>
+        {% endif %}
+      </div>
+      {% assign article_count = article_count | plus: 1 %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
 <h3> <a href="/tags">> All tags</a></h2>
 </section>
