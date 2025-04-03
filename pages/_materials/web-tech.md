@@ -30,9 +30,9 @@ description: TL;DR> Additional notes accompanying the practical sessions of the 
 
 ## Introduction
 
-Course about web technologies for 3rd years. bachelor students at Sorbonne University.
+Course about web technologies for 3rd years bachelor students at Sorbonne University.
 
 ## Resources
 
-- GitHub repository: https://github.com/yp-edu/web-technologies
-- Feedback form: https://nuage.lip6.fr/index.php/apps/forms/s/jC3nH2PJbbxcm3LYSiDkPKXb
+- GitHub repository: [https://github.com/yp-edu/web-technologies](https://github.com/yp-edu/web-technologies)
+- Feedback form: [https://nuage.lip6.fr/index.php/apps/forms/s/jC3nH2PJbbxcm3LYSiDkPKXb](https://nuage.lip6.fr/index.php/apps/forms/s/jC3nH2PJbbxcm3LYSiDkPKXb)
