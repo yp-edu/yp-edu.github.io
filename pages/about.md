@@ -48,4 +48,4 @@ See my [teaching materials](/materials).
 
 ## Contact
 
-Feel free to reach out at [{{ site.email }}](mailto:{{ site.email }}) or on [::linkedin::]({{ site.linkedin.url }}).
+Feel free to reach out on [::github::](https://github.com/orgs/yp-edu/discussions) or [::linkedin::]({{ site.linkedin.url }}).

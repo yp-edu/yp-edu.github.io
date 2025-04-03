@@ -20,7 +20,7 @@
 
 title: "Yoann Poupart"
 description: "Personal website, blog & portfolio."
-email: yoann.poupart@ens-lyon.org
+email: ""
 baseurl: "" # the subpath of your site, e.g. /blog
 domain: yp-edu.github.io
 url: "https://yp-edu.github.io" #"http://192.168.1.184:4000" # the base hostname & protocol for your site, e.g. http://example.com
