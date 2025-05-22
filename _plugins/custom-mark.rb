@@ -14,6 +14,7 @@ FA_CALLOUTS = {
   "note" => "fa-solid fa-pen",
   "rss" => "fa-solid fa-rss",
   "linkedin" => "fa-brands fa-linkedin",
+  "github" => "fa-brands fa-github",
   "warning" => "fa-solid fa-triangle-exclamation",
   "caution" => "fa-solid fa-triangle-exclamation",
   "success" => "fa-solid fa-check",
@@ -76,7 +77,7 @@ class Jekyll::Converters::Markdown
         '<em>\2</em></div> <ol>\3</ol> </blockquote>'
         )
 
-      parsed_html = parsed_html.gsub(/::(.*)::/, '<i class="fa-\1"></i>')
+      parsed_html = parsed_html.gsub(/::((?:(?!\:\:).)*)::/, '<i class="fa-\1"></i>')
       FA_CALLOUTS.each do |key, value|
         parsed_html.gsub!(/<i class="fa-#{key}"/, "<i class=\"#{value}\"")
       end
