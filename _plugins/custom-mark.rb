@@ -34,6 +34,7 @@ class Jekyll::Converters::Markdown
       content = content.gsub(/\%\\label\{/, '\label{')
       content = content.gsub(/```/, '~~~')
       options = {
+        syntax_highlighter: 'rouge',
         syntax_highlighter_opts: {
           css_class: 'highlight',
           block: {
