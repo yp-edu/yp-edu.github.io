@@ -156,7 +156,7 @@ And that's it! You can now use your custom model in your experiments.
 
 > [!success] Extra Dims
 >
-> See the refined PR [here](https://github.com/facebookresearch/BenchMARL/pull/100).
+> See the refined PR [here](https://github.com/facebookresearch/BenchMARL/pull/211).
 
 ## Cluster Training
 
