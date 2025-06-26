@@ -3,6 +3,7 @@ title: MARL Cluster Training
 tldr: Let's dive into MARL training with BenchMARL and how to scale up your experiments to a cluster. We'll cover environment and model customisation, as well as how to run your experiments on a cluster even without internet access.
 tags:
   - MARL
+  - Cluster
 references: 
 aliases: 
 crossposts: 
