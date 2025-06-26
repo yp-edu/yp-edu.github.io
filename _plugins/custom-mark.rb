@@ -32,8 +32,16 @@ class Jekyll::Converters::Markdown
   class CustomMarkProcessor < CommonMark
     def convert(content)
       content = content.gsub(/\%\\label\{/, '\label{')
-
-      html = Kramdown::Document.new(content).to_html
+      content = content.gsub(/```/, '~~~')
+      options = {
+        syntax_highlighter_opts: {
+          css_class: 'highlight',
+          block: {
+            line_numbers: true
+          }
+        }
+      }
+      html = Kramdown::Document.new(content, options).to_html
       if DEBUG
         Jekyll.logger.info "CustomMarkProcessor:", "content class: #{content.class}"
         Jekyll.logger.info "CustomMarkProcessor:", "html class: #{html.class}"
