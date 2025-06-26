@@ -195,12 +195,11 @@ You should do this on a Work or Draft partition, avoid installing in your home d
 
 The easy part with the setup I presented is that the same script can be used to run your experiments locally or on a cluster. So except for the `slurm` arguments; which might differ depending on your cluster, you can use the same script.
 
-A typical `slurm` script would look like this:
+A typical `slurm` script, that you can launch using `sbatch launch/bench:multiwalker-jz.sh`, would look like this:
 
 <script src="https://gist.github.com/Xmaster6y/fc467b0b45ea3727acb4a8613d57dfea.js"></script>
 
-And to make use of the GPU you can just switch the experiment config as follows:
-adding the argument `experiment=gpu`. It will simply load the default experiment config (`base_experiment`) and overrides the `gpu` config:
+And to make use of the GPU you can just switch the experiment config by adding the argument `experiment=gpu`. It will simply load the default experiment config (`base_experiment`) and overrides the `gpu` config:
 
 <script src="https://gist.github.com/Xmaster6y/7245814c6fb5337403cc2e6b4f466827.js"></script>
 
