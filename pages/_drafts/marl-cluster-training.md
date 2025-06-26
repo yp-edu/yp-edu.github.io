@@ -69,8 +69,10 @@ Along with this blog post, I have prepared a [repository](https://github.com/yp-
 
 The first thing you might want to do is train supported algorithms on a supported environment. Let's say you want to compare MAPPO and IPPO on Multiwalker. Such a benchmark is made of 2 independent experiments, that you can test individually using the script [`experiments/run_local.py`](https://github.com/yp-edu/marl-cluster-training/blob/main/scripts/experiments/run_local.py), inspired by the [`run.py`](https://github.com/facebookresearch/BenchMARL/blob/main/benchmarl/run.py) script provided by benchmarl.
 
-- IPPO & Multiwalker: `uv run python -m scripts.experiments.run_local algorithm=ippo task=pettingzoo/multiwalker`
-- MAPPO & Multiwalker: `uv run python -m scripts.experiments.run_local algorithm=mappo task=pettingzoo/multiwalker`
+- IPPO & Multiwalker: \\
+`uv run -m scripts.experiments.run_local algorithm=ippo task=pettingzoo/multiwalker`
+- MAPPO & Multiwalker: \\
+`uv run -m scripts.experiments.run_local algorithm=mappo task=pettingzoo/multiwalker`
 
 These scripts are based on Hydra's configuration system, which allows you to easily modify the configuration of your experiment in a YAML file or through the command line. This is especially important when you want to run multiple experiments with different configurations, e.g. for hyperparameters search. Additionally, the defaults can be loaded directly from BenchMARL since the script's config (`exp:run_local.yaml`) adds it to the Hydra search path.
 
@@ -80,7 +82,7 @@ These scripts are based on Hydra's configuration system, which allows you to eas
 
 But the strength of BenchMARL is to run benchmarks, i.e. a group of reproducible experiments with a similar configs. You can start by running the [`benchmarks/multiwalker.py`](https://github.com/yp-edu/marl-cluster-training/blob/main/scripts/benchmarks/multiwalker.py) script, which is equivalent to running the previous experiments (with multiple seeds) but fully baked with the powerfull plots from `marl-eval` to compare the experiments.
 
-- Run the benchmark: `uv run python -m scripts.benchmarks.multiwalker`
+- Run the benchmark: `uv run -m scripts.benchmarks.multiwalker`
 
 As this becomes to be tedious to run it on a personal computer the next step is to run it on a cluster. Jump to the [Cluster Training](#cluster-training) section for more details.
 
@@ -97,16 +99,14 @@ One of BenchMARL's strengths is its ability to integrate custom tasks. First l
 > Unfortunately unlike algorithms, tasks are nested in the framework folder (e.g. `pettingzoo`). Because of this and a bug in Hydra, it is not possible to compose defaults from nested tasks, see [this issue](https://github.com/facebookresearch/hydra/issues/3060). 
 
 But it is still possible to derive a custom task in a few steps: 
+
 - Create a config file: `multiwalker/shared.yaml`
 - Register the task (before creating the experiment object): 
 
-```python
-from benchmarl.environments import task_config_registry
+<script src="https://gist.github.com/Xmaster6y/0499dff7b7725f6160df03a58fccec6c.js"></script>
 
-task_config_registry["multiwalker/shared"] = task_config_registry["pettingzoo/multiwalker"]
-```
-
-- Run the experiment: `uv run python -m scripts.experiments.run_local algorithm=mappo task=multiwalker/shared`
+- Run the experiment: \\
+`uv run -m scripts.experiments.run_local algorithm=mappo task=multiwalker/shared`
 
 > [!danger] Hack
 >
@@ -114,74 +114,43 @@ task_config_registry["multiwalker/shared"] = task_config_registry["pettingzoo/mu
 
 Another kind of custom tasks are unsupported tasks from a supported environment class, for example KAZ (Knights Archers Zombies) from PettingZoo. First you need to create a custom task class:
 
-```python
-class PettingZooKazClass(PettingZooClass):
-    def supports_continuous_actions(self) -> bool:
-        return False
-
-    def supports_discrete_actions(self) -> bool:
-        return True
-
-    def has_state(self) -> bool:
-        return True
-```
+<script src="https://gist.github.com/Xmaster6y/b9ea4c83c88789b45ddcee2ccdbc03d5.js"></script>
 
 Which is used in the task:
 
-```python
-class PettingZooKazTask(Task):
-    """Enum for PettingZoo tasks."""
-
-    KAZ = None
-
-    @staticmethod
-    def associated_class():
-        return PettingZooKazClass
-```
+<script src="https://gist.github.com/Xmaster6y/0916d6f7187191b251d8db7893cc3d6f.js"></script>
 
 Then you can register the task:
 
-```python
-task_config_registry["kaz/default"] = PettingZooKazTask.KAZ
-```
+<script src="https://gist.github.com/Xmaster6y/4ba879431ccd864dc96b298789946140.js"></script>
 
-And additionally you can validate the task using a dataclass to serve as schema, which you would add in a `ConfigStore`:
+And additionally you can validate the task using a `dataclass` to serve as schema, which you would add in a `ConfigStore`:
 
-```python
-cs.store(name="pettingzoo_kaz_config", group="task", node=KazTaskConfig)
-```
+<script src="https://gist.github.com/Xmaster6y/114c4b4ffc3c256ba7b830ffa766be14.js"></script>
 
-For trully custom environments see the [exemples](https://github.com/facebookresearch/BenchMARL/tree/main/examples/extending/task). You might want to also dig in the [torchrl](https://pytorch.org/rl/stable/api/torchrl.envs.env.html) documentation first, to understand how to create your own environements.
+For truly custom environments see the [exemples](https://github.com/facebookresearch/BenchMARL/tree/main/examples/extending/task). You might want to also dig in the [torchrl](https://pytorch.org/rl/stable/api/torchrl.envs.env.html) documentation first, to understand how to create your own environements.
 
 > [!question] Question
-> How to handle the KAZ vector state `(B, N, F)`?
 > 
-> > [!info] Answer
-> > As `N` is not an agent dimension, you cannot directly use the `Mlp` (`(B, F)` inputs) model nor the `Cnn` (`(B, F)` or `(B, H, W, C)` inputs) model. You'll need either to modify the environement to ouput the correct shape or use a custom model based on a `Cnn`, `Mlp` or a flattening layer. 
+> How to handle the KAZ vector state `(B, N, F)`?
+ 
+> [!answer] Answer
+> 
+> As `N` is not an agent dimension, you cannot directly use the `Mlp` (`(B, F)` inputs) model nor the `Cnn` (`(B, F)` or `(B, H, W, C)` inputs) model. You'll need either to modify the environement to ouput the correct shape or use a custom model based on a `Cnn`, `Mlp` or a flattening layer. 
 
 ### Custom Model
 
 As noted in the previous section, KAZ vector state requires a custom model. The easiest will be to modify the `MlP` model, flattening any extra dimension. The basic idea is to introduce a new `num_extra_dims` parameter in the model config, which will be used to flatten the input tensor.
 
-```python
-num_extra_dims: int = 0
-```
+<script src="https://gist.github.com/Xmaster6y/c828476db539b3c72e02bd53b83552c2.js"></script>
 
 This parameter will first be used in the `_perform_checks` method to check that the input tensor has the correct shape, and finally in the `_forward` method to simplify the input tensor:
 
-```python
-def _forward(self, tensordict: TensorDictBase) -> TensorDictBase:
-    # Gather in_key
-    full_input = torch.cat([tensordict.get(in_key) for in_key in self.in_keys], dim=-1)
-    input = torch.flatten(full_input, start_dim=-self.num_extra_dims - 1)
-    ...
-```
+<script src="https://gist.github.com/Xmaster6y/51e77d720c191f9c67866de020ba0f17.js"></script>
 
 It then needs to come with a config file `extra_mlp.yaml` and should be registered in the `model_config_registry`:
 
-```python
-model_config_registry["extra_mlp"] = ExtraMlpConfig
-```
+<script src="https://gist.github.com/Xmaster6y/b6149b984003df83519d9e5517918e28.js"></script>
 
 And that's it! You can now use your custom model in your experiments.
 
@@ -228,37 +197,14 @@ The easy part with the setup I presented is that the same script can be used to 
 
 A typical `slurm` script would look like this:
 
-```bash
-#!/bin/bash
-
-#SBATCH --job-name=bench:multiwalker-jz
-#SBATCH --nodes=1
-#SBATCH --gpus=1
-#SBATCH --time=60
-#SBATCH --mail-type=ALL
-#SBATCH --output=results/slurm/%x-%j.out
-#SBATCH --error=results/slurm/%x-%j.err
-#SBATCH --account=nwq@v100
-
-module purge
-uv run --no-sync python -m scripts.benchmarks.multiwalker
-```
+<script src="https://gist.github.com/Xmaster6y/fc467b0b45ea3727acb4a8613d57dfea.js"></script>
 
 And to make use of the GPU you can just switch the experiment config as follows:
+adding the argument `experiment=gpu`. It will simply load the default experiment config (`base_experiment`) and overrides the `gpu` config:
 
-```yaml
-uv run --no-sync python -m scripts.benchmarks.multiwalker experiment=gpu
-```
+<script src="https://gist.github.com/Xmaster6y/7245814c6fb5337403cc2e6b4f466827.js"></script>
 
-which simply loads the default experiment config (`base_experiment`) and overrides the `gpu` config:
-
-```yaml
-sampling_device: "cuda"
-train_device: "cuda"
-buffer_device: "cuda"
-```
-
-Now you're ready to lauch a bunch of jobs doing wild hyperparameter search, with bigger models, bigger batch sizes, etc.
+Now you're ready to launch a bunch of jobs doing wild hyperparameter search, with bigger models, bigger batch sizes, etc.
 
 > [!info] JupyterHub
 >
@@ -272,11 +218,7 @@ As noted in the [Cluster Config Setup](#cluster-config-setup) section, you shoul
 
 Then the only thing you need to do is to remove or disable the tools that require internet access. In our experiments you just need to use `wandb` in "offline" mode (e.g. using `experiment=gpu_offline` in the script):
 
-```yaml
-experiment:
-  wandb_extra_kwargs:
-    offline: true
-```
+<script src="https://gist.github.com/Xmaster6y/52a8a593df6ae73b6d1bab48ca36c683.js"></script>
 
 And when running a script with `uv` you should use the `--no-sync` flag to avoid syncing your dependencies again. Depending on your use case you might need to download your datasets to a special partition beforehand.
 
