@@ -23,6 +23,7 @@ FA_CALLOUTS = {
   "example" => "fa-solid fa-list",
   "quote" => "fa-solid fa-quote-right",
   "question" => "fa-solid fa-circle-question",
+  "answer" => "fa-solid fa-circle-info",
   "todo" => "fa-solid fa-circle-check",
   "thanks" => "fa-solid fa-heart",
 }
@@ -50,19 +51,25 @@ class Jekyll::Converters::Markdown
       if DEBUG
         Jekyll.logger.info "CustomMarkProcessor:", "html: #{html}"
       end
-      #regexp = /<blockquote>\s*.*<p>\[\!([a-z]{1,})\]\s?(.*)<\/p>\s*.*<p>(.*)<\/p>\s*.*<\/blockquote>/
-      #regexp = /<blockquote>\s<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s<p>((?:(?!blockquote).)*)<\/p>\s<\/blockquote>/
-
-      regexp = /<blockquote>\s*<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s*<p>((?:(?!blockquote).)*)<\/p>\s*<\/blockquote>/m
-      matches = html.match(regexp)
+      # regexp = /<blockquote>\s*.*<p>\[\!([a-z]{1,})\]\s?(.*)<\/p>\s*.*<p>(.*)<\/p>\s*.*<\/blockquote>/
+      # regexp = /<blockquote>\s<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s<p>((?:(?!blockquote).)*)<\/p>\s<\/blockquote>/
+      # regexp = /<blockquote>\s*<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s*<p>((?:(?!blockquote).)*)<\/p>\s*<\/blockquote>/m
+      # matches = html.match(regexp)
+      
       parsed_html = html.gsub(
-        regexp, 
-        '<blockquote class="callout \1"> <div class="callout-title"> '\
+        /<blockquote>\s*<p>\[\!(answer)\]((?:(?!blockquote).)*)<\/p>\s*<p>((?:(?!blockquote).)*)<\/p>\s*<\/blockquote>/m, 
+        '<blockquote class="callout \1"> <details> <summary><div class="callout-title"> '\
         '<i class="fa-\1" href="#"></i> '\
+        '<em>\2</em></div></summary> <p>\3</p> </details> </blockquote>'
+        )
+      parsed_html = parsed_html.gsub(
+        /<blockquote>\s*<p>\[\!([a-z]{1,})\]((?:(?!blockquote).)*)<\/p>\s*<p>((?:(?!blockquote).)*)<\/p>\s*<\/blockquote>/m, 
+        '<blockquote class="callout \1"> <div class="callout-title"> '\
+        '<i class="fa-\1" href="##"></i> '\
         '<em>\2</em></div> <p>\3</p> </blockquote>'
         )
       parsed_html = parsed_html.gsub(
-        /<blockquote>\s*<p>\[\!(example)\]((?:(?!blockquote).)*)<\/p>\s*<ul>((?:(?!blockquote).)*)<\/ul>\s*<\/blockquote>/m,
+        /<blockquote>\s*<p>\[\!((?:example)|(?:answer))\]((?:(?!blockquote).)*)<\/p>\s*<ul>((?:(?!blockquote).)*)<\/ul>\s*<\/blockquote>/m,
         '<blockquote class="callout \1"> <details> <summary><div class="callout-title"> '\
         '<i class="fa-\1" href="#"></i> '\
         '<em>\2</em></div></summary> <ul>\3</ul> </details> </blockquote>'
