@@ -40,7 +40,7 @@ You can use [tags](/tags) to find posts on a specific topic!
 
 ## Pinned [projects](/projects/) [::rss::](/projects/feed.xml)
 
-{% assign pinned_projects = "/projects/training-gpt2-on-stockfish-games" | split: ", " %}
+{% assign pinned_projects = "/projects/training-gpt2-on-stockfish-games, /projects/marl-cluster-training" | split: ", " %}
 {% assign collection = site.projects | sort: "publishedOn" | reverse %}
 {% for item in collection %}
 {% if pinned_projects contains item.url %}

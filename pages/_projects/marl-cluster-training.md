@@ -227,9 +227,9 @@ And when running a script with `uv`, you should use the `--no-sync` flag to avoi
 
 ### Results
 
-You'll find more detailed script launchers in the `launch` folder and in the commits history (I did quite a few tries). I was able to match results from the original paper [@1](#resources), and for some runs, get higher returns. I'll try to make a clean report on wandb when I find some time, that will be [here](https://wandb.ai/yp-edu/marl-cluster-training/reports/MARL-Cluster-Training--VmlldzoxMzQzMjU0Mg).
+You'll find more detailed script launchers in the `launch` folder and in the commit history (I did quite a few tries). I was able to match results from the original paper [@1](#resources), and for some runs, get higher returns. I'll try to make a clean report on wandb when I find some time, which will be [here](https://wandb.ai/yp-edu/marl-cluster-training/reports/MARL-Cluster-Training--VmlldzoxMzQzMjU0Mg).
 
-Some considerations if you want to go deeper. In this post, I only scratched the surface of the possibilities of BenchMARL. When using it to run pure experiments from YAML, you'll find some limitations about customisation, which are totally overcome by manipulating the Python classes directly. One of the most powerful ways to customise `Experiment` is through callbacks that can enable parameter scheduling (e.g. for `lr` or `batch_size`) or add custom pre|post-processing.
+Some considerations if you want to go deeper. In this post, I only scratched the surface of the possibilities of BenchMARL. When using it to run pure experiments from YAML, you'll find some limitations about customisation, which are totally overcome by manipulating the Python classes directly. One of the most powerful ways to customise `Experiment` is through callbacks that can enable parameter scheduling (e.g. for `lr` or `batch_size`) or add custom pre/post-processing.
 
 > [!tip] Further Customisation
 >
