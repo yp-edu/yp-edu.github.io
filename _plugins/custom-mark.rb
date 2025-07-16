@@ -26,6 +26,7 @@ FA_CALLOUTS = {
   "answer" => "fa-solid fa-circle-info",
   "todo" => "fa-solid fa-circle-check",
   "thanks" => "fa-solid fa-heart",
+  "fail" => "fa-solid fa-xmark",
 }
 DEBUG = false
 
