@@ -13,7 +13,7 @@ authors:
   - "[[Yoann Poupart]]"
 readingTime: 
 image: /assets/images/web-tech_thumbnail.webp
-description: TL;DR> Additional notes accompanying the practical sessions of the course on web technologies.
+description: TL;DR> Resources for the practical sessions of the course on web technologies at Sorbonne University.
 ---
 
 ![web-tech](web-tech.webp)
@@ -30,7 +30,7 @@ description: TL;DR> Additional notes accompanying the practical sessions of the 
 
 ## Introduction
 
-Course about web technologies for 3rd years bachelor students at Sorbonne University.
+Course about web technologies for 3rd year bachelor students at Sorbonne University.
 
 ## Resources
 
