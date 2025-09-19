@@ -68,18 +68,9 @@ header .vertical-container {
   padding-top: 1rem;
 }
 
-#menu-icon{
-  font-size: large;
-}
-#menu-icon:hover, header .menu-active{
-  color: #2bbc8a;
-  cursor: pointer;
-}
-
 #menu {
   padding-top: 1rem;
   padding-bottom: 0.5rem;
-  visibility: hidden;
   background-color: #1d1f21;
   font-size: 12px;
   display: flex;
