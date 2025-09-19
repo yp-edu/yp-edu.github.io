@@ -14,11 +14,11 @@ editedOn: 2025-09-19
 authors:
   - "[[Yoann Poupart]]"
 readingTime: 
-image: /assets/images/data-science_thumbnail.webp
+image: /assets/images/data-science_thumbnail.png
 description: TL;DR> Resources for the practical sessions of the data science course at Sorbonne University.
 ---
 
-![web-tech](data-science.webp)
+![web-tech](data-science.png)
 
 > [!tldr] TL;DR
 >
